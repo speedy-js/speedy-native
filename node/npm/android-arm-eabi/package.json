@@ -1,0 +1,25 @@
+{
+  "name": "@speedy-js/speedy-napi-android-arm-eabi",
+  "version": "0.8.0-1",
+  "os": [
+    "android"
+  ],
+  "cpu": [
+    "arm"
+  ],
+  "main": "speedy-napi.android-arm-eabi.node",
+  "files": [
+    "speedy-napi.android-arm-eabi.node"
+  ],
+  "description": "",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">= 10"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  }
+}

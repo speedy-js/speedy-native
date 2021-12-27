@@ -1,0 +1,25 @@
+{
+  "name": "@speedy-js/speedy-napi-darwin-arm64",
+  "version": "0.8.0-1",
+  "os": [
+    "darwin"
+  ],
+  "cpu": [
+    "arm64"
+  ],
+  "main": "speedy-napi.darwin-arm64.node",
+  "files": [
+    "speedy-napi.darwin-arm64.node"
+  ],
+  "description": "",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">= 10"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  }
+}

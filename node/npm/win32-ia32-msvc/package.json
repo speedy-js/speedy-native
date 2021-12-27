@@ -1,0 +1,25 @@
+{
+  "name": "@speedy-js/speedy-napi-win32-ia32-msvc",
+  "version": "0.8.0-1",
+  "os": [
+    "win32"
+  ],
+  "cpu": [
+    "ia32"
+  ],
+  "main": "speedy-napi.win32-ia32-msvc.node",
+  "files": [
+    "speedy-napi.win32-ia32-msvc.node"
+  ],
+  "description": "",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">= 10"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  }
+}
