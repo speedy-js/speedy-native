@@ -1,0 +1,37 @@
+{
+  "name": "speedy-napi",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Repo for Speedy NAPI",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/speedy-js/speedy-napi.git"
+  },
+  "license": "ISC",
+  "scripts": {
+    "build": "pnpm build --dir node",
+    "format": "prettier . -w",
+    "lint": "pnpm lint --dir node",
+    "test": "mocha -r @swc-node/register node/__tests__/**/*.spec.ts"
+  },
+  "devDependencies": {
+    "@babel/generator": "7.16.0",
+    "@babel/parser": "7.16.3",
+    "@babel/traverse": "7.16.3",
+    "@babel/types": "7.16.0",
+    "@napi-rs/cli": "2.0.0",
+    "@swc-node/register": "^1.4.2",
+    "@types/babel__generator": "7.6.3",
+    "@types/babel__traverse": "7.14.2",
+    "@types/mocha": "9.0.0",
+    "@types/node": "16.10.9",
+    "mocha": "9.1.3",
+    "prettier": "2.5.1",
+    "ts-node": "10.4.0",
+    "typescript": "4.4.4"
+  },
+  "bugs": {
+    "url": "https://github.com/speedy-js/speedy-napi/issues"
+  },
+  "homepage": "https://github.com/speedy-js/speedy-napi#readme"
+}

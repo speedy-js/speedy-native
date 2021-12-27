@@ -1,0 +1,20 @@
+{
+  "files": {
+    "crates/speedy-napi/.gitignore": "d849c504c1fad853db50a7c37c806aace2a00e00",
+    "crates/speedy-napi/.npmignore": "db4da6275c1e9b46466bc45a4246418ea7180c31",
+    "crates/speedy-napi/Cargo.toml": "8e9bda892532c7462f958384d9cf9e5b4adeaffe",
+    "crates/speedy-napi/binding.js": "72f3edca126e367711f0f07df0052717bdd462dd",
+    "crates/speedy-napi/build.rs": "9fc236788932b315126703962085b45ee88c802a",
+    "crates/speedy-napi/index.d.ts": "676b66c959c477932157c3713c6ba8260338b5c2",
+    "crates/speedy-napi/package.json": "62670be7bb3402dd0143295dc79fc1e27bb651e2",
+    "crates/speedy-napi/scripts/index.d.ts": "21cc02a77915c6588e0e2bbbfb409a8be588d567",
+    "crates/speedy-napi/scripts/index.js": "2446d49de1228c35f0b27b8d3cc72eb86797e970",
+    "crates/speedy-napi/src/lib.rs": "959aa5780dd1198a6f3427df65200e356a398229",
+    "crates/speedy-napi/src/test.rs": "1b4a90c938387450422982a89aed075aa1e8c010",
+    "crates/speedy-napi/test/unit.spec.ts": "3f754a6fc09ec2b8dab8ad0a707283a50e68d526",
+    "crates/speedy-napi/tsconfig.json": "e882461c4e542765ad49e385156afea38544dd36",
+    "crates/speedy-napi/types/index.d.ts": "8395da82e121a5381728bbd9da38bb3dd7a30e48",
+    "crates/speedy-napi/.rush/temp/shrinkwrap-deps.json": "b74bebe616a3c265cdea48046e137d5a7e079f06"
+  },
+  "arguments": "mocha --require ts-node/register --spec test/**/*.spec.ts -f babel_import_transfrom "
+}
