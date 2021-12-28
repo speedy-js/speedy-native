@@ -5,7 +5,7 @@
   "description": "Repo for Speedy NAPI",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/speedy-js/speedy-napi.git"
+    "url": "git+https://github.com/speedy-js/speedy-native.git"
   },
   "license": "ISC",
   "scripts": {
@@ -31,7 +31,7 @@
     "typescript": "4.4.4"
   },
   "bugs": {
-    "url": "https://github.com/speedy-js/speedy-napi/issues"
+    "url": "https://github.com/speedy-js/speedy-native/issues"
   },
-  "homepage": "https://github.com/speedy-js/speedy-napi#readme"
+  "homepage": "https://github.com/speedy-js/speedy-native#readme"
 }
