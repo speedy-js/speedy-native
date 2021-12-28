@@ -7,13 +7,19 @@ env:
   # https://github.com/SchrodingerZhu/snmalloc-rs
   CACHE_FRIENDLY_OFFSET: 64
 
-on:
+'on':
   push:
     branches:
       - main
     tags-ignore:
       - '**'
-  pull_request:
+    paths-ignore:
+      - '**/*.md'
+      - LICENSE
+      - '**/*.gitignore'
+      - .editorconfig
+      - docs/**
+  pull_request: null
 
 jobs:
   build:
