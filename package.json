@@ -9,7 +9,6 @@
   },
   "license": "ISC",
   "scripts": {
-    "build": "pnpm build --dir node",
     "format": "prettier . -w",
     "lint": "pnpm lint --dir node",
     "test": "mocha -r @swc-node/register node/__tests__/**/*.spec.ts"
