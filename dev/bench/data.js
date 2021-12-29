@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1640801545035,
+  "lastUpdate": 1640802604327,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -140,6 +140,40 @@ window.BENCHMARK_DATA = {
             "range": "±0.25%",
             "unit": "ops/sec",
             "extra": "93 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "speedy-js",
+            "username": "speedy-js"
+          },
+          "committer": {
+            "name": "speedy-js",
+            "username": "speedy-js"
+          },
+          "id": "a72f7dae2a295660f1a68818c3b67fad7391cd91",
+          "message": "feat(macro): add debug macro with write profile",
+          "timestamp": "2021-12-29T08:47:00Z",
+          "url": "https://github.com/speedy-js/speedy-native/pull/9/commits/a72f7dae2a295660f1a68818c3b67fad7391cd91"
+        },
+        "date": 1640802601908,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 936,
+            "range": "±10.58%",
+            "unit": "ops/sec",
+            "extra": "78 samples"
+          },
+          {
+            "name": "Rust",
+            "value": 10454,
+            "range": "±1.21%",
+            "unit": "ops/sec",
+            "extra": "87 samples"
           }
         ]
       }
