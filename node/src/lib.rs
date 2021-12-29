@@ -1,12 +1,17 @@
 #[macro_use]
 extern crate napi_derive;
 
+use napi::bindgen_prelude::*;
 use napi::{Error, Result, Status};
 use speedy_transform::web_transform::parser::*;
 use types::*;
 
 mod test;
 mod types;
+
+pub fn create_external<T>(value: T) -> External<T> {
+  External::new(value)
+}
 
 #[napi]
 pub fn transform_babel_import(
