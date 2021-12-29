@@ -1,0 +1,11 @@
+{
+  "name": "bench",
+  "private": true,
+  "license": "MIT",
+  "version": "0.0.0",
+  "devDependencies": {
+    "@types/benchmark": "^2.1.1",
+    "benchmark": "^2.1.4",
+    "chalk": "4"
+  }
+}

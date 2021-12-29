@@ -1,0 +1,5 @@
+*.node
+!lib
+
+# Do not add binding.js and index.d.ts to this file, cuz which will be used in test-binding workflow
+# , adding these files will cost an extra huge amount of time

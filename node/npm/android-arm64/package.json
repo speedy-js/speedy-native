@@ -1,0 +1,25 @@
+{
+  "name": "@speedy-js/speedy-napi-android-arm64",
+  "version": "0.8.1",
+  "os": [
+    "android"
+  ],
+  "cpu": [
+    "arm64"
+  ],
+  "main": "speedy-napi.android-arm64.node",
+  "files": [
+    "speedy-napi.android-arm64.node"
+  ],
+  "description": "",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">= 10"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  }
+}

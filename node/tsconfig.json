@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "CommonJS",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "downlevelIteration": true,
+    "esModuleInterop": true,
+    "noEmitOnError": false,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "outDir": "lib",
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true
+  },
+  "include": ["__tests__", "script"],
+  "exclude": ["node_modules"]
+}

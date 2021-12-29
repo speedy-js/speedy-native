@@ -1,0 +1,25 @@
+{
+  "name": "@speedy-js/speedy-napi-linux-arm64-gnu",
+  "version": "0.8.1",
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "arm64"
+  ],
+  "main": "speedy-napi.linux-arm64-gnu.node",
+  "files": [
+    "speedy-napi.linux-arm64-gnu.node"
+  ],
+  "description": "",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">= 10"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  }
+}
