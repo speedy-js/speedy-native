@@ -1,7 +1,20 @@
 #[cfg(test)]
 pub mod tests {
+
   use crate::types::*;
   use crate::web_transform::parser::transform;
+
+  fn compare_handle(str: std::string::String) -> std::string::String {
+    let new_str = str.trim().replace("\n", "");
+    return new_str;
+  }
+
+  #[test]
+  fn env() {
+    for (key, val) in std::env::vars() {
+      println!("{:?} is {:?} ....", key, val);
+    }
+  }
 
   #[test]
   fn babel_import_test() {
@@ -111,7 +124,7 @@ import { throttle } from '@byted-growth/luckycat-util';
 
 const a = 123;
     ";
-    let _transfrom_res = transform(
+    let transfrom_res = transform(
       source,
       TransformConfig {
         react_runtime: Some(false),
@@ -149,6 +162,15 @@ const a = 123;
       Some("ES5".to_string()),
     )
     .unwrap();
-    println!(".........");
+    let target_code = "\
+import throttle from \"@byted-growth/luckycat-util/pure_es/throttle/index.js\";
+import Image from \"@byted-growth/luckycat-mobile/es/Image/index.js\";
+import { useState, useCallback, useEffect, Fragment } from 'react';
+const a = 123;
+    ";
+    assert_eq!(
+      compare_handle(transfrom_res.code),
+      compare_handle(target_code.to_string())
+    );
   }
 }

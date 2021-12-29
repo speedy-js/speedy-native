@@ -10,3 +10,6 @@ target/
 
 # Mis
 *.log
+
+.idea/**
+rsprofile.json

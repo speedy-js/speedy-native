@@ -4,8 +4,9 @@ import {parse} from '@babel/parser';
 import traverse from '@babel/traverse';
 import generate from '@babel/generator';
 import {Program} from '@babel/types';
-
+import {execSync} from 'child_process';
 import {transform} from '../lib';
+import * as process from "process";
 
 describe('speedy_napi_cases', function speedyTest() {
     it('babel_import_transfrom', async () => {
@@ -55,8 +56,8 @@ class Page extends React.Component{
 
 ReactDOM.render(<Page / >, document.getElementById("root"));
         `;
-
         console.time('babel_import_swc_transfrom');
+        process.env["rsdebug"] = "info";
         const napi_res = transform.transformBabelImport(code, {
             reatRuntime: true,
             babelImport: [
@@ -79,6 +80,7 @@ ReactDOM.render(<Page / >, document.getElementById("root"));
 
         // 执行同样的 babel 操作
         console.time('babel_import_babeljs_transfrom');
+
         const babel_res = babel_impl_bableimport(code, 'antd', `antd/es/{}/style/index.css`);
         console.timeEnd('babel_import_babeljs_transfrom');
 
