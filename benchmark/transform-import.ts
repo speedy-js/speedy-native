@@ -1,4 +1,5 @@
-import b from 'benny'
+import { Suite } from 'benchmark'
+import chalk from 'chalk'
 
 import { parse } from '@babel/parser'
 import traverse from '@babel/traverse'
@@ -86,12 +87,13 @@ function babelImport(code: string, lib: string, expr: string) {
   return res
 }
 
-b.suite(
-  'transform import',
-  b.add('Babel', () => {
+const suite = new Suite('transform import')
+
+suite
+  .add('Babel', () => {
     babelImport(code, 'antd', `antd/es/{}/style/index.css`)
-  }),
-  b.add('Rust', () => {
+  })
+  .add('Rust', () => {
     transform.transformBabelImport(code, {
       reactRuntime: true,
       babelImport: [
@@ -110,7 +112,15 @@ b.suite(
         },
       ],
     })
-  }),
-  b.cycle(),
-  b.complete()
-)
+  })
+  .on('cycle', function (event: Event) {
+    console.info(String(event.target))
+  })
+  .on('complete', function (this: any) {
+    console.info(
+      `${this.name} bench suite: Fastest is ${chalk.green(
+        this.filter('fastest').map('name')
+      )}`
+    )
+  })
+  .run()
