@@ -1,1 +1,1 @@
-packages: ['node']
+packages: ['node', 'benchmark']

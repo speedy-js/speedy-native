@@ -8,7 +8,7 @@ pub struct TransformOutput {
 #[napi(object)]
 #[derive(Debug)]
 pub struct TransformConfig {
-  pub reat_runtime: Option<bool>,
+  pub react_runtime: Option<bool>,
   pub babel_import: Option<Vec<BabelImportConfig>>,
 }
 
