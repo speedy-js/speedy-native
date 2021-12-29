@@ -56,7 +56,7 @@ ReactDOM.render(<Page />, document.getElementById(\"root\"));
     let transfrom_res = transform(
       source,
       TransformConfig {
-        reat_runtime: Some(true),
+        react_runtime: Some(true),
         babel_import: Some(vec![BabelImportConfig {
           from_source: "antd".to_string(),
           replace_css: Some(RepalceCssConfig {
@@ -92,7 +92,7 @@ const a = 123;
     let transfrom_res = transform(
       source,
       TransformConfig {
-        reat_runtime: Some(true),
+        react_runtime: Some(true),
         babel_import: None,
       },
       None,
@@ -114,7 +114,7 @@ const a = 123;
     let _transfrom_res = transform(
       source,
       TransformConfig {
-        reat_runtime: Some(false),
+        react_runtime: Some(false),
         babel_import: Some(vec![
           BabelImportConfig {
             from_source: "@byted-growth/luckycat-mobile".to_string(),

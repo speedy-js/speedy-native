@@ -8,7 +8,7 @@ pub fn transform_perfixreact(
   project_config: &TransformConfig,
   origin_code: &str,
 ) {
-  if project_config.reat_runtime.unwrap_or(false) {
+  if project_config.react_runtime.unwrap_or(false) {
     if origin_code.contains("import React from \"react\"")
       || origin_code.contains("import React from 'react'")
     {
