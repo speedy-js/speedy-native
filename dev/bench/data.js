@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1640766836735,
+  "lastUpdate": 1640768177385,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -68,6 +68,44 @@ window.BENCHMARK_DATA = {
             "range": "±0.58%",
             "unit": "ops/sec",
             "extra": "94 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "andywangsy@gmail.com",
+            "name": "Hana",
+            "username": "h-a-n-a"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "bc776ca0f59d7370efd46b354a45940a3e1c0d69",
+          "message": "ci: add benchmark report (#8)",
+          "timestamp": "2021-12-29T16:46:57+08:00",
+          "tree_id": "703d2b544b4eebba8e62f223e9b5a54505e0cfac",
+          "url": "https://github.com/speedy-js/speedy-native/commit/bc776ca0f59d7370efd46b354a45940a3e1c0d69"
+        },
+        "date": 1640768176512,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 885,
+            "range": "±9.78%",
+            "unit": "ops/sec",
+            "extra": "73 samples"
+          },
+          {
+            "name": "Rust",
+            "value": 11145,
+            "range": "±0.86%",
+            "unit": "ops/sec",
+            "extra": "87 samples"
           }
         ]
       }
