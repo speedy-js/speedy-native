@@ -16,7 +16,7 @@ pub fn transform_babel_import(
   target: Option<String>,
 ) -> Result<TransformOutput> {
   // 占位行...
-  let reat_runtime = config.reat_runtime;
+  let react_runtime = config.react_runtime;
 
   let mut babel_import: Option<Vec<speedy_transform::types::BabelImportConfig>> = None;
 
@@ -64,7 +64,7 @@ pub fn transform_babel_import(
   }
 
   let rsconfig = speedy_transform::types::TransformConfig {
-    reat_runtime,
+    react_runtime,
     babel_import,
   };
 
