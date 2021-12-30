@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1640802604327,
+  "lastUpdate": 1640837212560,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -174,6 +174,44 @@ window.BENCHMARK_DATA = {
             "range": "±1.21%",
             "unit": "ops/sec",
             "extra": "87 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zsj439453290@126.com",
+            "name": "zhushijie",
+            "username": "zhusjfaker"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "47ac4f0abb368acd3ffedb737e98efad7fb7271f",
+          "message": "Merge pull request #9 from speedy-js/feat/rs-perfix\n\nfeat(macro): add debug macro with write profile",
+          "timestamp": "2021-12-30T11:56:25+08:00",
+          "tree_id": "64ae478d431c5ab755d09f1a8f65527932f6220a",
+          "url": "https://github.com/speedy-js/speedy-native/commit/47ac4f0abb368acd3ffedb737e98efad7fb7271f"
+        },
+        "date": 1640837211661,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 647,
+            "range": "±10.23%",
+            "unit": "ops/sec",
+            "extra": "71 samples"
+          },
+          {
+            "name": "Rust",
+            "value": 8484,
+            "range": "±1.42%",
+            "unit": "ops/sec",
+            "extra": "85 samples"
           }
         ]
       }
