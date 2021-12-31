@@ -1,7 +1,8 @@
-const { transformBabelImport } = require('../binding');
+const {transformBabelImport, sassRender} = require('../binding');
 
 const transform = {
-  transformBabelImport,
+    transformBabelImport,
+    sassRender
 };
 
 exports.transform = transform;

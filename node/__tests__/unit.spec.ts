@@ -1,5 +1,4 @@
 import assert from 'assert';
-
 import {parse} from '@babel/parser';
 import traverse from '@babel/traverse';
 import generate from '@babel/generator';
@@ -7,6 +6,7 @@ import {Program} from '@babel/types';
 import {execSync} from 'child_process';
 import {transform} from '../lib';
 import * as process from "process";
+import sass from 'sass';
 
 describe('speedy_napi_cases', function speedyTest() {
     it('babel_import_transfrom', async () => {
@@ -57,9 +57,9 @@ class Page extends React.Component{
 ReactDOM.render(<Page / >, document.getElementById("root"));
         `;
         console.time('babel_import_swc_transfrom');
-        process.env["rsdebug"] = "info";
+        // process.env["rsdebug"] = "info";
         const napi_res = transform.transformBabelImport(code, {
-            reatRuntime: true,
+            reactRuntime: true,
             babelImport: [
                 {
                     fromSource: 'antd',
@@ -87,6 +87,41 @@ ReactDOM.render(<Page / >, document.getElementById("root"));
         assert.equal(
             target_code.replace(/\ +/g, '').replace(/[\r\n]/g, ''),
             napi_res.code.replace(/\ +/g, '').replace(/[\r\n]/g, '')
+        );
+    });
+
+    it('sass_render', async () => {
+        // process.env["rsdebug"] = "info";
+        const code = `
+.a {
+  font-size: 16px;
+
+  .b {
+    margin: 0;
+    color: #000;
+  }
+}
+`;
+        const target_code = `
+.a {
+  font-size: 16px;
+}
+.a .b {
+  margin: 0;
+  color: #000;
+}
+        `;
+        console.time('napi_sass_render');
+        const napi_res = transform.sassRender(code);
+        console.timeEnd('napi_sass_render');
+
+        console.time('sass_render');
+        const res = sass.renderSync({data: code}).css;
+        console.timeEnd('sass_render');
+
+        assert.equal(
+            target_code.replace(/\ +/g, '').replace(/[\r\n]/g, ''),
+            napi_res.replace(/\ +/g, '').replace(/[\r\n]/g, '')
         );
     });
 });

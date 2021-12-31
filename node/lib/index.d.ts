@@ -1,7 +1,8 @@
-import { transformBabelImport } from '../index';
+import {transformBabelImport, sassRender} from '../index';
 
 declare const transform: {
-  transformBabelImport: typeof transformBabelImport;
+    transformBabelImport: typeof transformBabelImport;
+    sassRender: typeof sassRender;
 };
 
-export { transform };
+export {transform};

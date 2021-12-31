@@ -3,6 +3,7 @@ extern crate napi_derive;
 
 use napi::{Error, Result, Status};
 use speedy_macro::*;
+use speedy_transform::sass_transform::transform::*;
 use speedy_transform::web_transform::parser::*;
 use types::*;
 
@@ -34,3 +35,13 @@ pub fn transform_babel_import(
     Err(ex) => Err(Error::new(Status::InvalidArg, ex.to_string())),
   }
 }
+
+// #[speedydebug]
+// #[napi]
+// pub fn sass_render(code: String) -> Result<String> {
+//   let sass_res = render(code, None);
+//   match sass_res {
+//     Ok(code) => Ok(code),
+//     Err(msg) => Err(Error::new(Status::FunctionExpected, msg)),
+//   }
+// }

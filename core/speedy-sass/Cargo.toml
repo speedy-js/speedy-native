@@ -1,0 +1,16 @@
+[package]
+name = "speedy-sass"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+libc = "0.2"
+
+[dev-dependencies]
+bindgen = "0.59.1"
+
+[build-dependencies]
+bindgen = "0.59.1"
+

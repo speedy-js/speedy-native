@@ -1,6 +1,5 @@
 #[cfg(test)]
 pub mod tests {
-
   use crate::types::*;
   use crate::web_transform::parser::transform;
 
@@ -172,5 +171,33 @@ const a = 123;
       compare_handle(transfrom_res.code),
       compare_handle(target_code.to_string())
     );
+  }
+
+  #[test]
+  fn sass_test() {
+    let source = r#"
+.a {
+  font-size: 16px;
+
+  .b {
+    margin: 0;
+    color: #000;
+  }
+}
+        "#;
+    // let css_res = render(source.to_string(), None).unwrap();
+
+    let target_code = r#"
+.a {
+  font-size: 16px; 
+}
+.a .b {
+  margin: 0;
+  color: #000; 
+}
+"#;
+    // let comparewith = |str: &str| str.replace("\n", "").replace(" ", "");
+
+    // assert_eq!(comparewith(css_res.as_str()), comparewith(target_code));
   }
 }
