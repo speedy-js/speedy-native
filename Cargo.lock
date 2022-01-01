@@ -1360,14 +1360,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "speedy-sass"
-version = "0.1.0"
-dependencies = [
- "bindgen",
- "libc",
-]
-
-[[package]]
 name = "speedy-transform"
 version = "0.1.0"
 dependencies = [
