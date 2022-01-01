@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1641023902907,
+  "lastUpdate": 1641032990556,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -416,6 +416,40 @@ window.BENCHMARK_DATA = {
             "range": "±0.53%",
             "unit": "ops/sec",
             "extra": "86 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "speedy-js",
+            "username": "speedy-js"
+          },
+          "committer": {
+            "name": "speedy-js",
+            "username": "speedy-js"
+          },
+          "id": "de456e61cbeaa3544de9ddd674ae3c111579444e",
+          "message": "feat(speedy-transform): add sass render support and test case",
+          "timestamp": "2021-12-31T17:38:38Z",
+          "url": "https://github.com/speedy-js/speedy-native/pull/10/commits/de456e61cbeaa3544de9ddd674ae3c111579444e"
+        },
+        "date": 1641032990083,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 1107,
+            "range": "±5.38%",
+            "unit": "ops/sec",
+            "extra": "80 samples"
+          },
+          {
+            "name": "Rust",
+            "value": 14312,
+            "range": "±0.34%",
+            "unit": "ops/sec",
+            "extra": "96 samples"
           }
         ]
       }
