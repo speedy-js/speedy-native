@@ -41,11 +41,11 @@ pub fn transform(
 
   let list_error = parser.take_errors();
   if list_error.iter().len() > 0 {
-    let mut err_msg = "".to_owned();
-    for err in list_error {
-      let msg = err.into_kind().msg();
-      err_msg.push_str(msg.as_ref());
-    }
+    let err_msg = list_error
+      .iter()
+      .map(|err| err.kind().msg())
+      .collect::<Vec<_>>()
+      .join("");
     return Err(err_msg);
   }
 
@@ -75,21 +75,18 @@ pub fn transform(
     }
   };
 
-  let new_res = compiler.print(
-    &module,
-    Some(source_filename.as_str()),
-    None,
-    false,
-    swc_target,
-    SourceMapsConfig::Bool(true),
-    &Default::default(),
-    None,
-    false,
-    None,
-  );
-
-  match new_res {
-    Ok(res) => Ok(res),
-    Err(error) => Err(error.to_string()),
-  }
+  compiler
+    .print(
+      &module,
+      Some(source_filename.as_str()),
+      None,
+      false,
+      swc_target,
+      SourceMapsConfig::Bool(true),
+      &Default::default(),
+      None,
+      false,
+      None,
+    )
+    .map_err(|err| err.to_string())
 }
