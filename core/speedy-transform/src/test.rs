@@ -1,13 +1,10 @@
+trait StringExtend {}
+
 #[cfg(test)]
 pub mod tests {
-
+  use crate::str::StringExtend;
   use crate::types::*;
   use crate::web_transform::parser::transform;
-
-  fn compare_handle(str: std::string::String) -> std::string::String {
-    let new_str = str.trim().replace("\n", "");
-    return new_str;
-  }
 
   #[test]
   fn env() {
@@ -18,16 +15,15 @@ pub mod tests {
 
   #[test]
   fn babel_import_test() {
-    let source = "
-import React from \"react\";
-import ReactDOM from \"react-dom\";
-import {Button, Input} from \"antd\";
-import Child from \"./component/Child\";
-
+    let source = r#"
+import React from "react";
+import ReactDOM from "react-dom";
+import {Button, Input} from "antd";
+import Child from "./component/Child";
 class Page extends React.Component<any,any> {
     render() {
         return (
-            <div className={\"test\"}>
+            <div className={"test"}>
                 <div>Page</div>
                 <Child/>
                 <Button>click me</Button>
@@ -36,40 +32,36 @@ class Page extends React.Component<any,any> {
         );
     }
 }
+ReactDOM.render(<Page/>, document.getElementById("root"));
+"#;
 
-ReactDOM.render(<Page/>, document.getElementById(\"root\"));
-";
-
-    let target_code = "
-import \"antd/es/input/style/index.css\";
-import \"antd/es/button/style/index.css\";
-import Input from \"antd/es/input/index.js\";
-import Button from \"antd/es/button/index.js\";
-import React from \"react\";
-import ReactDOM from \"react-dom\";
-import Child from \"./component/Child\";
+    let target_code = r#"
+import "antd/es/input/style/index.css";
+import "antd/es/button/style/index.css";
+import Input from "antd/es/input/index.js";
+import Button from "antd/es/button/index.js";
+import React from "react";
+import ReactDOM from "react-dom";
+import Child from "./component/Child";
 class Page extends React.Component {
     render() {
-        return (<div className={\"test\"}>
-
-                <div >Page</div>
-
+        return (
+            <div className={"test"}>
+                <div>Page</div>
                 <Child />
-
                 <Button >click me</Button>
-
                 <Input />
-
-            </div>);
+            </div>
+       );
     }
 }
-ReactDOM.render(<Page />, document.getElementById(\"root\"));
-";
+ReactDOM.render(<Page />, document.getElementById("root"));
+"#;
 
     let transfrom_res = transform(
       source,
       TransformConfig {
-        react_runtime: Some(true),
+        react_runtime: Some(false),
         babel_import: Some(vec![BabelImportConfig {
           from_source: "antd".to_string(),
           replace_css: Some(RepalceCssConfig {
@@ -88,20 +80,25 @@ ReactDOM.render(<Page />, document.getElementById(\"root\"));
       Some("ES5".to_string()),
     )
     .unwrap();
-    assert_eq!(format!("\n{}", transfrom_res.code), target_code);
+    assert_eq!(
+      transfrom_res.code.compare_handle(),
+      target_code.to_string().compare_handle()
+    );
   }
 
   #[test]
   fn react_perfix_test() {
-    let source = "\
-import { Button, Input} from \"antd\";
+    let source = r#"
+import { useState } from "react";
+import { Button, Input} from "antd";
 const a = 123;
-    ";
-    let target_code = "
-import React from \"react\";
-import { Button, Input } from \"antd\";
+"#;
+    let target_code = r#"
+import React from "react";
+import { useState } from "react";
+import { Button, Input } from "antd";
 const a = 123;
-";
+"#;
     let transfrom_res = transform(
       source,
       TransformConfig {
@@ -112,18 +109,20 @@ const a = 123;
       Some("ES5".to_string()),
     )
     .unwrap();
-    assert_eq!(format!("\n{}", transfrom_res.code), target_code);
+    assert_eq!(
+      format!("\n{}", transfrom_res.code).compare_handle(),
+      target_code.to_string().compare_handle()
+    );
   }
 
   #[test]
   fn swc_all_test() {
-    let source = "\
-import { useState, useCallback, useEffect, Fragment } from 'react';
-import { Image } from '@byted-growth/luckycat-mobile';
-import { throttle } from '@byted-growth/luckycat-util';
-
+    let source = r#"
+import { useState, useCallback, useEffect, Fragment } from "react";
+import { Image } from "@byted-growth/luckycat-mobile";
+import { throttle } from "@byted-growth/luckycat-util";
 const a = 123;
-    ";
+    "#;
     let transfrom_res = transform(
       source,
       TransformConfig {
@@ -162,15 +161,15 @@ const a = 123;
       Some("ES5".to_string()),
     )
     .unwrap();
-    let target_code = "\
-import throttle from \"@byted-growth/luckycat-util/pure_es/throttle/index.js\";
-import Image from \"@byted-growth/luckycat-mobile/es/Image/index.js\";
-import { useState, useCallback, useEffect, Fragment } from 'react';
+    let target_code = r#"
+import throttle from "@byted-growth/luckycat-util/pure_es/throttle/index.js";
+import Image from "@byted-growth/luckycat-mobile/es/Image/index.js";
+import { useState, useCallback, useEffect, Fragment } from "react";
 const a = 123;
-    ";
+"#;
     assert_eq!(
-      compare_handle(transfrom_res.code),
-      compare_handle(target_code.to_string())
+      transfrom_res.code.compare_handle(),
+      target_code.to_string().compare_handle()
     );
   }
 }

@@ -6,5 +6,6 @@ mod test;
 /*
  * 导出内容
  */
+pub mod str;
 pub mod types;
 pub mod web_transform;

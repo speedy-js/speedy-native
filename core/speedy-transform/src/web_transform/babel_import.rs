@@ -97,7 +97,6 @@ pub fn transformstyle(module: &mut swc_ecma_ast::Module, project_config: &Transf
       }
     }
   }
-
   let body = &mut module.body;
 
   let mut index: usize = 0;
