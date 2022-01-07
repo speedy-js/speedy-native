@@ -19,3 +19,5 @@ swc_ecma_transforms_typescript = "0.61.1"
 swc_ecma_transforms_compat = "0.52.12"
 swc_atoms = "0.2.9"
 anyhow = "1"
+regex = "1.5.4"
+
