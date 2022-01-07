@@ -10,7 +10,7 @@ struct EsSpec {
   default_spec: String,
 }
 
-pub fn transformstyle(module: &mut swc_ecma_ast::Module, project_config: &TransformConfig) {
+pub fn transform_style(module: &mut swc_ecma_ast::Module, project_config: &TransformConfig) {
   // let s = serde_json::to_string_pretty(&module).expect("failed to serialize");
 
   if project_config.babel_import.is_none()
@@ -28,29 +28,24 @@ pub fn transformstyle(module: &mut swc_ecma_ast::Module, project_config: &Transf
     let item_index = module.body.iter().position(|citem| citem == item).unwrap();
     if let ModuleItem::ModuleDecl(ModuleDecl::Import(var)) = item {
       let source = &*var.src.value;
-      if let Some(childconfig) = config.iter().find(|&c| c.from_source == source) {
+      if let Some(child_config) = config.iter().find(|&c| c.from_source == source) {
         for specifier in &var.specifiers {
           match specifier {
             ImportSpecifier::Named(ref s) => {
-              let ident = format!("{}", s.local.sym);
+              let ident = s.local.sym.to_string();
               // 替换对应的 css
-              if childconfig.replace_css.is_some() {
-                let css = childconfig.replace_css.as_ref().unwrap();
+              if let Some(ref css) = child_config.replace_css {
                 let replace_expr = css.replace_expr.as_str();
                 let ignore_component = &css.ignore_style_component;
-                let needlower = css.lower.unwrap_or(false);
-                let mut css_ident = ident.clone();
-                if needlower {
-                  css_ident = ident.to_lowercase();
-                }
+                let need_lower = css.lower.unwrap_or(false);
+                let css_ident = if need_lower {
+                  ident.to_lowercase()
+                } else {
+                  ident.clone()
+                };
                 let mut need_replace = true;
-                if (*ignore_component).is_some() {
-                  let blocklist = (*ignore_component).as_ref().unwrap();
-                  blocklist.iter().map(|c| c.as_str()).for_each(|x| {
-                    if x == ident {
-                      need_replace = false;
-                    }
-                  });
+                if let Some(block_list) = ignore_component {
+                  need_replace = !block_list.iter().map(|c| c.as_str()).any(|x| x == ident);
                 }
                 if need_replace {
                   let import_css_source =
@@ -59,23 +54,17 @@ pub fn transformstyle(module: &mut swc_ecma_ast::Module, project_config: &Transf
                 }
               }
               // 替换对应 spec 的js
-              if childconfig.replace_js.is_some() {
-                let js = childconfig.replace_js.as_ref().unwrap();
-                let replace_expr = js.replace_expr.as_str();
-                let ignore_component = &js.ignore_es_component;
-                let needlower = js.lower.unwrap_or(false);
+              if let Some(ref js_config) = child_config.replace_js {
+                let replace_expr = js_config.replace_expr.as_str();
+                let ignore_component = &js_config.ignore_es_component;
+                let need_lower = js_config.lower.unwrap_or(false);
                 let mut js_ident = ident.clone();
-                if needlower {
+                if need_lower {
                   js_ident = ident.to_lowercase();
                 }
                 let mut need_replace = true;
-                if (*ignore_component).is_some() {
-                  let blocklist = (*ignore_component).as_ref().unwrap();
-                  blocklist.iter().map(|c| c.as_str()).for_each(|x| {
-                    if x == ident {
-                      need_replace = false;
-                    }
-                  });
+                if let Some(block_list) = ignore_component {
+                  need_replace = !block_list.iter().map(|c| c.as_str()).any(|x| x == ident);
                 }
                 if need_replace {
                   let import_es_source =
@@ -101,11 +90,12 @@ pub fn transformstyle(module: &mut swc_ecma_ast::Module, project_config: &Transf
 
   let mut index: usize = 0;
   loop {
-    if specifiers_rm_es.get(index).is_none() {
-      break;
-    } else {
-      let rm_index = specifiers_rm_es.get(index).unwrap() - index;
-      body.remove(rm_index);
+    match specifiers_rm_es.get(index) {
+      Some(i) => {
+        let rm_index = *i - index;
+        body.remove(rm_index);
+      }
+      None => break,
     }
     index += 1;
   }

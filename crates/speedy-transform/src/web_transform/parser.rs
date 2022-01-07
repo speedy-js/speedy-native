@@ -1,5 +1,5 @@
 use crate::types::TransformConfig;
-use crate::web_transform::babel_import::transformstyle;
+use crate::web_transform::babel_import::transform_style;
 use crate::web_transform::react::transform_perfixreact;
 use swc::config::SourceMapsConfig;
 use swc::{Compiler, TransformOutput};
@@ -55,7 +55,7 @@ pub fn transform(
   }
   let mut module = module_reuslt.unwrap();
 
-  transformstyle(&mut module, &config);
+  transform_style(&mut module, &config);
   transform_perfixreact(&mut module, &config, code);
 
   let swc_target: EsVersion;
