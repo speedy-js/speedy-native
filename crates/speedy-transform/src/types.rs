@@ -9,19 +9,19 @@ pub struct TransformConfig {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BabelImportConfig {
   pub from_source: String,
-  pub replace_css: Option<RepalceCssConfig>,
-  pub replace_js: Option<RepalceSpecConfig>,
+  pub replace_css: Option<ReplaceCssConfig>,
+  pub replace_js: Option<ReplaceSpecConfig>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct RepalceSpecConfig {
+pub struct ReplaceSpecConfig {
   pub replace_expr: String,
   pub ignore_es_component: Option<Vec<String>>,
   pub lower: Option<bool>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct RepalceCssConfig {
+pub struct ReplaceCssConfig {
   pub ignore_style_component: Option<Vec<String>>,
   pub replace_expr: String,
   pub lower: Option<bool>,

@@ -64,12 +64,12 @@ ReactDOM.render(<Page />, document.getElementById("root"));
         react_runtime: Some(false),
         babel_import: Some(vec![BabelImportConfig {
           from_source: "antd".to_string(),
-          replace_css: Some(RepalceCssConfig {
+          replace_css: Some(ReplaceCssConfig {
             ignore_style_component: None,
             replace_expr: "antd/es/{}/style/index.css".to_string(),
             lower: Some(true),
           }),
-          replace_js: Some(RepalceSpecConfig {
+          replace_js: Some(ReplaceSpecConfig {
             ignore_es_component: None,
             replace_expr: "antd/es/{}/index.js".to_string(),
             lower: Some(true),
@@ -130,7 +130,7 @@ const a = 123;
         babel_import: Some(vec![
           BabelImportConfig {
             from_source: "@byted-growth/luckycat-mobile".to_string(),
-            replace_css: Some(RepalceCssConfig {
+            replace_css: Some(ReplaceCssConfig {
               ignore_style_component: Some(vec![
                 "Image".to_string(),
                 "ConfigProvider".to_string(),
@@ -140,7 +140,7 @@ const a = 123;
                 .to_string(),
               lower: Some(false),
             }),
-            replace_js: Some(RepalceSpecConfig {
+            replace_js: Some(ReplaceSpecConfig {
               ignore_es_component: None,
               replace_expr: "@byted-growth/luckycat-mobile/es/{}/index.js".to_string(),
               lower: Some(false),
@@ -149,7 +149,7 @@ const a = 123;
           BabelImportConfig {
             from_source: "@byted-growth/luckycat-util".to_string(),
             replace_css: None,
-            replace_js: Some(RepalceSpecConfig {
+            replace_js: Some(ReplaceSpecConfig {
               ignore_es_component: None,
               replace_expr: "@byted-growth/luckycat-util/pure_es/{}/index.js".to_string(),
               lower: Some(false),
