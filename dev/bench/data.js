@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1641543929076,
+  "lastUpdate": 1641554862088,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -722,6 +722,44 @@ window.BENCHMARK_DATA = {
             "range": "±0.49%",
             "unit": "ops/sec",
             "extra": "91 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zsj439453290@126.com",
+            "name": "zhushijie",
+            "username": "zhusjfaker"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "bf6adcb9e54af361917657f87b3adb885e05de60",
+          "message": "Merge pull request #11 from speedy-js/fix/react-perfix\n\nfix(speedy-transform): fix reactruntime jundge",
+          "timestamp": "2022-01-07T19:19:11+08:00",
+          "tree_id": "b5dcc50497aefcf0715b09a371e40fbe9a0c020d",
+          "url": "https://github.com/speedy-js/speedy-native/commit/bf6adcb9e54af361917657f87b3adb885e05de60"
+        },
+        "date": 1641554861590,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 959,
+            "range": "±7.87%",
+            "unit": "ops/sec",
+            "extra": "78 samples"
+          },
+          {
+            "name": "Rust",
+            "value": 13941,
+            "range": "±0.51%",
+            "unit": "ops/sec",
+            "extra": "95 samples"
           }
         ]
       }
