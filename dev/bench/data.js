@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1641542932459,
+  "lastUpdate": 1641543178342,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -550,6 +550,40 @@ window.BENCHMARK_DATA = {
             "name": "Rust",
             "value": 9629,
             "range": "±0.92%",
+            "unit": "ops/sec",
+            "extra": "89 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "speedy-js",
+            "username": "speedy-js"
+          },
+          "committer": {
+            "name": "speedy-js",
+            "username": "speedy-js"
+          },
+          "id": "f23e3b204267926867534a8d6be74393349f2ba5",
+          "message": "fix(speedy-transform): fix reactruntime jundge",
+          "timestamp": "2022-01-07T06:06:24Z",
+          "url": "https://github.com/speedy-js/speedy-native/pull/11/commits/f23e3b204267926867534a8d6be74393349f2ba5"
+        },
+        "date": 1641543177457,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 806,
+            "range": "±10.35%",
+            "unit": "ops/sec",
+            "extra": "71 samples"
+          },
+          {
+            "name": "Rust",
+            "value": 10520,
+            "range": "±0.81%",
             "unit": "ops/sec",
             "extra": "89 samples"
           }
