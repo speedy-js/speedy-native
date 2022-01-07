@@ -20,7 +20,7 @@ pub fn transform_perfixreact(
             match specifier {
               ImportSpecifier::Named(ref _s) => {}
               ImportSpecifier::Default(ref s) => {
-                if format!("{}", s.local.sym) == *"React".to_string() {
+                if &s.local.sym == "React" {
                   need_add = false;
                 }
               }
