@@ -14,13 +14,13 @@ pub fn transform_perfixreact(
   if project_config.react_runtime.unwrap_or(false) {
     for item in &module.body {
       if let ModuleItem::ModuleDecl(ModuleDecl::Import(var)) = item {
-        let source = &*var.src.value;
+        let source = &var.src.value;
         if source == "react" {
           for specifier in &var.specifiers {
             match specifier {
               ImportSpecifier::Named(ref _s) => {}
               ImportSpecifier::Default(ref s) => {
-                if format!("{}", s.local.sym) == *"React".to_string() {
+                if &s.local.sym == "React" {
                   need_add = false;
                 }
               }
