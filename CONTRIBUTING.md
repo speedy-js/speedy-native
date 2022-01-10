@@ -38,7 +38,7 @@ pnpm install # Install all node modules in the workspace
 ├── Cargo.toml
 ├── README.md
 ├── benchmark # Your benchmark goes here
-├── core
+├── crates
 │   └── your_native_repo_goes_here # Your native repo goes here
 ├── node
 │   ├── Cargo.toml
@@ -67,8 +67,8 @@ This project is also using Cargo workspaces for managing multiple crates.
 **Create a crate**
 
 ```bash
-# Create a new crate under the `core` directory
-cargo new core/speedy-you-name-it --lib
+# Create a new crate under the `crates` directory
+cargo new crates/speedy-you-name-it --lib
 ```
 
 **Create corresponding node bindings if necessary**
