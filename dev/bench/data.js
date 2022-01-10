@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1641560088065,
+  "lastUpdate": 1641786271150,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -869,6 +869,44 @@ window.BENCHMARK_DATA = {
             "range": "±0.26%",
             "unit": "ops/sec",
             "extra": "93 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zsj439453290@126.com",
+            "name": "zhushijie",
+            "username": "zhusjfaker"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "92a2ac408f169babf6514ba563cc0d2021db61b9",
+          "message": "Merge pull request #12 from IWANABETHATGUY/refactor/crate-convention\n\nRefactor/crate convention",
+          "timestamp": "2022-01-10T11:35:13+08:00",
+          "tree_id": "6feb260490c17cda1dfebf8350e9f18441f830e7",
+          "url": "https://github.com/speedy-js/speedy-native/commit/92a2ac408f169babf6514ba563cc0d2021db61b9"
+        },
+        "date": 1641786270673,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 1019,
+            "range": "±10.67%",
+            "unit": "ops/sec",
+            "extra": "78 samples"
+          },
+          {
+            "name": "Rust",
+            "value": 14489,
+            "range": "±0.67%",
+            "unit": "ops/sec",
+            "extra": "89 samples"
           }
         ]
       }
