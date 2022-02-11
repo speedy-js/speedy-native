@@ -16,6 +16,10 @@ napi = { version = "2.0.0", features = ["napi3"] }
 napi-derive = "2.0.0"
 speedy-transform = { path = "../crates/speedy-transform" }
 speedy-macro = { path = "../crates/speedy-macro" }
+swc = "0.123.6"
+swc_ecma_parser = "0.88.3"
+once_cell = "1.9.0"
+anyhow = "1.0.53"
 
 [build-dependencies]
 napi-build = "1"
