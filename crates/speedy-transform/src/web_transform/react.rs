@@ -48,8 +48,7 @@ pub fn transform_perfixreact(
         src: Str {
           span: DUMMY_SP,
           value: JsWord::from("react"),
-          has_escape: false,
-          kind: Default::default(),
+          raw: None,
         },
         type_only: false,
         asserts: None,
