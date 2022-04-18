@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1650263078829,
+  "lastUpdate": 1650265638326,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -1187,6 +1187,42 @@ window.BENCHMARK_DATA = {
             "range": "±1.00%",
             "unit": "ops/sec",
             "extra": "96 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zhushijie.jayson@bytedance.com",
+            "name": "zhushijie.jayson"
+          },
+          "committer": {
+            "email": "zhushijie.jayson@bytedance.com",
+            "name": "zhushijie.jayson"
+          },
+          "distinct": true,
+          "id": "e7ba04694bbce2eb399863302aa5b62ee5ba2f93",
+          "message": "chore(release): publish",
+          "timestamp": "2022-04-18T15:02:57+08:00",
+          "tree_id": "cefe5ea12311928bcbb5de8f23084148d4780de2",
+          "url": "https://github.com/speedy-js/speedy-native/commit/e7ba04694bbce2eb399863302aa5b62ee5ba2f93"
+        },
+        "date": 1650265637188,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 1102,
+            "range": "±5.00%",
+            "unit": "ops/sec",
+            "extra": "85 samples"
+          },
+          {
+            "name": "Rust",
+            "value": 13442,
+            "range": "±0.27%",
+            "unit": "ops/sec",
+            "extra": "98 samples"
           }
         ]
       }
