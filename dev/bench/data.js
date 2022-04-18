@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1641786271150,
+  "lastUpdate": 1650255715935,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -907,6 +907,40 @@ window.BENCHMARK_DATA = {
             "range": "±0.67%",
             "unit": "ops/sec",
             "extra": "89 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "speedy-js",
+            "username": "speedy-js"
+          },
+          "committer": {
+            "name": "speedy-js",
+            "username": "speedy-js"
+          },
+          "id": "104eab49e15ee98a23ff0335b6b6092ef4e56cec",
+          "message": "fix(speedy-transform): update swc & support-typescript-decorator",
+          "timestamp": "2022-03-03T17:02:43Z",
+          "url": "https://github.com/speedy-js/speedy-native/pull/16/commits/104eab49e15ee98a23ff0335b6b6092ef4e56cec"
+        },
+        "date": 1650255715438,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 1086,
+            "range": "±5.27%",
+            "unit": "ops/sec",
+            "extra": "82 samples"
+          },
+          {
+            "name": "Rust",
+            "value": 13515,
+            "range": "±0.40%",
+            "unit": "ops/sec",
+            "extra": "95 samples"
           }
         ]
       }
