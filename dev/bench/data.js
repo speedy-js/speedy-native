@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1650258443565,
+  "lastUpdate": 1650260086103,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -1009,6 +1009,44 @@ window.BENCHMARK_DATA = {
             "range": "±0.32%",
             "unit": "ops/sec",
             "extra": "95 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zsj439453290@126.com",
+            "name": "zhushijie",
+            "username": "zhusjfaker"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3cc4fdd1cddc657cf2e9fef135636ab38b40c212",
+          "message": "Merge pull request #16 from speedy-js/fix/support-typescript-decorator\n\nfix(speedy-transform): update swc & support-typescript-decorator",
+          "timestamp": "2022-04-18T13:26:20+08:00",
+          "tree_id": "13b397ebfbf2891d4486d0586d78cbbb1a5aaf87",
+          "url": "https://github.com/speedy-js/speedy-native/commit/3cc4fdd1cddc657cf2e9fef135636ab38b40c212"
+        },
+        "date": 1650260085089,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 1092,
+            "range": "±5.82%",
+            "unit": "ops/sec",
+            "extra": "77 samples"
+          },
+          {
+            "name": "Rust",
+            "value": 15063,
+            "range": "±0.93%",
+            "unit": "ops/sec",
+            "extra": "91 samples"
           }
         ]
       }
