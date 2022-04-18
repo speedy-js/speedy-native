@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1650260583951,
+  "lastUpdate": 1650263078829,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -1149,6 +1149,44 @@ window.BENCHMARK_DATA = {
             "range": "±1.49%",
             "unit": "ops/sec",
             "extra": "85 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zsj439453290@126.com",
+            "name": "zhushijie",
+            "username": "zhusjfaker"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "93834a927c80ccda452b82b9339023298252a6eb",
+          "message": "Merge pull request #17 from speedy-js/release-0.8.3\n\nRelease 0.8.3",
+          "timestamp": "2022-04-18T14:20:15+08:00",
+          "tree_id": "1f2e63d5133a757c40de54a0c9e8443d20ba6f4e",
+          "url": "https://github.com/speedy-js/speedy-native/commit/93834a927c80ccda452b82b9339023298252a6eb"
+        },
+        "date": 1650263078293,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 823,
+            "range": "±13.77%",
+            "unit": "ops/sec",
+            "extra": "75 samples"
+          },
+          {
+            "name": "Rust",
+            "value": 13296,
+            "range": "±1.00%",
+            "unit": "ops/sec",
+            "extra": "96 samples"
           }
         ]
       }
