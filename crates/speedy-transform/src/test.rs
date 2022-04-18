@@ -172,4 +172,47 @@ const a = 123;
       target_code.to_string().compare_handle()
     );
   }
+
+  #[test]
+  fn test_typescript_decorator() {
+    let source = r#"
+function logParameter(target: Object, propertyName: string) {
+  console.log(target, propertyName);
+}
+
+
+function logClass(target: Function) {
+  console.log(target);
+}
+
+@logClass
+export class Employee {
+  @logParameter
+  name: string;
+}
+    "#;
+
+    let res = transform(
+      source,
+      TransformConfig {
+        babel_import: None,
+        react_runtime: None,
+      },
+      None,
+      None,
+    );
+
+    let mut code = "".to_string();
+
+    match res {
+      Ok(output) => {
+        code = output.code;
+      }
+      Err(msg) => {
+        println!("{}", msg);
+      }
+    };
+
+    assert_eq!(code.compare_handle(), source.to_string().compare_handle());
+  }
 }
