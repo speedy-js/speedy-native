@@ -89,16 +89,12 @@ pub fn transform_style(module: &mut swc_ecma_ast::Module, project_config: &Trans
   let body = &mut module.body;
 
   let mut index: usize = 0;
-  loop {
-    match specifiers_rm_es.get(index) {
-      Some(i) => {
-        let rm_index = *i - index;
-        body.remove(rm_index);
-      }
-      None => break,
-    }
+  while let Some(i) = specifiers_rm_es.get(index) {
+    let rm_index = *i - index;
+    body.remove(rm_index);
     index += 1;
   }
+
   for js_source in specifiers_es {
     let js_source_ref = js_source.source.as_str();
     let dec = ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
@@ -116,8 +112,7 @@ pub fn transform_style(module: &mut swc_ecma_ast::Module, project_config: &Trans
       src: Str {
         span: DUMMY_SP,
         value: JsWord::from(js_source_ref),
-        has_escape: false,
-        kind: Default::default(),
+        raw: None,
       },
       type_only: false,
       asserts: None,
@@ -133,8 +128,7 @@ pub fn transform_style(module: &mut swc_ecma_ast::Module, project_config: &Trans
       src: Str {
         span: DUMMY_SP,
         value: JsWord::from(css_source_ref),
-        has_escape: false,
-        kind: Default::default(),
+        raw: None,
       },
       type_only: false,
       asserts: None,
