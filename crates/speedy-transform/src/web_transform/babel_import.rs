@@ -1,9 +1,11 @@
 use crate::types::TransformConfig;
+use crate::web_transform::visit::IdentComponent;
 use swc_atoms::JsWord;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::{
-  ImportDecl, ImportDefaultSpecifier, ImportSpecifier, ModuleDecl, ModuleItem, Str,
+  Ident, ImportDecl, ImportDefaultSpecifier, ImportSpecifier, ModuleDecl, ModuleItem, Str,
 };
+use swc_ecma_visit::VisitWith;
 
 struct EsSpec {
   source: String,
@@ -12,6 +14,21 @@ struct EsSpec {
 
 pub fn transform_style(module: &mut swc_ecma_ast::Module, project_config: &TransformConfig) {
   // let s = serde_json::to_string_pretty(&module).expect("failed to serialize");
+
+  let mut visitor = IdentComponent {
+    component_name_jsx_ident: vec![],
+    ident_list: vec![],
+    ts_type_ident_list: vec![],
+  };
+  module.body.visit_with(&mut visitor);
+
+  let match_ident = |idnet: &Ident| -> bool {
+    let name = idnet.to_string().replace("#0", "");
+    let mark = idnet.span.ctxt.as_u32();
+    let item = (name, mark);
+    visitor.component_name_jsx_ident.contains(&item)
+      || (visitor.ident_list.contains(&item) && !visitor.ts_type_ident_list.contains(&item))
+  };
 
   if project_config.babel_import.is_none()
     || project_config.babel_import.as_ref().unwrap().is_empty()
@@ -33,48 +50,50 @@ pub fn transform_style(module: &mut swc_ecma_ast::Module, project_config: &Trans
           match specifier {
             ImportSpecifier::Named(ref s) => {
               let ident = s.local.sym.to_string();
-              // 替换对应的 css
-              if let Some(ref css) = child_config.replace_css {
-                let replace_expr = css.replace_expr.as_str();
-                let ignore_component = &css.ignore_style_component;
-                let need_lower = css.lower.unwrap_or(false);
-                let css_ident = if need_lower {
-                  ident.to_lowercase()
-                } else {
-                  ident.clone()
-                };
-                let mut need_replace = true;
-                if let Some(block_list) = ignore_component {
-                  need_replace = !block_list.iter().map(|c| c.as_str()).any(|x| x == ident);
+              if match_ident(&s.local) {
+                // 替换对应的 css
+                if let Some(ref css) = child_config.replace_css {
+                  let replace_expr = css.replace_expr.as_str();
+                  let ignore_component = &css.ignore_style_component;
+                  let need_lower = css.lower.unwrap_or(false);
+                  let css_ident = if need_lower {
+                    ident.to_lowercase()
+                  } else {
+                    ident.clone()
+                  };
+                  let mut need_replace = true;
+                  if let Some(block_list) = ignore_component {
+                    need_replace = !block_list.iter().map(|c| c.as_str()).any(|x| x == ident);
+                  }
+                  if need_replace {
+                    let import_css_source =
+                      std::string::String::from(replace_expr).replace("{}", css_ident.as_str());
+                    specifiers_css.push(import_css_source);
+                  }
                 }
-                if need_replace {
-                  let import_css_source =
-                    std::string::String::from(replace_expr).replace("{}", css_ident.as_str());
-                  specifiers_css.push(import_css_source);
-                }
-              }
-              // 替换对应 spec 的js
-              if let Some(ref js_config) = child_config.replace_js {
-                let replace_expr = js_config.replace_expr.as_str();
-                let ignore_component = &js_config.ignore_es_component;
-                let need_lower = js_config.lower.unwrap_or(false);
-                let mut js_ident = ident.clone();
-                if need_lower {
-                  js_ident = ident.to_lowercase();
-                }
-                let mut need_replace = true;
-                if let Some(block_list) = ignore_component {
-                  need_replace = !block_list.iter().map(|c| c.as_str()).any(|x| x == ident);
-                }
-                if need_replace {
-                  let import_es_source =
-                    std::string::String::from(replace_expr).replace("{}", js_ident.as_str());
-                  specifiers_es.push(EsSpec {
-                    source: import_es_source,
-                    default_spec: ident,
-                  });
-                  if !specifiers_rm_es.iter().any(|&c| c == item_index) {
-                    specifiers_rm_es.push(item_index);
+                // 替换对应 spec 的js
+                if let Some(ref js_config) = child_config.replace_js {
+                  let replace_expr = js_config.replace_expr.as_str();
+                  let ignore_component = &js_config.ignore_es_component;
+                  let need_lower = js_config.lower.unwrap_or(false);
+                  let mut js_ident = ident.clone();
+                  if need_lower {
+                    js_ident = ident.to_lowercase();
+                  }
+                  let mut need_replace = true;
+                  if let Some(block_list) = ignore_component {
+                    need_replace = !block_list.iter().map(|c| c.as_str()).any(|x| x == ident);
+                  }
+                  if need_replace {
+                    let import_es_source =
+                      std::string::String::from(replace_expr).replace("{}", js_ident.as_str());
+                    specifiers_es.push(EsSpec {
+                      source: import_es_source,
+                      default_spec: ident,
+                    });
+                    if !specifiers_rm_es.iter().any(|&c| c == item_index) {
+                      specifiers_rm_es.push(item_index);
+                    }
                   }
                 }
               }
@@ -86,6 +105,7 @@ pub fn transform_style(module: &mut swc_ecma_ast::Module, project_config: &Trans
       }
     }
   }
+
   let body = &mut module.body;
 
   let mut index: usize = 0;
