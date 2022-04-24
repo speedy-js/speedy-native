@@ -1,6 +1,6 @@
 {
   "name": "@speedy-js/speedy-napi",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "description": "",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
