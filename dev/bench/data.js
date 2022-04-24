@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1650802351611,
+  "lastUpdate": 1650803563286,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -1393,6 +1393,44 @@ window.BENCHMARK_DATA = {
             "range": "±0.40%",
             "unit": "ops/sec",
             "extra": "95 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zsj439453290@126.com",
+            "name": "zhushijie",
+            "username": "zhusjfaker"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ceab9f38e6e1bfceba4a6bfdb6094fab36f9b829",
+          "message": "Merge pull request #18 from speedy-js/feat/tree-shaking\n\nfeat: support ts_type ignore with babel_import",
+          "timestamp": "2022-04-24T20:23:04+08:00",
+          "tree_id": "41d6be47ad2f2f98baa25b288d637f0b1d5e2ef2",
+          "url": "https://github.com/speedy-js/speedy-native/commit/ceab9f38e6e1bfceba4a6bfdb6094fab36f9b829"
+        },
+        "date": 1650803562730,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 999,
+            "range": "±4.77%",
+            "unit": "ops/sec",
+            "extra": "81 samples"
+          },
+          {
+            "name": "Rust",
+            "value": 11706,
+            "range": "±1.86%",
+            "unit": "ops/sec",
+            "extra": "82 samples"
           }
         ]
       }
