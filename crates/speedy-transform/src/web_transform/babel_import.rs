@@ -1,5 +1,6 @@
 use crate::types::TransformConfig;
 use crate::web_transform::visit::IdentComponent;
+use napi::Env;
 use swc_atoms::JsWord;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::{
@@ -12,7 +13,11 @@ struct EsSpec {
   default_spec: String,
 }
 
-pub fn transform_style(module: &mut swc_ecma_ast::Module, project_config: &TransformConfig) {
+pub fn transform_style(
+  env: Env,
+  module: &mut swc_ecma_ast::Module,
+  project_config: &TransformConfig,
+) {
   // let s = serde_json::to_string_pretty(&module).expect("failed to serialize");
 
   let mut visitor = IdentComponent {
@@ -49,11 +54,10 @@ pub fn transform_style(module: &mut swc_ecma_ast::Module, project_config: &Trans
         for specifier in &var.specifiers {
           match specifier {
             ImportSpecifier::Named(ref s) => {
-              let ident = s.local.sym.to_string();
+              let ident: String = s.local.sym.to_string();
               if match_ident(&s.local) {
                 // 替换对应的 css
                 if let Some(ref css) = child_config.replace_css {
-                  let replace_expr = css.replace_expr.as_str();
                   let ignore_component = &css.ignore_style_component;
                   let need_lower = css.lower.unwrap_or(false);
                   let css_ident = if need_lower {
@@ -66,14 +70,22 @@ pub fn transform_style(module: &mut swc_ecma_ast::Module, project_config: &Trans
                     need_replace = !block_list.iter().map(|c| c.as_str()).any(|x| x == ident);
                   }
                   if need_replace {
-                    let import_css_source =
-                      std::string::String::from(replace_expr).replace("{}", css_ident.as_str());
+                    let import_css_source = css
+                      .replace_expr
+                      .call(None, &[env.create_string(css_ident.as_str()).unwrap()])
+                      .unwrap()
+                      .coerce_to_string()
+                      .unwrap()
+                      .into_utf8()
+                      .unwrap()
+                      .as_str()
+                      .unwrap()
+                      .to_string();
                     specifiers_css.push(import_css_source);
                   }
                 }
                 // 替换对应 spec 的js
                 if let Some(ref js_config) = child_config.replace_js {
-                  let replace_expr = js_config.replace_expr.as_str();
                   let ignore_component = &js_config.ignore_es_component;
                   let need_lower = js_config.lower.unwrap_or(false);
                   let mut js_ident = ident.clone();
@@ -85,8 +97,17 @@ pub fn transform_style(module: &mut swc_ecma_ast::Module, project_config: &Trans
                     need_replace = !block_list.iter().map(|c| c.as_str()).any(|x| x == ident);
                   }
                   if need_replace {
-                    let import_es_source =
-                      std::string::String::from(replace_expr).replace("{}", js_ident.as_str());
+                    let import_es_source = js_config
+                      .replace_expr
+                      .call(None, &[env.create_string(js_ident.as_str()).unwrap()])
+                      .unwrap()
+                      .coerce_to_string()
+                      .unwrap()
+                      .into_utf8()
+                      .unwrap()
+                      .as_str()
+                      .unwrap()
+                      .to_string();
                     specifiers_es.push(EsSpec {
                       source: import_es_source,
                       default_spec: ident,

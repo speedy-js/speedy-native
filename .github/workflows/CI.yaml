@@ -29,88 +29,88 @@ jobs:
       fail-fast: false
       matrix:
         settings:
-          - host: macos-latest
-            target: 'x86_64-apple-darwin'
-            build: |
-              pnpm build --dir node
-              strip -x node/*.node
-          - host: windows-latest
-            build: pnpm build --dir node
-            target: 'x86_64-pc-windows-msvc'
-          - host: windows-latest
-            build: |
-              export CARGO_PROFILE_RELEASE_CODEGEN_UNITS=32;
-              export CARGO_PROFILE_RELEASE_LTO=false
-              pnpm build --dir node -- --target i686-pc-windows-msvc
-              pnpm test
-            target: 'i686-pc-windows-msvc'
-            setup: |
-              choco install nodejs-lts --x86 -y --force
-              echo "C:\\Program Files (x86)\\nodejs" >> $GITHUB_PATH
-          - host: ubuntu-latest
-            target: 'x86_64-unknown-linux-gnu'
-            docker: |
-              docker pull $DOCKER_REGISTRY_URL/napi-rs/napi-rs/nodejs-rust:lts-debian
-              docker tag $DOCKER_REGISTRY_URL/napi-rs/napi-rs/nodejs-rust:lts-debian builder
-            build: |
-              docker run --rm -v ~/.cargo/git:/root/.cargo/git -v ~/.cargo/registry:/root/.cargo/registry -v $(pwd):/build -w /build builder sh -c "npm install -g pnpm && pnpm install && pnpm build --dir node && strip node/speedy-napi.linux-x64-gnu.node"
-          - host: ubuntu-latest
-            target: 'x86_64-unknown-linux-musl'
-            docker: |
-              docker pull $DOCKER_REGISTRY_URL/napi-rs/napi-rs/nodejs-rust:lts-alpine
-              docker tag $DOCKER_REGISTRY_URL/napi-rs/napi-rs/nodejs-rust:lts-alpine builder
-            build: docker run --rm -v ~/.cargo/git:/root/.cargo/git -v ~/.cargo/registry:/root/.cargo/registry -v $(pwd):/build -w /build builder sh -c "apk add --update cmake && pnpm install && pnpm build --dir node && strip node/speedy-napi.linux-x64-musl.node"
-          - host: macos-latest
-            target: 'aarch64-apple-darwin'
-            build: |
-              sudo rm -Rf /Library/Developer/CommandLineTools/SDKs/*;
-              export CC=$(xcrun -f clang);
-              export CXX=$(xcrun -f clang++);
-              SYSROOT=$(xcrun --sdk macosx --show-sdk-path);
-              export CFLAGS="-isysroot $SYSROOT -isystem $SYSROOT";
-              pnpm build --dir node -- --target=aarch64-apple-darwin
-              strip -x node/*.node
-          - host: ubuntu-latest
-            target: 'aarch64-unknown-linux-gnu'
-            setup: |
-              sudo apt-get update
-              sudo apt-get install g++-aarch64-linux-gnu gcc-aarch64-linux-gnu -y
-            build: |
-              pnpm build --dir node -- --target=aarch64-unknown-linux-gnu
-              aarch64-linux-gnu-strip node/speedy-napi.linux-arm64-gnu.node
-          - host: ubuntu-latest
-            target: 'armv7-unknown-linux-gnueabihf'
-            setup: |
-              sudo apt-get update
-              sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf -y
-            build: |
-              pnpm build --dir node -- --target=armv7-unknown-linux-gnueabihf
-              arm-linux-gnueabihf-strip node/speedy-napi.linux-arm-gnueabihf.node
-          - host: ubuntu-latest
-            target: 'aarch64-linux-android'
-            build: |
-              export CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android24-clang"
-              export PATH="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin:${PATH}"
-              pnpm build --dir node -- --target aarch64-linux-android
-              ${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android-strip node/*.node
-          - host: ubuntu-latest
-            target: 'armv7-linux-androideabi'
-            build: |
-              export CARGO_TARGET_ARMV7_LINUX_ANDROIDEABI_LINKER="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi24-clang"
-              export CC="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi24-clang"
-              export CXX="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi24-clang++"
-              export PATH="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin:${PATH}"
-              pnpm build --dir node -- --target armv7-linux-androideabi
-              ${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/arm-linux-androideabi-strip node/*.node
+#          - host: macos-latest
+#            target: 'x86_64-apple-darwin'
+#            build: |
+#              pnpm build --dir node
+#              strip -x node/*.node
+#          - host: windows-latest
+#            build: pnpm build --dir node
+#            target: 'x86_64-pc-windows-msvc'
+#          - host: windows-latest
+#            build: |
+#              export CARGO_PROFILE_RELEASE_CODEGEN_UNITS=32;
+#              export CARGO_PROFILE_RELEASE_LTO=false
+#              pnpm build --dir node -- --target i686-pc-windows-msvc
+#              pnpm test
+#            target: 'i686-pc-windows-msvc'
+#            setup: |
+#              choco install nodejs-lts --x86 -y --force
+#              echo "C:\\Program Files (x86)\\nodejs" >> $GITHUB_PATH
+#          - host: ubuntu-latest
+#            target: 'x86_64-unknown-linux-gnu'
+#            docker: |
+#              docker pull $DOCKER_REGISTRY_URL/napi-rs/napi-rs/nodejs-rust:lts-debian
+#              docker tag $DOCKER_REGISTRY_URL/napi-rs/napi-rs/nodejs-rust:lts-debian builder
+#            build: |
+#              docker run --rm -v ~/.cargo/git:/root/.cargo/git -v ~/.cargo/registry:/root/.cargo/registry -v $(pwd):/build -w /build builder sh -c "npm install -g pnpm@6 && pnpm install && pnpm build --dir node && strip node/speedy-napi.linux-x64-gnu.node"
+#          - host: ubuntu-latest
+#            target: 'x86_64-unknown-linux-musl'
+#            docker: |
+#              docker pull $DOCKER_REGISTRY_URL/napi-rs/napi-rs/nodejs-rust:lts-alpine
+#              docker tag $DOCKER_REGISTRY_URL/napi-rs/napi-rs/nodejs-rust:lts-alpine builder
+#            build: docker run --rm -v ~/.cargo/git:/root/.cargo/git -v ~/.cargo/registry:/root/.cargo/registry -v $(pwd):/build -w /build builder sh -c "apk add --update cmake && pnpm install && pnpm build --dir node && strip node/speedy-napi.linux-x64-musl.node"
+#          - host: macos-latest
+#            target: 'aarch64-apple-darwin'
+#            build: |
+#              sudo rm -Rf /Library/Developer/CommandLineTools/SDKs/*;
+#              export CC=$(xcrun -f clang);
+#              export CXX=$(xcrun -f clang++);
+#              SYSROOT=$(xcrun --sdk macosx --show-sdk-path);
+#              export CFLAGS="-isysroot $SYSROOT -isystem $SYSROOT";
+#              pnpm build --dir node -- --target=aarch64-apple-darwin
+#              strip -x node/*.node
+#          - host: ubuntu-latest
+#            target: 'aarch64-unknown-linux-gnu'
+#            setup: |
+#              sudo apt-get update
+#              sudo apt-get install g++-aarch64-linux-gnu gcc-aarch64-linux-gnu -y
+#            build: |
+#              pnpm build --dir node -- --target=aarch64-unknown-linux-gnu
+#              aarch64-linux-gnu-strip node/speedy-napi.linux-arm64-gnu.node
+#          - host: ubuntu-latest
+#            target: 'armv7-unknown-linux-gnueabihf'
+#            setup: |
+#              sudo apt-get update
+#              sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf -y
+#            build: |
+#              pnpm build --dir node -- --target=armv7-unknown-linux-gnueabihf
+#              arm-linux-gnueabihf-strip node/speedy-napi.linux-arm-gnueabihf.node
+#          - host: ubuntu-latest
+#            target: 'aarch64-linux-android'
+#            build: |
+#              export CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android24-clang"
+#              export PATH="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin:${PATH}"
+#              pnpm build --dir node -- --target aarch64-linux-android
+#              ${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android-strip node/*.node
+#          - host: ubuntu-latest
+#            target: 'armv7-linux-androideabi'
+#            build: |
+#              export CARGO_TARGET_ARMV7_LINUX_ANDROIDEABI_LINKER="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi24-clang"
+#              export CC="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi24-clang"
+#              export CXX="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi24-clang++"
+#              export PATH="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin:${PATH}"
+#              pnpm build --dir node -- --target armv7-linux-androideabi
+#              ${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/arm-linux-androideabi-strip node/*.node
           - host: ubuntu-latest
             target: 'aarch64-unknown-linux-musl'
             docker: |
               docker pull ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
               docker tag ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine builder
-            build: docker run --rm -v ~/.cargo/git:/root/.cargo/git -v ~/.cargo/registry:/root/.cargo/registry -v $(pwd):/speedy-napi -w /speedy-napi builder sh -c "rustup target add aarch64-unknown-linux-musl && pnpm build --dir node -- --target=aarch64-unknown-linux-musl && /aarch64-linux-musl-cross/bin/aarch64-linux-musl-strip node/speedy-napi.linux-arm64-musl.node"
-          - host: windows-latest
-            target: 'aarch64-pc-windows-msvc'
-            build: pnpm build --dir node -- --target aarch64-pc-windows-msvc
+            build: docker run --rm -v ~/.cargo/git:/root/.cargo/git -v ~/.cargo/registry:/root/.cargo/registry -v $(pwd):/speedy-napi -w /speedy-napi builder sh -c "rustup target add aarch64-unknown-linux-musl && npm install -g pnpm@6 && pnpm build --dir node -- --target=aarch64-unknown-linux-musl && ls -R . && /aarch64-linux-musl-cross/bin/aarch64-linux-musl-strip node/*.node"
+#          - host: windows-latest
+#            target: 'aarch64-pc-windows-msvc'
+#            build: pnpm build --dir node -- --target aarch64-pc-windows-msvc
 
     name: stable - ${{ matrix.settings.target }} - node@14
     runs-on: ${{ matrix.settings.host }}
@@ -125,7 +125,7 @@ jobs:
           check-latest: true
 
       - name: Install pnpm
-        run: npm install -g pnpm
+        run: npm install -g pnpm@6
 
       - name: Install
         uses: actions-rs/toolchain@v1
@@ -159,7 +159,7 @@ jobs:
         shell: bash
 
       - name: 'Install dependencies'
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
 
       - name: 'Build'
         run: ${{ matrix.settings.build }}
@@ -196,7 +196,7 @@ jobs:
           check-latest: true
 
       - name: Install pnpm
-        run: npm install -g pnpm
+        run: npm install -g pnpm@6
 
       - name: Cache NPM dependencies
         uses: actions/cache@v2
@@ -205,7 +205,7 @@ jobs:
           key: npm-cache-test-${{ matrix.settings.target }}-${{ matrix.node }}-${{ hashFiles('pnpm-lock.yaml') }}
 
       - name: 'Install dependencies'
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
 
       - name: Download artifacts
         uses: actions/download-artifact@v2
@@ -250,7 +250,7 @@ jobs:
         shell: bash
 
       - name: Test bindings
-        run: docker run --rm -v $(pwd):/${{ env.APP_NAME }} -w /${{ env.APP_NAME }} node:${{ matrix.node }}-slim sh -c "npm install -g pnpm && pnpm install && pnpm test"
+        run: docker run --rm -v $(pwd):/${{ env.APP_NAME }} -w /${{ env.APP_NAME }} node:${{ matrix.node }}-slim sh -c "npm install -g pnpm@6 && pnpm install && pnpm test"
 
   test-linux-x64-musl-binding:
     name: Test bindings on x86_64-unknown-linux-musl - node@${{ matrix.node }}
@@ -282,7 +282,7 @@ jobs:
         shell: bash
 
       - name: Test bindings
-        run: docker run --rm -v $(pwd):/${{ env.APP_NAME }} -w /${{ env.APP_NAME }} node:${{ matrix.node }}-alpine sh -c "npm install -g pnpm && pnpm install && pnpm test"
+        run: docker run --rm -v $(pwd):/${{ env.APP_NAME }} -w /${{ env.APP_NAME }} node:${{ matrix.node }}-alpine sh -c "npm install -g pnpm@6 && pnpm install && pnpm test"
 
   test-linux-aarch64-gnu-binding:
     name: Test bindings on aarch64-unknown-linux-gnu - node@${{ matrix.node }}
@@ -316,8 +316,8 @@ jobs:
           options: -v ${{ github.workspace }}:/build -w /build
           run: |
             set -e
-            npm install -g pnpm
-            pnpm install --frozen-lockfile
+            npm install -g pnpm@6
+            pnpm install --no-frozen-lockfile
             pnpm test
             ls -la
 
@@ -349,8 +349,8 @@ jobs:
           args: >
             sh -c "
               apk add nodejs npm && \
-              npm install -g pnpm && \
-              pnpm install --frozen-lockfile && \
+              npm install -g pnpm@6 && \
+              pnpm install --no-frozen-lockfile && \
               npm test
             "
   test-linux-arm-gnueabihf-binding:
@@ -385,8 +385,8 @@ jobs:
           options: -v ${{ github.workspace }}:/build -w /build
           run: |
             set -e
-            npm install -g pnpm
-            pnpm install --frozen-lockfile
+            npm install -g pnpm@6
+            pnpm install --no-frozen-lockfile
             pnpm test
             ls -la
 
@@ -411,7 +411,7 @@ jobs:
           check-latest: true
 
       - name: Install pnpm
-        run: npm install -g pnpm
+        run: npm install -g pnpm@6
 
       - name: Cache NPM dependencies
         uses: actions/cache@v2
@@ -420,7 +420,7 @@ jobs:
           key: npm-cache-ubuntu-latest-${{ hashFiles('pnpm-lock.yaml') }}
 
       - name: 'Install dependencies'
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
 
       - name: Download all artifacts
         uses: actions/download-artifact@v2

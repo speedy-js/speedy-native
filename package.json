@@ -12,7 +12,6 @@
     "format": "prettier . -w",
     "bench": "suno benchmark/bench.ts",
     "lint": "pnpm lint --dir node",
-    "build": "cd node && npm run build && cd -",
     "test": "mocha -r @swc-node/register node/__tests__/**/*.spec.ts"
   },
   "devDependencies": {

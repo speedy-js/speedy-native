@@ -1,28 +1,42 @@
-use serde::{Deserialize, Serialize};
+use napi::JsFunction;
+use serde::Serialize;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[napi(object)]
+#[derive(Debug)]
+pub struct TransformOutput {
+  pub code: String,
+  pub map: Option<String>,
+}
+
+#[napi(object)]
+#[derive(Serialize)]
 pub struct TransformConfig {
   pub react_runtime: Option<bool>,
   pub babel_import: Option<Vec<BabelImportConfig>>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[napi(object)]
+#[derive(Serialize)]
 pub struct BabelImportConfig {
   pub from_source: String,
-  pub replace_css: Option<ReplaceCssConfig>,
-  pub replace_js: Option<ReplaceSpecConfig>,
+  pub replace_css: Option<RepalceCssConfig>,
+  pub replace_js: Option<RepalceSpecConfig>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
-pub struct ReplaceSpecConfig {
-  pub replace_expr: String,
+#[napi(object)]
+#[derive(Serialize)]
+pub struct RepalceSpecConfig {
+  #[serde(skip_serializing)]
+  pub replace_expr: JsFunction,
   pub ignore_es_component: Option<Vec<String>>,
   pub lower: Option<bool>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
-pub struct ReplaceCssConfig {
+#[napi(object)]
+#[derive(Serialize)]
+pub struct RepalceCssConfig {
   pub ignore_style_component: Option<Vec<String>>,
-  pub replace_expr: String,
+  #[serde(skip_serializing)]
+  pub replace_expr: JsFunction,
   pub lower: Option<bool>,
 }

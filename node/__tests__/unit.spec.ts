@@ -4,7 +4,6 @@ import {parse} from '@babel/parser';
 import traverse from '@babel/traverse';
 import generate from '@babel/generator';
 import {Program} from '@babel/types';
-import {execSync} from 'child_process';
 import {transform} from '../lib';
 import * as process from "process";
 
@@ -64,12 +63,16 @@ ReactDOM.render(<Page / >, document.getElementById("root"));
                 {
                     fromSource: 'antd',
                     replaceCss: {
-                        replaceExpr: 'antd/es/{}/style/index.css',
+                        replaceExpr: (ident: string) => {
+                            return `antd/es/${ident}/style/index.css`;
+                        },
                         lower: true,
                         ignoreStyleComponent: undefined,
                     },
                     replaceJs: {
-                        replaceExpr: 'antd/es/{}/index.js',
+                        replaceExpr: (ident: string) => {
+                            return `antd/es/${ident}/index.js`;
+                        },
                         lower: true,
                         ignoreEsComponent: undefined,
                     },
