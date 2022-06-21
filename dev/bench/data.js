@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1650803651512,
+  "lastUpdate": 1655799166929,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -1467,6 +1467,33 @@ window.BENCHMARK_DATA = {
             "range": "±0.33%",
             "unit": "ops/sec",
             "extra": "92 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "speedy-js",
+            "username": "speedy-js"
+          },
+          "committer": {
+            "name": "speedy-js",
+            "username": "speedy-js"
+          },
+          "id": "526b63de742f292054d278e626aae99f21d97ab2",
+          "message": "feat: support js function callback with config",
+          "timestamp": "2022-05-24T10:22:47Z",
+          "url": "https://github.com/speedy-js/speedy-native/pull/19/commits/526b63de742f292054d278e626aae99f21d97ab2"
+        },
+        "date": 1655799166281,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 848,
+            "range": "±7.28%",
+            "unit": "ops/sec",
+            "extra": "73 samples"
           }
         ]
       }
