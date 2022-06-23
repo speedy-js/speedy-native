@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1655814308883,
+  "lastUpdate": 1655955848290,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -1629,6 +1629,37 @@ window.BENCHMARK_DATA = {
             "range": "±4.82%",
             "unit": "ops/sec",
             "extra": "70 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zsj439453290@126.com",
+            "name": "zhushijie",
+            "username": "zhusjfaker"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1c1e965fbbbe92c08f524bd8a3f20215af4ad0da",
+          "message": "Merge pull request #19 from speedy-js/feat/support-js-replace-function\n\nfeat: support js function callback with config",
+          "timestamp": "2022-06-23T11:33:24+08:00",
+          "tree_id": "ab6104cffdbc7c3133647e5a278b5ede45dc15e8",
+          "url": "https://github.com/speedy-js/speedy-native/commit/1c1e965fbbbe92c08f524bd8a3f20215af4ad0da"
+        },
+        "date": 1655955847755,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 697,
+            "range": "±13.01%",
+            "unit": "ops/sec",
+            "extra": "72 samples"
           }
         ]
       }
