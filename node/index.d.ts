@@ -17,13 +17,13 @@ export interface BabelImportConfig {
   replaceJs?: RepalceSpecConfig | undefined | null
 }
 export interface RepalceSpecConfig {
-  replaceExpr: string
+  replaceExpr: (...args: any[]) => any
   ignoreEsComponent?: Array<string> | undefined | null
   lower?: boolean | undefined | null
 }
 export interface RepalceCssConfig {
   ignoreStyleComponent?: Array<string> | undefined | null
-  replaceExpr: string
+  replaceExpr: (...args: any[]) => any
   lower?: boolean | undefined | null
 }
 export function transformBabelImport(code: string, config: TransformConfig, filename?: string | undefined | null, target?: string | undefined | null): TransformOutput

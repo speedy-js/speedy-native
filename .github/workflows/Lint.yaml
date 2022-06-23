@@ -28,7 +28,7 @@ jobs:
           components: rustfmt, clippy
 
       - name: Install pnpm
-        run: npm install -g pnpm
+        run: npm install -g pnpm@6
 
       - name: Cache NPM dependencies
         uses: actions/cache@v2
@@ -37,7 +37,7 @@ jobs:
           key: npm-cache-lint-node@14-${{ hashFiles('pnpm-lock.yaml') }}
 
       - name: 'Install dependencies'
-        run: pnpm install --frozen-lockfile --registry https://registry.npmjs.org
+        run: pnpm install --no-frozen-lockfile --registry https://registry.npmjs.org
 
       - name: ESLint
         run: pnpm lint

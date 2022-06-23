@@ -1,3 +1,6 @@
+#[macro_use]
+extern crate napi_derive;
+
 /*
  * 引入测试用例 (编译时不会携带)
  */

@@ -1,6 +1,7 @@
 use crate::types::TransformConfig;
 use crate::web_transform::babel_import::transform_style;
 use crate::web_transform::react::transform_perfixreact;
+use napi::Env;
 use swc::config::SourceMapsConfig;
 use swc::{Compiler, TransformOutput};
 use swc_common::input::StringInput;
@@ -11,6 +12,7 @@ use swc_ecma_parser::lexer::Lexer;
 use swc_ecma_parser::{Parser, Syntax, TsConfig};
 
 pub fn transform(
+  env: Env,
   code: &str,
   config: TransformConfig,
   filename: Option<String>,
@@ -53,7 +55,7 @@ pub fn transform(
   }
   let mut module = module_reuslt.unwrap();
 
-  transform_style(&mut module, &config);
+  transform_style(env, &mut module, &config);
   transform_perfixreact(&mut module, &config, code);
 
   let target_ref = target.unwrap_or_else(|| "".to_string());
@@ -63,47 +65,6 @@ pub fn transform(
     "ES6" => EsVersion::Es2015,
     _ => EsVersion::Es2020,
   };
-
-  // let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(compiler.cm.clone()));
-  //
-  // let mut buf = vec![];
-  // {
-  //   let mut emitter = Emitter {
-  //     cfg: swc_ecma_codegen::Config { minify: false },
-  //     cm: compiler.cm.clone(),
-  //     comments: None,
-  //     wr: JsWriter::new(compiler.cm.clone(), "\n", &mut buf, None),
-  //   };
-  //   emitter.emit_module(&module).unwrap();
-  // }
-  //
-  // println!("u8 -> {}", std::str::from_utf8(&buf).unwrap());
-
-  // let opt = Options {
-  //   is_module: IsModule::Bool(true),
-  //   config: Config {
-  //     env: Some(Default::default()),
-  //     module: Some(ModuleConfig::CommonJs(Default::default())),
-  //     jsc: JscConfig {
-  //       syntax: Some(Syntax::Typescript(TsConfig {
-  //         tsx: true,
-  //         decorators: true,
-  //         ..Default::default()
-  //       })),
-  //       transform: Some(swc::config::TransformConfig {
-  //         legacy_decorator: true,
-  //         ..Default::default()
-  //       }),
-  //       ..Default::default()
-  //     },
-  //     ..Default::default()
-  //   },
-  //   ..Default::default()
-  // };
-  //
-  // let res = compiler.process_js_file(fm, &handler, &opt);
-
-  // print!("{}", res.unwrap().code);
 
   compiler
     .print(

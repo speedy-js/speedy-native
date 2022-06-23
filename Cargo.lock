@@ -1432,6 +1432,8 @@ name = "speedy-transform"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "napi",
+ "napi-derive",
  "regex",
  "serde",
  "serde_json",
@@ -1800,9 +1802,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.102.2"
+version = "0.102.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "29d2f7b7d31ecab9704b1064c9713b06ea2e2f9654eb56025b8471f81517dda8"
+checksum = "6e055cae1bd93658e9626d87c7d08acbf649246536ffa5998e4cc6f160bb14de"
 dependencies = [
  "either",
  "enum_kind",

@@ -38,7 +38,7 @@ jobs:
           override: true
 
       - name: Install pnpm
-        run: npm install -g pnpm
+        run: npm install -g pnpm@6
 
       - name: Cache cargo
         uses: Swatinem/rust-cache@v1
@@ -52,7 +52,7 @@ jobs:
           key: npm-cache-lint-node@14-${{ hashFiles('pnpm-lock.yaml') }}
 
       - name: 'Install dependencies'
-        run: pnpm install --frozen-lockfile --registry https://registry.npmjs.org
+        run: pnpm install --no-frozen-lockfile --registry https://registry.npmjs.org
 
       - name: Build
         run: |

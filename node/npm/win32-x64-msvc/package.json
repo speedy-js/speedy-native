@@ -1,6 +1,6 @@
 {
   "name": "@speedy-js/speedy-napi-win32-x64-msvc",
-  "version": "0.8.4",
+  "version": "0.8.5",
   "os": [
     "win32"
   ],
