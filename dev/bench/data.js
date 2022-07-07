@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1657175439794,
+  "lastUpdate": 1657178893645,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -1716,6 +1716,37 @@ window.BENCHMARK_DATA = {
             "range": "±6.46%",
             "unit": "ops/sec",
             "extra": "79 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zsj439453290@126.com",
+            "name": "zhushijie",
+            "username": "zhusjfaker"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4064009076cff506e62ecee20e9e0cac0b124e7b",
+          "message": "Merge pull request #20 from speedy-js/fix/chinese-language\n\nfix: chinese jsx support",
+          "timestamp": "2022-07-07T15:19:37+08:00",
+          "tree_id": "04a64814214b374856399345658cf58f5dcfdd1d",
+          "url": "https://github.com/speedy-js/speedy-native/commit/4064009076cff506e62ecee20e9e0cac0b124e7b"
+        },
+        "date": 1657178892798,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 990,
+            "range": "±10.63%",
+            "unit": "ops/sec",
+            "extra": "75 samples"
           }
         ]
       }
