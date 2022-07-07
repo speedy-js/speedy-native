@@ -1,6 +1,6 @@
 {
   "name": "@speedy-js/speedy-napi-darwin-x64",
-  "version": "0.8.6",
+  "version": "0.8.7",
   "os": [
     "darwin"
   ],
