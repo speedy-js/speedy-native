@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1655956252325,
+  "lastUpdate": 1657175439794,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -1689,6 +1689,33 @@ window.BENCHMARK_DATA = {
             "range": "±12.55%",
             "unit": "ops/sec",
             "extra": "77 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "speedy-js",
+            "username": "speedy-js"
+          },
+          "committer": {
+            "name": "speedy-js",
+            "username": "speedy-js"
+          },
+          "id": "999daf452acde26feb0cfb79fe3eaa3256555ee0",
+          "message": "fix: chinese jsx support",
+          "timestamp": "2022-05-24T10:22:47Z",
+          "url": "https://github.com/speedy-js/speedy-native/pull/20/commits/999daf452acde26feb0cfb79fe3eaa3256555ee0"
+        },
+        "date": 1657175438724,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 1248,
+            "range": "±6.46%",
+            "unit": "ops/sec",
+            "extra": "79 samples"
           }
         ]
       }
