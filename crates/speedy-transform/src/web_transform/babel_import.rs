@@ -1,16 +1,20 @@
 use crate::types::TransformConfig;
 use crate::web_transform::visit::IdentComponent;
+use heck::ToKebabCase;
 use napi::Env;
 use swc_atoms::JsWord;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::{
-  Ident, ImportDecl, ImportDefaultSpecifier, ImportSpecifier, ModuleDecl, ModuleItem, Str,
+  Ident, ImportDecl, ImportDefaultSpecifier, ImportNamedSpecifier, ImportSpecifier, ModuleDecl,
+  ModuleExportName, ModuleItem, Str,
 };
 use swc_ecma_visit::VisitWith;
 
 struct EsSpec {
   source: String,
   default_spec: String,
+  as_name: Option<String>,
+  use_default_import: bool,
 }
 
 pub fn transform_style(
@@ -54,20 +58,41 @@ pub fn transform_style(
         for specifier in &var.specifiers {
           match specifier {
             ImportSpecifier::Named(ref s) => {
-              let ident: String = s.local.sym.to_string();
+              let imported = match &s.imported {
+                Some(imported) => match &imported {
+                  ModuleExportName::Ident(ident) => Option::Some(ident.sym.to_string()),
+                  ModuleExportName::Str(ident) => Option::Some(ident.value.to_string()),
+                },
+                None => Option::None,
+              };
+              // 当 imported 不为 none 时, local.sym 是引入组件的 as 别名
+              let as_name: Option<String> = if imported.is_some() {
+                Option::Some(s.local.sym.to_string())
+              } else {
+                Option::None
+              };
+              // 当 imported 不为 none 时, 实际引入的组件命名为 imported, 否则为 s.local.sym
+              let ident: String = imported.unwrap_or(s.local.sym.to_string());
+
               if match_ident(&s.local) {
                 // 替换对应的 css
                 if let Some(ref css) = child_config.replace_css {
                   let ignore_component = &css.ignore_style_component;
                   let need_lower = css.lower.unwrap_or(false);
-                  let css_ident = if need_lower {
-                    ident.to_lowercase()
-                  } else {
-                    ident.clone()
+                  let camel2dash = css.camel2_dash_component_name.unwrap_or(true);
+                  let mut css_ident = ident.clone();
+                  if camel2dash {
+                    css_ident = css_ident.to_kebab_case();
+                  }
+                  if need_lower {
+                    css_ident = css_ident.to_lowercase()
                   };
                   let mut need_replace = true;
                   if let Some(block_list) = ignore_component {
-                    need_replace = !block_list.iter().map(|c| c.as_str()).any(|x| x == ident);
+                    need_replace = !block_list
+                      .iter()
+                      .map(|c| c.as_str())
+                      .any(|x| x == css_ident);
                   }
                   if need_replace {
                     let import_css_source = css
@@ -88,13 +113,18 @@ pub fn transform_style(
                 if let Some(ref js_config) = child_config.replace_js {
                   let ignore_component = &js_config.ignore_es_component;
                   let need_lower = js_config.lower.unwrap_or(false);
+                  let camel2dash = js_config.camel2_dash_component_name.unwrap_or(true);
+                  let use_default_import = js_config.transform_to_default_import.unwrap_or(true);
                   let mut js_ident = ident.clone();
+                  if camel2dash {
+                    js_ident = js_ident.to_kebab_case();
+                  }
                   if need_lower {
-                    js_ident = ident.to_lowercase();
+                    js_ident = js_ident.to_lowercase();
                   }
                   let mut need_replace = true;
                   if let Some(block_list) = ignore_component {
-                    need_replace = !block_list.iter().map(|c| c.as_str()).any(|x| x == ident);
+                    need_replace = !block_list.iter().map(|c| c.as_str()).any(|x| x == js_ident);
                   }
                   if need_replace {
                     let import_es_source = js_config
@@ -111,6 +141,8 @@ pub fn transform_style(
                     specifiers_es.push(EsSpec {
                       source: import_es_source,
                       default_spec: ident,
+                      as_name,
+                      use_default_import,
                     });
                     if !specifiers_rm_es.iter().any(|&c| c == item_index) {
                       specifiers_rm_es.push(item_index);
@@ -140,16 +172,37 @@ pub fn transform_style(
     let js_source_ref = js_source.source.as_str();
     let dec = ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
       span: DUMMY_SP,
-      specifiers: vec![swc_ecma_ast::ImportSpecifier::Default(
-        ImportDefaultSpecifier {
+      specifiers: if js_source.use_default_import {
+        vec![swc_ecma_ast::ImportSpecifier::Default(
+          ImportDefaultSpecifier {
+            span: DUMMY_SP,
+            local: swc_ecma_ast::Ident {
+              span: DUMMY_SP,
+              sym: JsWord::from(js_source.as_name.unwrap_or(js_source.default_spec).as_str()),
+              optional: false,
+            },
+          },
+        )]
+      } else {
+        vec![swc_ecma_ast::ImportSpecifier::Named(ImportNamedSpecifier {
           span: DUMMY_SP,
+          imported: if js_source.as_name.is_some() {
+            Option::Some(swc_ecma_ast::ModuleExportName::Ident(swc_ecma_ast::Ident {
+              span: DUMMY_SP,
+              sym: JsWord::from(js_source.default_spec.as_str()),
+              optional: false,
+            }))
+          } else {
+            None
+          },
           local: swc_ecma_ast::Ident {
             span: DUMMY_SP,
-            sym: JsWord::from(js_source.default_spec.as_str()),
+            sym: JsWord::from(js_source.as_name.unwrap_or(js_source.default_spec).as_str()),
             optional: false,
           },
-        },
-      )],
+          is_type_only: false,
+        })]
+      },
       src: Str {
         span: DUMMY_SP,
         value: JsWord::from(js_source_ref),

@@ -20,10 +20,13 @@ export interface RepalceSpecConfig {
   replaceExpr: (...args: any[]) => any
   ignoreEsComponent?: Array<string> | undefined | null
   lower?: boolean | undefined | null
+  camel2DashComponentName?: boolean | undefined | null
+  transformToDefaultImport?: boolean | undefined | null
 }
 export interface RepalceCssConfig {
   ignoreStyleComponent?: Array<string> | undefined | null
   replaceExpr: (...args: any[]) => any
   lower?: boolean | undefined | null
+  camel2DashComponentName?: boolean | undefined | null
 }
 export function transformBabelImport(code: string, config: TransformConfig, filename?: string | undefined | null, target?: string | undefined | null): TransformOutput
