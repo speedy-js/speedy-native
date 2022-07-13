@@ -79,7 +79,7 @@ pub fn transform_style(
                 if let Some(ref css) = child_config.replace_css {
                   let ignore_component = &css.ignore_style_component;
                   let need_lower = css.lower.unwrap_or(false);
-                  let camel2dash = css.camel2_dash_component_name.unwrap_or(true);
+                  let camel2dash = css.camel2_dash_component_name.unwrap_or(false);
                   let mut css_ident = ident.clone();
                   if camel2dash {
                     css_ident = css_ident.to_kebab_case();
@@ -89,7 +89,7 @@ pub fn transform_style(
                   };
                   let mut need_replace = true;
                   if let Some(block_list) = ignore_component {
-                    need_replace = !block_list.iter().any(|x| x == &css_ident);
+                    need_replace = !block_list.iter().any(|x| x == &ident);
                   }
                   if need_replace {
                     let import_css_source = css
@@ -110,7 +110,7 @@ pub fn transform_style(
                 if let Some(ref js_config) = child_config.replace_js {
                   let ignore_component = &js_config.ignore_es_component;
                   let need_lower = js_config.lower.unwrap_or(false);
-                  let camel2dash = js_config.camel2_dash_component_name.unwrap_or(true);
+                  let camel2dash = js_config.camel2_dash_component_name.unwrap_or(false);
                   let use_default_import = js_config.transform_to_default_import.unwrap_or(true);
                   let mut js_ident = ident.clone();
                   if camel2dash {
@@ -121,7 +121,7 @@ pub fn transform_style(
                   }
                   let mut need_replace = true;
                   if let Some(block_list) = ignore_component {
-                    need_replace = !block_list.iter().map(|c| c.as_str()).any(|x| x == js_ident);
+                    need_replace = !block_list.iter().any(|x| x == &ident);
                   }
                   if need_replace {
                     let import_es_source = js_config
