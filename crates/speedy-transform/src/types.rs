@@ -30,6 +30,8 @@ pub struct RepalceSpecConfig {
   pub replace_expr: JsFunction,
   pub ignore_es_component: Option<Vec<String>>,
   pub lower: Option<bool>,
+  pub camel2_dash_component_name: Option<bool>,
+  pub transform_to_default_import: Option<bool>,
 }
 
 #[napi(object)]
@@ -39,4 +41,5 @@ pub struct RepalceCssConfig {
   #[serde(skip_serializing)]
   pub replace_expr: JsFunction,
   pub lower: Option<bool>,
+  pub camel2_dash_component_name: Option<bool>,
 }
