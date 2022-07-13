@@ -60,16 +60,16 @@ pub fn transform_style(
             ImportSpecifier::Named(ref s) => {
               let imported = match &s.imported {
                 Some(imported) => match &imported {
-                  ModuleExportName::Ident(ident) => Option::Some(ident.sym.to_string()),
-                  ModuleExportName::Str(ident) => Option::Some(ident.value.to_string()),
+                  ModuleExportName::Ident(ident) => Some(ident.sym.to_string()),
+                  ModuleExportName::Str(ident) => Some(ident.value.to_string()),
                 },
-                None => Option::None,
+                None => None,
               };
               // 当 imported 不为 none 时, local.sym 是引入组件的 as 别名
               let as_name: Option<String> = if imported.is_some() {
-                Option::Some(s.local.sym.to_string())
+                Some(s.local.sym.to_string())
               } else {
-                Option::None
+                None
               };
               // 当 imported 不为 none 时, 实际引入的组件命名为 imported, 否则为 s.local.sym
               let ident: String = imported.unwrap_or(s.local.sym.to_string());
@@ -89,10 +89,7 @@ pub fn transform_style(
                   };
                   let mut need_replace = true;
                   if let Some(block_list) = ignore_component {
-                    need_replace = !block_list
-                      .iter()
-                      .map(|c| c.as_str())
-                      .any(|x| x == css_ident);
+                    need_replace = !block_list.iter().any(|x| x == &css_ident);
                   }
                   if need_replace {
                     let import_css_source = css
@@ -187,7 +184,7 @@ pub fn transform_style(
         vec![swc_ecma_ast::ImportSpecifier::Named(ImportNamedSpecifier {
           span: DUMMY_SP,
           imported: if js_source.as_name.is_some() {
-            Option::Some(swc_ecma_ast::ModuleExportName::Ident(swc_ecma_ast::Ident {
+            Some(swc_ecma_ast::ModuleExportName::Ident(swc_ecma_ast::Ident {
               span: DUMMY_SP,
               sym: JsWord::from(js_source.default_spec.as_str()),
               optional: false,
