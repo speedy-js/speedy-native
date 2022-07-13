@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1657698924216,
+  "lastUpdate": 1657700217046,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -1938,6 +1938,37 @@ window.BENCHMARK_DATA = {
             "range": "±10.18%",
             "unit": "ops/sec",
             "extra": "71 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "44369998+konicyQWQ@users.noreply.github.com",
+            "name": "Shi Meng",
+            "username": "konicyQWQ"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "db6918e2992352ebfab7cec3b70449864334b6f3",
+          "message": "feat(speedy-transform): add camel2dash option and default option (#21)",
+          "timestamp": "2022-07-13T16:13:19+08:00",
+          "tree_id": "9b87b6eb161fa1fc58aa2fd037faf201444da2bf",
+          "url": "https://github.com/speedy-js/speedy-native/commit/db6918e2992352ebfab7cec3b70449864334b6f3"
+        },
+        "date": 1657700216038,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 943,
+            "range": "±9.76%",
+            "unit": "ops/sec",
+            "extra": "76 samples"
           }
         ]
       }
