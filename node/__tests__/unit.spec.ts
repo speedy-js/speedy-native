@@ -8,7 +8,7 @@ import {transform} from '../lib';
 import * as process from "process";
 
 describe('speedy_napi_cases', function speedyTest() {
-    it('babel_import_transfrom with camel2DashComponentName default true', async () => {
+    it('babel_import_transfrom with camel2DashComponentName true', async () => {
         const code = `
 import React from "react";
 import ReactDOM from "react-dom";
@@ -71,6 +71,7 @@ ReactDOM.render(<Page / >, document.getElementById("root"));
                         },
                         lower: true,
                         ignoreStyleComponent: undefined,
+                        camel2DashComponentName: true
                     },
                     replaceJs: {
                         replaceExpr: (ident: string) => {
@@ -78,6 +79,7 @@ ReactDOM.render(<Page / >, document.getElementById("root"));
                         },
                         lower: true,
                         ignoreEsComponent: undefined,
+                        camel2DashComponentName: true
                     },
                 },
             ]
@@ -159,6 +161,7 @@ ReactDOM.render(<Page / >, document.getElementById("root"));
                         },
                         lower: true,
                         ignoreStyleComponent: undefined,
+                        camel2DashComponentName: true,
                     },
                     replaceJs: {
                         replaceExpr: (ident: string) => {
@@ -167,6 +170,7 @@ ReactDOM.render(<Page / >, document.getElementById("root"));
                         lower: true,
                         ignoreEsComponent: undefined,
                         transformToDefaultImport: false,
+                        camel2DashComponentName: true,
                     },
                 },
             ]
