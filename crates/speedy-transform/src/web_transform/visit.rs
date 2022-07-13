@@ -1,4 +1,4 @@
-use swc_ecma_ast::{Ident, JSXElement, JSXElementName, TsEntityName, TsTypeRef};
+use swc_ecma_ast::{Ident, ImportDecl, JSXElement, JSXElementName, TsEntityName, TsTypeRef};
 use swc_ecma_visit::Visit;
 use swc_ecma_visit::VisitWith;
 
@@ -14,6 +14,9 @@ pub struct IdentComponent {
 /// 增加 判断 jsx 所有引用的关系
 ///
 impl Visit for IdentComponent {
+  // need to skip import decl
+  fn visit_import_decl(&mut self, _: &ImportDecl) {}
+
   fn visit_jsx_element(&mut self, jsx: &JSXElement) {
     let mut compent_name = match &jsx.opening.name {
       JSXElementName::Ident(ident) => (ident.to_string(), ident.span.ctxt.as_u32()),
@@ -38,7 +41,7 @@ impl Visit for IdentComponent {
   fn visit_ts_type_ref(&mut self, ts_type: &TsTypeRef) {
     if let TsEntityName::Ident(ident) = &ts_type.type_name {
       self
-        .ident_list
+        .ts_type_ident_list
         .push((ident.sym.to_string(), ident.span.ctxt.as_u32()));
     }
   }

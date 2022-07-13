@@ -24,6 +24,7 @@ class Page extends React.Component<any,any> {
                 <Child/>
                 <AntButton>click me</AntButton>
                 <Input/>
+                <AutoComplete />
             </div>
         );
     }
@@ -51,6 +52,7 @@ class Page extends React.Component{
                 <Child/>
                 <AntButton>click me</AntButton>
                 <Input/>
+                <AutoComplete />
             </div>
         );
     }
@@ -114,6 +116,7 @@ class Page extends React.Component<any,any> {
                 <Child/>
                 <AntButton>click me</AntButton>
                 <Input/>
+                <AutoComplete />
             </div>
         );
     }
@@ -140,6 +143,89 @@ class Page extends React.Component{
                 <div>Page</div>
                 <Child/>
                 <AntButton>click me</AntButton>
+                <Input/>
+                <AutoComplete />
+            </div>
+        );
+    }
+}
+
+ReactDOM.render(<Page / >, document.getElementById("root"));
+        `;
+        console.time('babel_import_swc_transfrom');
+        process.env["rsdebug"] = "info";
+        const napi_res = transform.transformBabelImport(code, {
+            reatRuntime: true,
+            babelImport: [
+                {
+                    fromSource: 'antd',
+                    replaceCss: {
+                        replaceExpr: (ident: string) => {
+                            return `antd/es/${ident}/style/index.css`;
+                        },
+                        lower: true,
+                        ignoreStyleComponent: undefined,
+                        camel2DashComponentName: true,
+                    },
+                    replaceJs: {
+                        replaceExpr: (ident: string) => {
+                            return `antd/es/${ident}/index.js`;
+                        },
+                        lower: true,
+                        ignoreEsComponent: undefined,
+                        transformToDefaultImport: false,
+                        camel2DashComponentName: true,
+                    },
+                },
+            ]
+        })
+        console.timeEnd('babel_import_swc_transfrom');
+
+        // 执行同样的 babel 操作
+        console.time('babel_import_babeljs_transfrom');
+
+        const babel_res = babel_impl_bableimport(code, 'antd', `antd/es/{}/style/index.css`);
+        console.timeEnd('babel_import_babeljs_transfrom');
+
+        assert.equal(
+            target_code.replace(/\ +/g, '').replace(/[\r\n]/g, ''),
+            napi_res.code.replace(/\ +/g, '').replace(/[\r\n]/g, '')
+        );
+    });
+
+    it('babel_import_transfrom should tree shaking (ts_type and unused components)', async () => {
+        const code = `
+import React from "react";
+import ReactDOM from "react-dom";
+import { Input, AutoComplete, InputProps } from "antd";
+import Child from "./component/Child";
+
+class Page extends React.Component<InputProps,any> {
+    render() {
+        return (
+            <div className={"test"}>
+                <div>Page</div>
+                <Input/>
+            </div>
+        );
+    }
+}
+
+ReactDOM.render(<Page/>, document.getElementById("root"));
+`;
+
+        let target_code = `
+import "antd/es/input/style/index.css";
+import { Input } from "antd/es/input/index.js";
+import React from "react";
+import ReactDOM from "react-dom";
+import Child from "./component/Child";
+
+class Page extends React.Component{
+    render() {
+        return (
+            <div className={"test"}>
+                <div>Page</div>
                 <Input/>
             </div>
         );
