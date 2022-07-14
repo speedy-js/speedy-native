@@ -1,4 +1,4 @@
-use swc_ecma_ast::{Ident, ImportDecl, JSXElement, JSXElementName, TsEntityName, TsTypeRef};
+use swc_ecma_ast::{Ident, ImportDecl, JSXElement, JSXElementName, TsTypeRef};
 use swc_ecma_visit::Visit;
 use swc_ecma_visit::VisitWith;
 
@@ -6,7 +6,6 @@ use swc_ecma_visit::VisitWith;
 pub struct IdentComponent {
   pub component_name_jsx_ident: Vec<(String, u32)>,
   pub ident_list: Vec<(String, u32)>,
-  pub ts_type_ident_list: Vec<(String, u32)>,
 }
 
 ///
@@ -38,11 +37,5 @@ impl Visit for IdentComponent {
       .push((ident.sym.to_string(), ident.span.ctxt.as_u32()));
   }
 
-  fn visit_ts_type_ref(&mut self, ts_type: &TsTypeRef) {
-    if let TsEntityName::Ident(ident) = &ts_type.type_name {
-      self
-        .ts_type_ident_list
-        .push((ident.sym.to_string(), ident.span.ctxt.as_u32()));
-    }
-  }
+  fn visit_ts_type_ref(&mut self, _: &TsTypeRef) {}
 }
