@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1657771407207,
+  "lastUpdate": 1657772986897,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -2139,6 +2139,37 @@ window.BENCHMARK_DATA = {
             "range": "±13.10%",
             "unit": "ops/sec",
             "extra": "77 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "andywangsy@gmail.com",
+            "name": "h-a-n-a",
+            "username": "h-a-n-a"
+          },
+          "committer": {
+            "email": "andywangsy@gmail.com",
+            "name": "h-a-n-a",
+            "username": "h-a-n-a"
+          },
+          "distinct": true,
+          "id": "48c36d1b3ac39aa3d5dea3728a9b8479d4646ec6",
+          "message": "chore(release): publish",
+          "timestamp": "2022-07-14T12:25:33+08:00",
+          "tree_id": "a9a5ef671ec2ea5566cb8179de8febee46b6955a",
+          "url": "https://github.com/speedy-js/speedy-native/commit/48c36d1b3ac39aa3d5dea3728a9b8479d4646ec6"
+        },
+        "date": 1657772986082,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 745,
+            "range": "±11.19%",
+            "unit": "ops/sec",
+            "extra": "70 samples"
           }
         ]
       }
