@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1657770520717,
+  "lastUpdate": 1657771407207,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -2108,6 +2108,37 @@ window.BENCHMARK_DATA = {
             "range": "±12.09%",
             "unit": "ops/sec",
             "extra": "79 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "44369998+konicyQWQ@users.noreply.github.com",
+            "name": "Shi Meng",
+            "username": "konicyQWQ"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "169c3128e121f8e9e3ca26c218018ed368a2df6c",
+          "message": "fix(speedy-transform): tree-shaking and ignore ts_type (#22)",
+          "timestamp": "2022-07-14T11:59:56+08:00",
+          "tree_id": "c328e5259e70b882af0028259a81b268212f4f60",
+          "url": "https://github.com/speedy-js/speedy-native/commit/169c3128e121f8e9e3ca26c218018ed368a2df6c"
+        },
+        "date": 1657771406739,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 1250,
+            "range": "±13.10%",
+            "unit": "ops/sec",
+            "extra": "77 samples"
           }
         ]
       }
