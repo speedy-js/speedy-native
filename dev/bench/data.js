@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1657766823811,
+  "lastUpdate": 1657770480907,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -2054,6 +2054,33 @@ window.BENCHMARK_DATA = {
             "range": "±10.37%",
             "unit": "ops/sec",
             "extra": "83 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "speedy-js",
+            "username": "speedy-js"
+          },
+          "committer": {
+            "name": "speedy-js",
+            "username": "speedy-js"
+          },
+          "id": "e1f47733891f8aa3051ba1d9da6c9d1c9f4d6ed2",
+          "message": "fix(speedy-transform): tree-shaking and ignore ts_type",
+          "timestamp": "2022-07-07T07:22:53Z",
+          "url": "https://github.com/speedy-js/speedy-native/pull/22/commits/e1f47733891f8aa3051ba1d9da6c9d1c9f4d6ed2"
+        },
+        "date": 1657770479992,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 789,
+            "range": "±9.75%",
+            "unit": "ops/sec",
+            "extra": "75 samples"
           }
         ]
       }
