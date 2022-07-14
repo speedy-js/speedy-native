@@ -1,4 +1,5 @@
-use swc_ecma_ast::{Ident, ImportDecl, JSXElement, JSXElementName, TsTypeRef};
+use swc_ecma_ast::{Ident, ImportDecl, JSXElement, JSXElementName};
+use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::Visit;
 use swc_ecma_visit::VisitWith;
 
@@ -37,5 +38,5 @@ impl Visit for IdentComponent {
       .push((ident.sym.to_string(), ident.span.ctxt.as_u32()));
   }
 
-  fn visit_ts_type_ref(&mut self, _: &TsTypeRef) {}
+  noop_visit_type!();
 }
