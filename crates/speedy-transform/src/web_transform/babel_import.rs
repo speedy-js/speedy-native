@@ -27,7 +27,6 @@ pub fn transform_style(
   let mut visitor = IdentComponent {
     component_name_jsx_ident: vec![],
     ident_list: vec![],
-    ts_type_ident_list: vec![],
   };
   module.body.visit_with(&mut visitor);
 
@@ -35,8 +34,7 @@ pub fn transform_style(
     let name = idnet.to_string().replace("#0", "");
     let mark = idnet.span.ctxt.as_u32();
     let item = (name, mark);
-    visitor.component_name_jsx_ident.contains(&item)
-      || (visitor.ident_list.contains(&item) && !visitor.ts_type_ident_list.contains(&item))
+    visitor.component_name_jsx_ident.contains(&item) || visitor.ident_list.contains(&item)
   };
 
   if project_config.babel_import.is_none()
