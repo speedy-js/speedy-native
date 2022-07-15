@@ -278,6 +278,94 @@ ReactDOM.render(<Page / >, document.getElementById("root"));
             napi_res.code.replace(/\ +/g, '').replace(/[\r\n]/g, '')
         );
     });
+
+    it('babel_import_transfrom should track components ref correctly', async () => {
+        const code = `
+import React from "react";
+import ReactDOM from "react-dom";
+import { Radio, List } from "antd";
+
+const Item = List.Item; // ref List
+
+class Page extends React.Component<InputProps,any> {
+    render() {
+        return (
+            <div className={"test"}>
+                {/* ref Radio */}
+                <Radio.RadioGroup.RadioItem />
+                <Item />
+            </div>
+        );
+    }
+}
+
+ReactDOM.render(<Page/>, document.getElementById("root"));
+`;
+
+        let target_code = `
+import "antd/es/list/style/index.css";
+import "antd/es/radio/style/index.css";
+import { List } from "antd/es/list/index.js";
+import { Radio } from "antd/es/radio/index.js";
+import React from "react";
+import ReactDOM from "react-dom";
+
+const Item = List.Item;
+
+class Page extends React.Component{
+    render() {
+        return (
+            <div className={"test"}>
+                {}
+                <Radio.RadioGroup.RadioItem />
+                <Item />
+            </div>
+        );
+    }
+}
+
+ReactDOM.render(<Page / >, document.getElementById("root"));
+        `;
+        console.time('babel_import_swc_transfrom');
+        process.env["rsdebug"] = "info";
+        const napi_res = transform.transformBabelImport(code, {
+            reatRuntime: true,
+            babelImport: [
+                {
+                    fromSource: 'antd',
+                    replaceCss: {
+                        replaceExpr: (ident: string) => {
+                            return `antd/es/${ident}/style/index.css`;
+                        },
+                        lower: true,
+                        ignoreStyleComponent: undefined,
+                        camel2DashComponentName: true,
+                    },
+                    replaceJs: {
+                        replaceExpr: (ident: string) => {
+                            return `antd/es/${ident}/index.js`;
+                        },
+                        lower: true,
+                        ignoreEsComponent: undefined,
+                        transformToDefaultImport: false,
+                        camel2DashComponentName: true,
+                    },
+                },
+            ]
+        })
+        console.timeEnd('babel_import_swc_transfrom');
+
+        // 执行同样的 babel 操作
+        console.time('babel_import_babeljs_transfrom');
+
+        const babel_res = babel_impl_bableimport(code, 'antd', `antd/es/{}/style/index.css`);
+        console.timeEnd('babel_import_babeljs_transfrom');
+
+        assert.equal(
+            target_code.replace(/\ +/g, '').replace(/[\r\n]/g, ''),
+            napi_res.code.replace(/\ +/g, '').replace(/[\r\n]/g, '')
+        );
+    });
 });
 
 /*
