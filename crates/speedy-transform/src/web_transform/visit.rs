@@ -1,4 +1,4 @@
-use swc_ecma_ast::{Ident, ImportDecl, JSXElement, JSXElementName};
+use swc_ecma_ast::{Ident, ImportDecl, JSXElement, JSXElementName, JSXObject};
 use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::Visit;
 use swc_ecma_visit::VisitWith;
@@ -21,7 +21,19 @@ impl Visit for IdentComponent {
     let mut compent_name = match &jsx.opening.name {
       JSXElementName::Ident(ident) => (ident.to_string(), ident.span.ctxt.as_u32()),
       JSXElementName::JSXMemberExpr(member) => {
-        (member.prop.to_string(), member.prop.span.ctxt.as_u32())
+        let mut obj = &member.obj;
+        let real_ident;
+        loop {
+          match obj {
+            JSXObject::JSXMemberExpr(next) => obj = &next.obj,
+            JSXObject::Ident(ident) => {
+              real_ident = ident;
+              break;
+            }
+          }
+        }
+
+        (real_ident.to_string(), real_ident.span.ctxt.as_u32())
       }
       JSXElementName::JSXNamespacedName(space) => {
         (space.name.to_string(), space.name.span.ctxt.as_u32())

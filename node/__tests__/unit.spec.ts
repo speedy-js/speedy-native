@@ -197,7 +197,7 @@ ReactDOM.render(<Page / >, document.getElementById("root"));
         const code = `
 import React from "react";
 import ReactDOM from "react-dom";
-import { Input, AutoComplete, InputProps } from "antd";
+import { Input, AutoComplete, InputProps, Radio } from "antd";
 import Child from "./component/Child";
 
 class Page extends React.Component<InputProps,any> {
@@ -206,6 +206,7 @@ class Page extends React.Component<InputProps,any> {
             <div className={"test"}>
                 <div>Page</div>
                 <Input/>
+                <Radio.Group />
             </div>
         );
     }
@@ -215,7 +216,9 @@ ReactDOM.render(<Page/>, document.getElementById("root"));
 `;
 
         let target_code = `
+import "antd/es/radio/style/index.css";
 import "antd/es/input/style/index.css";
+import { Radio } from "antd/es/radio/index.js";
 import { Input } from "antd/es/input/index.js";
 import React from "react";
 import ReactDOM from "react-dom";
@@ -227,6 +230,7 @@ class Page extends React.Component{
             <div className={"test"}>
                 <div>Page</div>
                 <Input/>
+                <Radio.Group />
             </div>
         );
     }
