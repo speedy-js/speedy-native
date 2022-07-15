@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1657871112026,
+  "lastUpdate": 1657871996747,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -2224,6 +2224,37 @@ window.BENCHMARK_DATA = {
             "range": "±12.00%",
             "unit": "ops/sec",
             "extra": "75 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "44369998+konicyQWQ@users.noreply.github.com",
+            "name": "Shi Meng",
+            "username": "konicyQWQ"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1581498971dd869631cd7c3add7b5897b0670695",
+          "message": "fix(speedy-transform): fix jsx_element name track  and add test case(#23)",
+          "timestamp": "2022-07-15T15:55:19+08:00",
+          "tree_id": "bbab9e7997d0e3d35a934d9b185cba2964475766",
+          "url": "https://github.com/speedy-js/speedy-native/commit/1581498971dd869631cd7c3add7b5897b0670695"
+        },
+        "date": 1657871994795,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 669,
+            "range": "±10.02%",
+            "unit": "ops/sec",
+            "extra": "67 samples"
           }
         ]
       }
