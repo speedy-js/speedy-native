@@ -35,5 +35,6 @@
   "bugs": {
     "url": "https://github.com/speedy-js/speedy-native/issues"
   },
-  "homepage": "https://github.com/speedy-js/speedy-native#readme"
+  "homepage": "https://github.com/speedy-js/speedy-native#readme",
+  "packageManager": "pnpm@6.33.1"
 }

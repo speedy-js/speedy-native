@@ -1,27 +1,28 @@
 import { Suite } from 'benchmark'
 import chalk from 'chalk'
 
-import { parse } from '@babel/parser'
-import traverse from '@babel/traverse'
-import generate from '@babel/generator'
-import { Program } from '@babel/types'
-
+import { transformSync } from '@babel/core'
 import { transform } from '../node/lib'
 
 const code = `
 import React from "react";
 import ReactDOM from "react-dom";
-import { Button, Input } from "antd";
+import { Input, AutoComplete, InputProps, Radio } from "antd";
+import { Button as AntButton } from "antd";
+import { List } from "antd";
 import Child from "./component/Child";
 
-class Page extends React.Component<any,any> {
+const Item = List.Item;
+
+class Page extends React.Component<InputProps,any> {
     render() {
         return (
             <div className={"test"}>
                 <div>Page</div>
-                <Child/>
-                <Button>click me</Button>
                 <Input/>
+                <AntButton>Button</AntButton>
+                <Radio.Group />
+                <Item />
             </div>
         );
     }
@@ -30,68 +31,38 @@ class Page extends React.Component<any,any> {
 ReactDOM.render(<Page/>, document.getElementById("root"));
 `
 
-function babelImport(code: string, lib: string, expr: string) {
-  const ast = parse(code, {
-    sourceType: 'module',
-    sourceFilename: undefined,
-    plugins: [
-      'typescript',
-      'jsx',
-      'decorators-legacy',
-      'classProperties',
-      'bigInt',
-      'importMeta',
-      'optionalChaining',
-      'nullishCoalescingOperator',
-      'importMeta',
-      'optionalCatchBinding',
-    ],
-  })
-
-  let pro: Program
-  traverse(ast, {
-    enter(path) {
-      if (path.isProgram()) {
-        pro = path.node
-      }
-      const isMatch = (source: string) => {
-        return lib == source
-      }
-      if (path.isImportDeclaration() && isMatch(path.node.source.value)) {
-        const origin_names = path.node.specifiers.map((p) => {
-          return expr.replace('{}', p.local.name)
-        })
-        origin_names.forEach((style_source) => {
-          pro.body.unshift({
-            type: 'ImportDeclaration',
-            specifiers: [],
-            source: {
-              type: 'StringLiteral',
-              extra: {
-                rawValue: style_source,
-                raw: `'${style_source}'`,
-              },
-              value: style_source,
-            },
-          } as any)
-        })
-      }
-    },
-  })
-
-  const res = generate(
-    ast,
-    { sourceMaps: true, sourceFileName: 'test.js' },
-    code
-  )
-  return res
-}
-
 const suite = new Suite('transform import')
 
 suite
   .add('Babel', () => {
-    babelImport(code, 'antd', `antd/es/{}/style/index.css`)
+    transformSync(code, {
+      parserOpts: {
+        sourceType: 'module',
+        sourceFilename: undefined,
+        plugins: [
+          'typescript',
+          'jsx',
+          'decorators-legacy',
+          'classProperties',
+          'bigInt',
+          'importMeta',
+          'optionalChaining',
+          'nullishCoalescingOperator',
+          'importMeta',
+          'optionalCatchBinding',
+        ],
+      },
+      plugins: [
+        ['babel-plugin-import', {
+          "libraryName": "antd",
+          "style": true,
+        }]
+      ],
+      generatorOpts: {
+        sourceMaps: true,
+        sourceFileName: 'test.ts'
+      }
+    })
   })
   .add('Rust', () => {
     transform.transformBabelImport(code, {
@@ -100,18 +71,18 @@ suite
         {
           fromSource: 'antd',
           replaceCss: {
-            replaceExpr: 'antd/es/{}/style/index.css',
-            lower: true,
+            camel2DashComponentName: true,
+            replaceExpr: name => `antd/es/${name}/style/index.css`,
             ignoreStyleComponent: undefined,
           },
           replaceJs: {
-            replaceExpr: 'antd/es/{}/index.js',
-            lower: true,
+            camel2DashComponentName: true,
+            replaceExpr: name => `antd/es/${name}/index.js`,
             ignoreEsComponent: undefined,
           },
         },
       ],
-    })
+    }).code;
   })
   .on('cycle', function (event: Event) {
     console.info(String(event.target))
