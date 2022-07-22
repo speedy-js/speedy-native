@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1658372055743,
+  "lastUpdate": 1658457410044,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -2318,6 +2318,44 @@ window.BENCHMARK_DATA = {
             "name": "Rust",
             "value": 9724,
             "range": "±0.42%",
+            "unit": "ops/sec",
+            "extra": "93 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "44369998+konicyQWQ@users.noreply.github.com",
+            "name": "Shi Meng",
+            "username": "konicyQWQ"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "9ebc570f0150d3687658bd1f43c09336406b9e8d",
+          "message": "fix(speedy-transform): benchmark fix and compare with babel-plugin-import (#24)",
+          "timestamp": "2022-07-22T10:33:11+08:00",
+          "tree_id": "86df386bd60f08b23805d401070ba5075b9a2f5c",
+          "url": "https://github.com/speedy-js/speedy-native/commit/9ebc570f0150d3687658bd1f43c09336406b9e8d"
+        },
+        "date": 1658457409434,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 447,
+            "range": "±7.83%",
+            "unit": "ops/sec",
+            "extra": "75 samples"
+          },
+          {
+            "name": "Rust",
+            "value": 9855,
+            "range": "±0.74%",
             "unit": "ops/sec",
             "extra": "93 samples"
           }
