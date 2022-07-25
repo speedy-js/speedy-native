@@ -1,3 +1,6 @@
+use std::collections::HashSet;
+
+use swc_common::util::take::Take;
 use swc_ecma_ast::{BlockStmt, Expr, Module};
 use swc_ecma_visit::{VisitMut, VisitMutWith};
 
@@ -9,30 +12,41 @@ struct RmCallStmt {
 
 impl VisitMut for RmCallStmt {
   fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
-    let mut rm_idx = vec![];
+    let mut rm_idx_set = HashSet::new();
     for (idx, stmt) in n.stmts.iter().enumerate() {
       if let Some(Some(call_expr)) = stmt.as_expr().map(|expr_stmt| expr_stmt.expr.as_call()) {
-        if let Some(callee) = call_expr.callee.as_expr() {
+        call_expr.callee.as_expr().and_then(|callee| {
           let callee_name = match callee.as_ref() {
-            Expr::Member(member) => member
-              .prop
-              .as_ident()
-              .map_or("".to_string(), |ident| ident.sym.to_string()),
-            Expr::Ident(ident) => ident.sym.to_string(),
-            _ => "".to_string(),
+            Expr::Member(member) => member.prop.as_ident()?.sym.clone(),
+            Expr::Ident(ident) => ident.sym.clone(),
+            _ => return None,
           };
 
-          if self.rm_calls.iter().any(|x| x == &callee_name) {
-            rm_idx.push(idx);
+          if self
+            .rm_calls
+            .iter()
+            .any(|x| x.as_str() == callee_name.as_ref())
+          {
+            rm_idx_set.insert(idx);
           }
-        }
+          Some(())
+        });
       }
     }
-    let mut index: usize = 0;
-    while let Some(i) = rm_idx.get(index) {
-      let rm_index = *i - index;
-      n.stmts.remove(rm_index);
-      index += 1;
+    if !rm_idx_set.is_empty() {
+      n.stmts = n
+        .stmts
+        .take()
+        .into_iter()
+        .enumerate()
+        .filter_map(|(idx, stmt)| {
+          if rm_idx_set.contains(&idx) {
+            None
+          } else {
+            Some(stmt)
+          }
+        })
+        .collect();
     }
   }
 }
