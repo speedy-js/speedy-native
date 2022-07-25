@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1658742642317,
+  "lastUpdate": 1658743413815,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -2392,6 +2392,44 @@ window.BENCHMARK_DATA = {
             "range": "±0.52%",
             "unit": "ops/sec",
             "extra": "95 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zsj439453290@126.com",
+            "name": "zhushijie",
+            "username": "zhusjfaker"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "8e5e0b15c92b152f2302e92f254b9877f0d2ff72",
+          "message": "Merge pull request #25 from speedy-js/feat-rm-callstmt\n\nfeat: add remove callexpr statement option",
+          "timestamp": "2022-07-25T17:59:49+08:00",
+          "tree_id": "71960802b3b201d4d7c58a239dfad67434ed0bec",
+          "url": "https://github.com/speedy-js/speedy-native/commit/8e5e0b15c92b152f2302e92f254b9877f0d2ff72"
+        },
+        "date": 1658743412951,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 460,
+            "range": "±10.15%",
+            "unit": "ops/sec",
+            "extra": "77 samples"
+          },
+          {
+            "name": "Rust",
+            "value": 9998,
+            "range": "±0.51%",
+            "unit": "ops/sec",
+            "extra": "94 samples"
           }
         ]
       }
