@@ -5,6 +5,7 @@ import traverse from '@babel/traverse';
 import generate from '@babel/generator';
 import {Program} from '@babel/types';
 import {transform} from '../lib';
+import { SourceMapConsumer } from 'source-map';
 import * as process from "process";
 
 describe('speedy_napi_cases', function speedyTest() {
@@ -367,25 +368,23 @@ ReactDOM.render(<Page / >, document.getElementById("root"));
         );
     });
 
-    it('remove_call_transform should work', async () => {
+    it('remove_call_transform should work with simple case', async () => {
         let code = `
 import React from 'react';
 import ReactDOM from "react-dom";
 import { useEffect } from 'react';
-import { useCustom } from '@/hooks'
 
 function App() {
-    const [num, setNum] = useState(1);
+    const [num, setNum] = React.useState(1);
+    React.useState(2);
     
     React.useEffect(() => {
         setNum(2);
-    }, [])
+    }, []);
 
     useEffect(() => {
         setNum(3);
     }, []);
-
-    useCustom();
 
     return <div>{num}</div>;
 }
@@ -396,10 +395,10 @@ ReactDOM.render(<Page/>, document.getElementById("root"));
 import React from "react";
 import ReactDOM from "react-dom";
 import { useEffect } from "react";
-import { useCustom } from "@/hooks";
 
 function App() {
-    const [num, setNum] = useState(1);
+    const [num, setNum] = React.useState(1);
+    React.useState(2);
 
     return <div>{num}</div>;
 }
@@ -408,13 +407,153 @@ ReactDOM.render(<Page/>, document.getElementById("root"));
 `;
 
         const napi_res = transform.transformBabelImport(code, {
-            removeCall: ['useEffect', 'useCustom']
+            removeUseEffect: true,
         })
 
         assert.equal(
             target_code.replace(/\ +/g, '').replace(/[\r\n]/g, ''),
             napi_res.code.replace(/\ +/g, '').replace(/[\r\n]/g, '')
         );
+    })
+
+    it('remove_call_transform should work with complex case', async () => {
+        let code = `
+import Recta from 'react';
+import ReactDOM from "react-dom";
+import { useEffect as effectUse } from 'react';
+
+function useEffect() {
+    console.log("not delete");
+}
+
+{
+    useEffect();
+}
+
+function App() {
+    const [num, setNum] = Recta.useState(1);
+    Recta.useState(1);
+    
+    Recta.useEffect(() => {
+        setNum(2);
+    }, []);
+
+    effectUse(() => {
+        setNum(3);
+    }, []);
+
+    {
+        const useEffect = () => 2;
+        const effectUse = () => 1;
+        useEffect();
+        effectUse();
+    }
+
+    return <div>{num}</div>;
+}
+ReactDOM.render(<Page/>, document.getElementById("root"));
+`;
+
+        let target_code = `
+import Recta from "react";
+import ReactDOM from "react-dom";
+import { useEffect as effectUse } from "react";
+
+function useEffect() {
+    console.log("not delete");
+}
+
+{
+    useEffect();
+}
+
+function App() {
+    const [num, setNum] = Recta.useState(1);
+    Recta.useState(1);
+
+    {
+        const useEffect = () => 2;
+        const effectUse = () => 1;
+        useEffect();
+        effectUse();
+    }
+
+    return <div>{num}</div>;
+}
+
+ReactDOM.render(<Page/>, document.getElementById("root"));
+`;
+
+        const napi_res = transform.transformBabelImport(code, {
+            removeUseEffect: true,
+        })
+
+        assert.equal(
+            target_code.replace(/\ +/g, '').replace(/[\r\n]/g, ''),
+            napi_res.code.replace(/\ +/g, '').replace(/[\r\n]/g, '')
+        );
+    })
+
+    it(`remove_call source map test`, async () => {
+        let code = `
+import React from "react";
+import ReactDOM from "react-dom";
+import { useEffect } from 'react';
+
+function App() {
+    const [num, setNum] = React.useState(1);
+    
+    React.useEffect(() => {
+        setNum(2);
+    }, []);
+
+    useEffect(() => {
+        setNum(3);
+    }, []);
+
+    return (
+        <div>{num}</div>
+    );
+}
+ReactDOM.render(<Page/>, document.getElementById("root"));
+`;
+
+        let target_code = `import React from "react";
+import ReactDOM from "react-dom";
+import { useEffect } from "react";
+function App() {
+    const [num, setNum] = React.useState(1);
+    return (<div >{num}</div>);
+}
+ReactDOM.render(<Page />, document.getElementById("root"));
+`;
+
+        const napi_res = transform.transformBabelImport(code, {
+            removeUseEffect: true
+        });
+
+        const consumer = await new SourceMapConsumer(napi_res.map as any);
+
+        const position1 = consumer.originalPositionFor({
+            line: 5,
+            column: 4
+        })
+        const position2 = consumer.originalPositionFor({
+            line: 6,
+            column: 12
+        })
+        const position3 = consumer.originalPositionFor({
+            line: 8,
+            column: 1
+        })
+
+        assert.equal(napi_res.code, target_code);
+        assert.equal(position1.line, 7);
+        assert.equal(position1.column, 4);
+        assert.equal(position2.line, 17);
+        assert.equal(position2.column, 4);
+        assert.equal(position3.line, 21);
+        assert.equal(position3.column, 0);
     })
 });
 

@@ -1,7 +1,7 @@
 use crate::types::TransformConfig;
 use crate::web_transform::babel_import::transform_style;
 use crate::web_transform::react::transform_perfixreact;
-use crate::web_transform::remove_call::remove_call;
+use crate::web_transform::remove_effect::remove_call;
 use napi::Env;
 use swc::config::SourceMapsConfig;
 use swc::{Compiler, TransformOutput};

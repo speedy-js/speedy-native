@@ -8,7 +8,7 @@ export interface TransformOutput {
   map?: string | undefined | null
 }
 export interface TransformConfig {
-  removeCall?: Array<string> | undefined | null
+  removeUseEffect?: boolean | undefined | null
   reactRuntime?: boolean | undefined | null
   babelImport?: Array<BabelImportConfig> | undefined | null
 }
