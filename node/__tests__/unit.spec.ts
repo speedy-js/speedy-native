@@ -366,6 +366,56 @@ ReactDOM.render(<Page / >, document.getElementById("root"));
             napi_res.code.replace(/\ +/g, '').replace(/[\r\n]/g, '')
         );
     });
+
+    it('remove_call_transform should work', async () => {
+        let code = `
+import React from 'react';
+import ReactDOM from "react-dom";
+import { useEffect } from 'react';
+import { useCustom } from '@/hooks'
+
+function App() {
+    const [num, setNum] = useState(1);
+    
+    React.useEffect(() => {
+        setNum(2);
+    }, [])
+
+    useEffect(() => {
+        setNum(3);
+    }, []);
+
+    useCustom();
+
+    return <div>{num}</div>;
+}
+ReactDOM.render(<Page/>, document.getElementById("root"));
+`;
+
+        let target_code = `
+import React from "react";
+import ReactDOM from "react-dom";
+import { useEffect } from "react";
+import { useCustom } from "@/hooks";
+
+function App() {
+    const [num, setNum] = useState(1);
+
+    return <div>{num}</div>;
+}
+
+ReactDOM.render(<Page/>, document.getElementById("root"));
+`;
+
+        const napi_res = transform.transformBabelImport(code, {
+            removeCall: ['useEffect', 'useCustom']
+        })
+
+        assert.equal(
+            target_code.replace(/\ +/g, '').replace(/[\r\n]/g, ''),
+            napi_res.code.replace(/\ +/g, '').replace(/[\r\n]/g, '')
+        );
+    })
 });
 
 /*

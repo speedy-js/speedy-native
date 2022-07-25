@@ -1,6 +1,7 @@
 use crate::types::TransformConfig;
 use crate::web_transform::babel_import::transform_style;
 use crate::web_transform::react::transform_perfixreact;
+use crate::web_transform::remove_call::remove_call;
 use napi::Env;
 use swc::config::SourceMapsConfig;
 use swc::{Compiler, TransformOutput};
@@ -57,6 +58,7 @@ pub fn transform(
 
   transform_style(env, &mut module, &config);
   transform_perfixreact(&mut module, &config, code);
+  remove_call(&mut module, &config);
 
   let target_ref = target.unwrap_or_else(|| "".to_string());
   let swc_target = match target_ref.as_str() {
