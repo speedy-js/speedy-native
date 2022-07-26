@@ -11,7 +11,7 @@ pub struct TransformOutput {
 #[napi(object)]
 #[derive(Serialize)]
 pub struct TransformConfig {
-  pub remove_useEffect: Option<bool>,
+  pub remove_use_effect: Option<bool>,
   pub react_runtime: Option<bool>,
   pub babel_import: Option<Vec<BabelImportConfig>>,
 }

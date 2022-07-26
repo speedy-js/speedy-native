@@ -7,9 +7,11 @@ use swc_ecma_visit::{VisitMut, VisitMutWith};
 use crate::types::TransformConfig;
 
 struct RmUseEffect {
-  useEffect_mark: Option<Id>, // used for remove useEffect()
-  react_mark: Option<Id>,     // used for remove React.useEffect()
+  use_effect_mark: Option<Id>, // used for remove useEffect()
+  react_mark: Option<Id>,      // used for remove React.useEffect()
 }
+
+const USE_EFFECT_STR: &str = "useEffect";
 
 impl VisitMut for RmUseEffect {
   fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
@@ -23,7 +25,7 @@ impl VisitMut for RmUseEffect {
               member.obj.as_ref().as_ident().and_then(|obj_ident| {
                 member.prop.as_ident().and_then(|prop_ident| {
                   if self.react_mark.eq(&Some(obj_ident.to_id()))
-                    && prop_ident.clone().as_ref() == "useEffect"
+                    && prop_ident.as_ref() == USE_EFFECT_STR
                   {
                     rm_idx_set.insert(idx);
                   };
@@ -33,7 +35,7 @@ impl VisitMut for RmUseEffect {
             }
             Expr::Ident(ident) => {
               // check useEffect call
-              if self.useEffect_mark.eq(&Some(ident.to_id())) {
+              if self.use_effect_mark.eq(&Some(ident.to_id())) {
                 rm_idx_set.insert(idx);
               }
             }
@@ -62,13 +64,13 @@ impl VisitMut for RmUseEffect {
 }
 
 pub fn remove_call(module: &mut Module, config: &TransformConfig) {
-  if config.remove_useEffect.is_none() || !config.remove_useEffect.unwrap() {
+  if config.remove_use_effect.is_none() || !config.remove_use_effect.unwrap() {
     return;
   }
 
   let mut visitor = RmUseEffect {
     react_mark: None,
-    useEffect_mark: None,
+    use_effect_mark: None,
   };
   for item in &module.body {
     if let ModuleItem::ModuleDecl(ModuleDecl::Import(var)) = item {
@@ -80,18 +82,18 @@ pub fn remove_call(module: &mut Module, config: &TransformConfig) {
               match &named.imported {
                 Some(imported) => {
                   let imported_name = match imported {
-                    ModuleExportName::Ident(ident) => ident.sym.clone(),
-                    ModuleExportName::Str(str) => str.value.clone(),
+                    ModuleExportName::Ident(ident) => &ident.sym,
+                    ModuleExportName::Str(str) => &str.value,
                   };
-                  if imported_name.as_ref() == "useEffect" {
+                  if imported_name.as_ref() == USE_EFFECT_STR {
                     // import { useEffect as ??? } from 'react'
-                    visitor.useEffect_mark = Some(named.local.to_id())
+                    visitor.use_effect_mark = Some(named.local.to_id())
                   }
                 }
                 None => {
-                  if named.local.sym.clone().as_ref() == "useEffect" {
+                  if named.local.sym.as_ref() == USE_EFFECT_STR {
                     // import { useEffect } from 'react'
-                    visitor.useEffect_mark = Some(named.local.to_id())
+                    visitor.use_effect_mark = Some(named.local.to_id())
                   }
                 }
               }
