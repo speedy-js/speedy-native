@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1658746754206,
+  "lastUpdate": 1658802658505,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -2498,6 +2498,44 @@ window.BENCHMARK_DATA = {
             "range": "±0.62%",
             "unit": "ops/sec",
             "extra": "87 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "iwanabethatguy@qq.com",
+            "name": "IWANABETHATGUY",
+            "username": "IWANABETHATGUY"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "806df503ef04cc16ce0151f7653bdbf4334a507f",
+          "message": "Merge pull request #26 from speedy-js/refactor/remove-callexpr\n\nrefactor(speedy-transform): 🎸 remove_callexpr refactor and optimize",
+          "timestamp": "2022-07-26T10:26:35+08:00",
+          "tree_id": "8d1a06916616af51ce590cb131d407f799800147",
+          "url": "https://github.com/speedy-js/speedy-native/commit/806df503ef04cc16ce0151f7653bdbf4334a507f"
+        },
+        "date": 1658802656561,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 345,
+            "range": "±5.29%",
+            "unit": "ops/sec",
+            "extra": "69 samples"
+          },
+          {
+            "name": "Rust",
+            "value": 6612,
+            "range": "±1.72%",
+            "unit": "ops/sec",
+            "extra": "84 samples"
           }
         ]
       }
