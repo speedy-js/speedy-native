@@ -1,14 +1,14 @@
 use std::collections::HashSet;
 
 use swc_common::util::take::Take;
-use swc_ecma_ast::{BlockStmt, Expr, Module, ModuleDecl, ModuleExportName, ModuleItem};
+use swc_ecma_ast::{BlockStmt, Expr, Id, Module, ModuleDecl, ModuleExportName, ModuleItem};
 use swc_ecma_visit::{VisitMut, VisitMutWith};
 
 use crate::types::TransformConfig;
 
 struct RmUseEffect {
-  useEffect_mark: Option<(String, u32)>, // used for remove useEffect()
-  react_mark: Option<(String, u32)>,     // used for remove React.useEffect()
+  useEffect_mark: Option<Id>, // used for remove useEffect()
+  react_mark: Option<Id>,     // used for remove React.useEffect()
 }
 
 impl VisitMut for RmUseEffect {
@@ -22,14 +22,7 @@ impl VisitMut for RmUseEffect {
               // check React.useEffect call
               member.obj.as_ref().as_ident().and_then(|obj_ident| {
                 member.prop.as_ident().and_then(|prop_ident| {
-                  if self
-                    .react_mark
-                    .as_ref()
-                    .map(|mark| (mark.0.as_str(), mark.1))
-                    .eq(&Some((
-                      obj_ident.sym.clone().as_ref(),
-                      obj_ident.span.ctxt.as_u32(),
-                    )))
+                  if self.react_mark.eq(&Some(obj_ident.to_id()))
                     && prop_ident.clone().as_ref() == "useEffect"
                   {
                     rm_idx_set.insert(idx);
@@ -40,15 +33,7 @@ impl VisitMut for RmUseEffect {
             }
             Expr::Ident(ident) => {
               // check useEffect call
-              if self
-                .useEffect_mark
-                .as_ref()
-                .map(|mark| (mark.0.as_str(), mark.1))
-                .eq(&Some((
-                  ident.sym.clone().as_ref(),
-                  ident.span.ctxt.as_u32(),
-                )))
-              {
+              if self.useEffect_mark.eq(&Some(ident.to_id())) {
                 rm_idx_set.insert(idx);
               }
             }
@@ -100,25 +85,20 @@ pub fn remove_call(module: &mut Module, config: &TransformConfig) {
                   };
                   if imported_name.as_ref() == "useEffect" {
                     // import { useEffect as ??? } from 'react'
-                    visitor.useEffect_mark =
-                      Some((named.local.sym.to_string(), named.local.span.ctxt.as_u32()));
+                    visitor.useEffect_mark = Some(named.local.to_id())
                   }
                 }
                 None => {
                   if named.local.sym.clone().as_ref() == "useEffect" {
                     // import { useEffect } from 'react'
-                    visitor.useEffect_mark =
-                      Some((named.local.sym.to_string(), named.local.span.ctxt.as_u32()));
+                    visitor.useEffect_mark = Some(named.local.to_id())
                   }
                 }
               }
             }
             swc_ecma_ast::ImportSpecifier::Default(default) => {
               // import ??? from 'react'
-              visitor.react_mark = Some((
-                default.local.sym.to_string(),
-                default.local.span.ctxt.as_u32(),
-              ));
+              visitor.react_mark = Some(default.local.to_id());
             }
             _ => {}
           }
