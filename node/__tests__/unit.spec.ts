@@ -9,6 +9,57 @@ import { SourceMapConsumer } from 'source-map';
 import * as process from "process";
 
 describe('speedy_napi_cases', function speedyTest() {
+    it('test', async () => {
+        const code = `
+import { InputProps, Button } from "antd";
+
+{
+    let InputProps = 1;
+    console.log(InputProps);
+}
+
+function App(props: InputProps) {}
+`;
+
+        let target_code = `
+import { InputProps } from "antd";
+{
+    let InputProps = 1;
+    console.log(InputProps);
+}
+
+function App(props: InputProps) {}
+`;
+        const napi_res = transform.transformBabelImport(code, {
+            babelImport: [
+                {
+                    fromSource: 'antd',
+                    replaceCss: {
+                        replaceExpr: (ident: string) => {
+                            return `antd/es/${ident}/style/index.css`;
+                        },
+                        lower: true,
+                        ignoreStyleComponent: undefined,
+                        camel2DashComponentName: true
+                    },
+                    replaceJs: {
+                        replaceExpr: (ident: string) => {
+                            return `antd/es/${ident}/index.js`;
+                        },
+                        lower: true,
+                        ignoreEsComponent: undefined,
+                        camel2DashComponentName: true
+                    },
+                },
+            ]
+        });
+
+        assert.equal(
+            target_code.replace(/\ +/g, '').replace(/[\r\n]/g, ''),
+            napi_res.code.replace(/\ +/g, '').replace(/[\r\n]/g, '')
+        );
+    });
+
     it('babel_import_transfrom with camel2DashComponentName true', async () => {
         const code = `
 import React from "react";
@@ -223,6 +274,7 @@ import { Radio } from "antd/es/radio/index.js";
 import { Input } from "antd/es/input/index.js";
 import React from "react";
 import ReactDOM from "react-dom";
+import { InputProps } from "antd";
 import Child from "./component/Child";
 
 class Page extends React.Component{
