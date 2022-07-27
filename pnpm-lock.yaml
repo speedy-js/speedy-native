@@ -17,6 +17,7 @@ importers:
       esbuild: ^0.14.8
       mocha: 9.1.3
       prettier: 2.5.1
+      source-map: ^0.7.4
       suno: '*'
       ts-node: 10.4.0
       typescript: 4.4.4
@@ -34,6 +35,7 @@ importers:
       esbuild: 0.14.49
       mocha: 9.1.3
       prettier: 2.5.1
+      source-map: 0.7.4
       suno: 0.0.1
       ts-node: 10.4.0_1e613d4912436927b18b6995a7885e38
       typescript: 4.4.4
@@ -1451,6 +1453,11 @@ packages:
   /source-map/0.6.1:
     resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==}
     engines: {node: '>=0.10.0'}
+    dev: true
+
+  /source-map/0.7.4:
+    resolution: {integrity: sha512-l3BikUxvPOcn5E74dZiq5BGsTb5yEwhaTSzccU6t4sDOH8NWJCstKO5QT2CvtFoK6F0saL7p9xHAqHOlCPJygA==}
+    engines: {node: '>= 8'}
     dev: true
 
   /string-width/4.2.3:
