@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1658902683235,
+  "lastUpdate": 1658909445202,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -2740,6 +2740,44 @@ window.BENCHMARK_DATA = {
             "range": "±0.28%",
             "unit": "ops/sec",
             "extra": "93 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "44369998+konicyQWQ@users.noreply.github.com",
+            "name": "Shi Meng",
+            "username": "konicyQWQ"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "86911621e2b77cc74d0bf433b94059efd4914aac",
+          "message": "fix: remove callexpr statement bind analyze (#27)\n\n* fix: remove callexpr statement add bind analyze\r\n\r\n* fix: ident use to_id\r\n\r\n* fix: Redundant clone and snake_case, make useEffect const\r\n\r\n* fix: call resolver first, and add a new test case\r\n\r\n* fix: clear mark",
+          "timestamp": "2022-07-27T16:07:02+08:00",
+          "tree_id": "69c8623aa01c39c049144bf2f941c6e877c77db0",
+          "url": "https://github.com/speedy-js/speedy-native/commit/86911621e2b77cc74d0bf433b94059efd4914aac"
+        },
+        "date": 1658909444423,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 504,
+            "range": "±4.26%",
+            "unit": "ops/sec",
+            "extra": "77 samples"
+          },
+          {
+            "name": "Rust",
+            "value": 9975,
+            "range": "±0.40%",
+            "unit": "ops/sec",
+            "extra": "95 samples"
           }
         ]
       }
