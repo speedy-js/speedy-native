@@ -1,7 +1,8 @@
 use std::collections::HashSet;
 
-use swc_common::util::take::Take;
+use swc_common::{util::take::Take, Mark};
 use swc_ecma_ast::{BlockStmt, Expr, Id, Module, ModuleDecl, ModuleExportName, ModuleItem};
+use swc_ecma_transforms::resolver;
 use swc_ecma_visit::{VisitMut, VisitMutWith};
 
 use crate::types::TransformConfig;
@@ -60,6 +61,7 @@ impl VisitMut for RmUseEffect {
         })
         .collect();
     }
+    n.stmts.visit_mut_with(self);
   }
 }
 
@@ -67,6 +69,10 @@ pub fn remove_call(module: &mut Module, config: &TransformConfig) {
   if config.remove_use_effect.is_none() || !config.remove_use_effect.unwrap() {
     return;
   }
+
+  swc_common::GLOBALS.set(&swc_common::Globals::new(), || {
+    module.visit_mut_with(&mut resolver(Mark::new(), Mark::new(), false));
+  });
 
   let mut visitor = RmUseEffect {
     react_mark: None,

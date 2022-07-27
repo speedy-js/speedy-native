@@ -443,6 +443,12 @@ function App() {
     }, []);
 
     {
+        effectUse(() => {
+            setNum(4);
+        }, []);
+    }
+
+    {
         const useEffect = () => 2;
         const effectUse = () => 1;
         useEffect();
@@ -471,6 +477,8 @@ function App() {
     const [num, setNum] = Recta.useState(1);
     Recta.useState(1);
 
+    {}
+
     {
         const useEffect = () => 2;
         const effectUse = () => 1;
@@ -482,6 +490,39 @@ function App() {
 }
 
 ReactDOM.render(<Page/>, document.getElementById("root"));
+`;
+
+        const napi_res = transform.transformBabelImport(code, {
+            removeUseEffect: true,
+        })
+
+        assert.equal(
+            target_code.replace(/\ +/g, '').replace(/[\r\n]/g, ''),
+            napi_res.code.replace(/\ +/g, '').replace(/[\r\n]/g, '')
+        );
+    })
+    
+    it(`remove_call_transform should work correctly among scope`, async () => {
+        // https://github.com/speedy-js/speedy-native/pull/27#issuecomment-1195278186
+        let code = `
+import { useEffect } from 'react';
+
+{
+    const useEffect = () => {}
+    useEffect()
+}
+
+function App() {
+    useEffect()
+}`;
+
+        let target_code = `
+import { useEffect } from "react";
+{
+    const useEffect = ()=>{};
+    useEffect();
+}
+function App() {}
 `;
 
         const napi_res = transform.transformBabelImport(code, {
