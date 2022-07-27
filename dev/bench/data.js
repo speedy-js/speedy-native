@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1658824240011,
+  "lastUpdate": 1658888492627,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -2672,6 +2672,40 @@ window.BENCHMARK_DATA = {
             "range": "±1.37%",
             "unit": "ops/sec",
             "extra": "88 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "speedy-js",
+            "username": "speedy-js"
+          },
+          "committer": {
+            "name": "speedy-js",
+            "username": "speedy-js"
+          },
+          "id": "a0bb8929fc1d63b4383e148a352534996a0b0536",
+          "message": "fix: remove callexpr statement bind analyze",
+          "timestamp": "2022-07-25T13:42:25Z",
+          "url": "https://github.com/speedy-js/speedy-native/pull/27/commits/a0bb8929fc1d63b4383e148a352534996a0b0536"
+        },
+        "date": 1658888491804,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 498,
+            "range": "±4.62%",
+            "unit": "ops/sec",
+            "extra": "79 samples"
+          },
+          {
+            "name": "Rust",
+            "value": 10041,
+            "range": "±0.30%",
+            "unit": "ops/sec",
+            "extra": "90 samples"
           }
         ]
       }
