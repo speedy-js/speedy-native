@@ -58,7 +58,7 @@ pub fn transform(
 
   transform_style(env, &mut module, &config);
   transform_perfixreact(&mut module, &config, code);
-  remove_call(&mut module, &config);
+  remove_call(&mut module, &config, &compiler);
 
   let target_ref = target.unwrap_or_else(|| "".to_string());
   let swc_target = match target_ref.as_str() {
