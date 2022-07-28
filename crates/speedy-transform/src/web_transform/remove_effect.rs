@@ -21,20 +21,19 @@ impl VisitMut for RmUseEffect {
     let mut rm_idx_set = HashSet::new();
     for (idx, stmt) in n.stmts.iter().enumerate() {
       if let Some(Some(call_expr)) = stmt.as_expr().map(|expr_stmt| expr_stmt.expr.as_call()) {
-        call_expr.callee.as_expr().and_then(|callee| {
-          match callee.as_ref() {
+        if let Some(callee) = call_expr.callee.as_expr() {
+          match &**callee {
             Expr::Member(member) => {
               // check React.useEffect call
-              member.obj.as_ref().as_ident().and_then(|obj_ident| {
-                member.prop.as_ident().and_then(|prop_ident| {
-                  if self.react_mark.eq(&Some(obj_ident.to_id()))
-                    && prop_ident.as_ref() == USE_EFFECT_STR
-                  {
-                    rm_idx_set.insert(idx);
-                  };
-                  Some(())
-                })
-              });
+              if let Some(obj_ident) = member.obj.as_ident() {
+                if self.react_mark.is_some() && self.react_mark == Some(obj_ident.to_id()) {
+                  if let Some(method_ident) = member.prop.as_ident() {
+                    if &method_ident.sym == USE_EFFECT_STR {
+                      rm_idx_set.insert(idx);
+                    }
+                  }
+                }
+              }
             }
             Expr::Ident(ident) => {
               // check useEffect call
@@ -44,8 +43,7 @@ impl VisitMut for RmUseEffect {
             }
             _ => {}
           };
-          Some(())
-        });
+        }
       }
     }
     if !rm_idx_set.is_empty() {
