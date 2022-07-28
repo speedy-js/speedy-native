@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1658909445202,
+  "lastUpdate": 1658984285353,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -2778,6 +2778,40 @@ window.BENCHMARK_DATA = {
             "range": "±0.40%",
             "unit": "ops/sec",
             "extra": "95 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "speedy-js",
+            "username": "speedy-js"
+          },
+          "committer": {
+            "name": "speedy-js",
+            "username": "speedy-js"
+          },
+          "id": "7e55b37567ce07765bab2e025ca3a60a1569db2a",
+          "message": "fix: babel import type track (close #28)",
+          "timestamp": "2022-07-25T13:42:25Z",
+          "url": "https://github.com/speedy-js/speedy-native/pull/29/commits/7e55b37567ce07765bab2e025ca3a60a1569db2a"
+        },
+        "date": 1658984283566,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 388,
+            "range": "±6.36%",
+            "unit": "ops/sec",
+            "extra": "69 samples"
+          },
+          {
+            "name": "Rust",
+            "value": 7469,
+            "range": "±1.28%",
+            "unit": "ops/sec",
+            "extra": "87 samples"
           }
         ]
       }
