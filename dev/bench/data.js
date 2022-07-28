@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1658996562819,
+  "lastUpdate": 1658998549056,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -3024,6 +3024,44 @@ window.BENCHMARK_DATA = {
             "range": "±0.54%",
             "unit": "ops/sec",
             "extra": "95 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "andywangsy@gmail.com",
+            "name": "Hana",
+            "username": "h-a-n-a"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "47956cabac1cdc5bcf1e9b941e21a274f33a0258",
+          "message": "chore: perf and clippy (#30)\n\n* feat: optimize perf\r\n\r\n* ci: clippy deny warnings\r\n\r\n* feat: optimize",
+          "timestamp": "2022-07-28T16:52:01+08:00",
+          "tree_id": "8487e16a281cb7a2e552431386019edb4082557d",
+          "url": "https://github.com/speedy-js/speedy-native/commit/47956cabac1cdc5bcf1e9b941e21a274f33a0258"
+        },
+        "date": 1658998548277,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 477,
+            "range": "±7.98%",
+            "unit": "ops/sec",
+            "extra": "76 samples"
+          },
+          {
+            "name": "Rust",
+            "value": 9387,
+            "range": "±0.57%",
+            "unit": "ops/sec",
+            "extra": "91 samples"
           }
         ]
       }
