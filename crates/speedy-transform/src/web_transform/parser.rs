@@ -56,7 +56,7 @@ pub fn transform(
   }
   let mut module = module_reuslt.unwrap();
 
-  transform_style(env, &mut module, &config);
+  transform_style(env, &mut module, &config, &compiler);
   transform_perfixreact(&mut module, &config, code);
   remove_call(&mut module, &config, &compiler);
 

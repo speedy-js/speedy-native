@@ -1,14 +1,20 @@
+use std::collections::HashSet;
+
 use crate::types::TransformConfig;
 use crate::web_transform::visit::IdentComponent;
 use heck::ToKebabCase;
 use napi::Env;
+use swc::Compiler;
 use swc_atoms::JsWord;
-use swc_common::DUMMY_SP;
+use swc_common::{util::take::Take, Mark, DUMMY_SP};
 use swc_ecma_ast::{
   Ident, ImportDecl, ImportDefaultSpecifier, ImportNamedSpecifier, ImportSpecifier, ModuleDecl,
   ModuleExportName, ModuleItem, Str,
 };
-use swc_ecma_visit::VisitWith;
+use swc_ecma_transforms::resolver;
+use swc_ecma_visit::{VisitMutWith, VisitWith};
+
+use super::clear_mark::ClearMark;
 
 struct EsSpec {
   source: String,
@@ -21,21 +27,25 @@ pub fn transform_style(
   env: Env,
   module: &mut swc_ecma_ast::Module,
   project_config: &TransformConfig,
+  compiler: &Compiler,
 ) {
   // let s = serde_json::to_string_pretty(&module).expect("failed to serialize");
 
+  compiler.run(|| {
+    module.visit_mut_with(&mut resolver(Mark::new(), Mark::new(), true));
+  });
+
+  // use visitor to collect all ident reference, and then remove imported component and type that is never referenced
   let mut visitor = IdentComponent {
-    component_name_jsx_ident: vec![],
-    ident_list: vec![],
+    ident_set: HashSet::new(),
+    type_ident_set: HashSet::new(),
+    in_ts_type_ref: false,
   };
   module.body.visit_with(&mut visitor);
 
-  let match_ident = |idnet: &Ident| -> bool {
-    let name = idnet.to_string().replace("#0", "");
-    let mark = idnet.span.ctxt.as_u32();
-    let item = (name, mark);
-    visitor.component_name_jsx_ident.contains(&item) || visitor.ident_list.contains(&item)
-  };
+  let ident_referenced = |ident: &Ident| -> bool { visitor.ident_set.contains(&ident.to_id()) };
+  let type_ident_referenced =
+    |ident: &Ident| -> bool { visitor.type_ident_set.contains(&ident.to_id()) };
 
   if project_config.babel_import.is_none()
     || project_config.babel_import.as_ref().unwrap().is_empty()
@@ -44,35 +54,27 @@ pub fn transform_style(
   }
   let mut specifiers_css = vec![];
   let mut specifiers_es = vec![];
-  let mut specifiers_rm_es = vec![];
+  let mut specifiers_rm_es = HashSet::new();
 
   let config = project_config.babel_import.as_ref().unwrap();
 
-  for item in &module.body {
-    let item_index = module.body.iter().position(|citem| citem == item).unwrap();
+  for (item_index, item) in module.body.iter_mut().enumerate() {
     if let ModuleItem::ModuleDecl(ModuleDecl::Import(var)) = item {
       let source = &*var.src.value;
       if let Some(child_config) = config.iter().find(|&c| c.from_source == source) {
-        for specifier in &var.specifiers {
+        let mut rm_specifier = HashSet::new();
+        for (specifier_idx, specifier) in var.specifiers.iter().enumerate() {
           match specifier {
             ImportSpecifier::Named(ref s) => {
-              let imported = match &s.imported {
-                Some(imported) => match &imported {
-                  ModuleExportName::Ident(ident) => Some(ident.sym.to_string()),
-                  ModuleExportName::Str(ident) => Some(ident.value.to_string()),
-                },
-                None => None,
-              };
+              let imported = s.imported.as_ref().map(|imported| match imported {
+                ModuleExportName::Ident(ident) => ident.sym.to_string(),
+                ModuleExportName::Str(str) => str.value.to_string(),
+              });
               // 当 imported 不为 none 时, local.sym 是引入组件的 as 别名
-              let as_name: Option<String> = if imported.is_some() {
-                Some(s.local.sym.to_string())
-              } else {
-                None
-              };
+              let as_name: Option<String> = imported.is_some().then(|| s.local.sym.to_string());
               // 当 imported 不为 none 时, 实际引入的组件命名为 imported, 否则为 s.local.sym
-              let ident: String = imported.unwrap_or(s.local.sym.to_string());
-
-              if match_ident(&s.local) {
+              let ident: String = imported.unwrap_or_else(|| s.local.sym.to_string());
+              if ident_referenced(&s.local) {
                 // 替换对应的 css
                 if let Some(ref css) = child_config.replace_css {
                   let ignore_component = &css.ignore_style_component;
@@ -139,29 +141,47 @@ pub fn transform_style(
                       as_name,
                       use_default_import,
                     });
-                    if !specifiers_rm_es.iter().any(|&c| c == item_index) {
-                      specifiers_rm_es.push(item_index);
-                    }
+                    rm_specifier.insert(specifier_idx);
                   }
                 }
+              } else if type_ident_referenced(&s.local) {
+                // type referenced
+                continue;
+              } else {
+                // not referenced, should tree shaking
+                rm_specifier.insert(specifier_idx);
               }
             }
             ImportSpecifier::Default(ref _s) => {}
             ImportSpecifier::Namespace(ref _ns) => {}
           }
         }
+        if rm_specifier.len() == var.specifiers.len() {
+          // all specifier remove, just remove whole stmt
+          specifiers_rm_es.insert(item_index);
+        } else {
+          // only remove some specifier
+          var.specifiers = var
+            .specifiers
+            .take()
+            .into_iter()
+            .enumerate()
+            .filter_map(|(idx, spec)| (!rm_specifier.contains(&idx)).then(|| spec))
+            .collect();
+        }
       }
     }
   }
 
-  let body = &mut module.body;
+  module.body = module
+    .body
+    .take()
+    .into_iter()
+    .enumerate()
+    .filter_map(|(idx, stmt)| (!specifiers_rm_es.contains(&idx)).then(|| stmt))
+    .collect();
 
-  let mut index: usize = 0;
-  while let Some(i) = specifiers_rm_es.get(index) {
-    let rm_index = *i - index;
-    body.remove(rm_index);
-    index += 1;
-  }
+  let body = &mut module.body;
 
   for js_source in specifiers_es {
     let js_source_ref = js_source.source.as_str();
@@ -224,4 +244,6 @@ pub fn transform_style(
     }));
     body.insert(0, dec);
   }
+
+  module.visit_mut_with(&mut ClearMark);
 }
