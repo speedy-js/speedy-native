@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1658991121470,
+  "lastUpdate": 1658993116283,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -2880,6 +2880,44 @@ window.BENCHMARK_DATA = {
             "range": "±0.91%",
             "unit": "ops/sec",
             "extra": "89 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "44369998+konicyQWQ@users.noreply.github.com",
+            "name": "Shi Meng",
+            "username": "konicyQWQ"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "560e64e1026ba65897dc6b1fbf3def17baebe242",
+          "message": "fix: babel import type track (close #28) (#29)\n\n* fix: babel import type track",
+          "timestamp": "2022-07-28T15:21:29+08:00",
+          "tree_id": "8790f50293b0ccf76be9cffa69bd1f801adae2de",
+          "url": "https://github.com/speedy-js/speedy-native/commit/560e64e1026ba65897dc6b1fbf3def17baebe242"
+        },
+        "date": 1658993114347,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 465,
+            "range": "±6.94%",
+            "unit": "ops/sec",
+            "extra": "75 samples"
+          },
+          {
+            "name": "Rust",
+            "value": 9401,
+            "range": "±0.61%",
+            "unit": "ops/sec",
+            "extra": "92 samples"
           }
         ]
       }
