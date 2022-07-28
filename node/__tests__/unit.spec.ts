@@ -252,7 +252,9 @@ import ReactDOM from "react-dom";
 import { Input, AutoComplete, InputProps, Radio } from "antd";
 import Child from "./component/Child";
 
-class Page extends React.Component<InputProps,any> {
+type Props = InputProps;
+
+class Page extends React.Component<Props,any> {
     render() {
         return (
             <div className={"test"}>
@@ -276,6 +278,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { InputProps } from "antd";
 import Child from "./component/Child";
+
+type Props = InputProps;
 
 class Page extends React.Component{
     render() {

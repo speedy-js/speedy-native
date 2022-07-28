@@ -66,14 +66,14 @@ pub fn transform_style(
         for (specifier_idx, specifier) in var.specifiers.iter().enumerate() {
           match specifier {
             ImportSpecifier::Named(ref s) => {
-              let imported = s.imported.as_ref().and_then(|imported| match imported {
-                ModuleExportName::Ident(ident) => Some(ident.sym.to_string()),
-                ModuleExportName::Str(str) => Some(str.value.to_string()),
+              let imported = s.imported.as_ref().map(|imported| match imported {
+                ModuleExportName::Ident(ident) => ident.sym.to_string(),
+                ModuleExportName::Str(str) => str.value.to_string(),
               });
               // 当 imported 不为 none 时, local.sym 是引入组件的 as 别名
               let as_name: Option<String> = imported.is_some().then(|| s.local.sym.to_string());
               // 当 imported 不为 none 时, 实际引入的组件命名为 imported, 否则为 s.local.sym
-              let ident: String = imported.unwrap_or(s.local.sym.to_string());
+              let ident: String = imported.unwrap_or_else(|| s.local.sym.to_string());
               if ident_referenced(&s.local) {
                 // 替换对应的 css
                 if let Some(ref css) = child_config.replace_css {
