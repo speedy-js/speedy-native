@@ -25,8 +25,12 @@ impl VisitMut for RmUseEffect {
           match &**callee {
             Expr::Member(member) => {
               // check React.useEffect call
+              if self.react_mark.is_none() {
+                continue;
+              }
+
               if let Some(obj_ident) = member.obj.as_ident() {
-                if self.react_mark.is_some() && self.react_mark == Some(obj_ident.to_id()) {
+                if self.react_mark == Some(obj_ident.to_id()) {
                   if let Some(method_ident) = member.prop.as_ident() {
                     if &method_ident.sym == USE_EFFECT_STR {
                       rm_idx_set.insert(idx);
