@@ -9,7 +9,7 @@ import { SourceMapConsumer } from 'source-map';
 import * as process from "process";
 
 describe('speedy_napi_cases', function speedyTest() {
-    it('test', async () => {
+    it('babel_import_transform should track type correctly', async () => {
         const code = `
 import { InputProps, Button } from "antd";
 
@@ -96,7 +96,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Child from "./component/Child";
 
-class Page extends React.Component{
+class Page extends React.Component<any,any>{
     render() {
         return (
             <div className={"test"}>
@@ -115,7 +115,7 @@ ReactDOM.render(<Page / >, document.getElementById("root"));
         console.time('babel_import_swc_transfrom');
         process.env["rsdebug"] = "info";
         const napi_res = transform.transformBabelImport(code, {
-            reatRuntime: true,
+            reactRuntime: true,
             babelImport: [
                 {
                     fromSource: 'antd',
@@ -188,7 +188,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Child from "./component/Child";
 
-class Page extends React.Component{
+class Page extends React.Component<any,any>{
     render() {
         return (
             <div className={"test"}>
@@ -207,7 +207,7 @@ ReactDOM.render(<Page / >, document.getElementById("root"));
         console.time('babel_import_swc_transfrom');
         process.env["rsdebug"] = "info";
         const napi_res = transform.transformBabelImport(code, {
-            reatRuntime: true,
+            reactRuntime: true,
             babelImport: [
                 {
                     fromSource: 'antd',
@@ -281,7 +281,7 @@ import Child from "./component/Child";
 
 type Props = InputProps;
 
-class Page extends React.Component{
+class Page extends React.Component<Props,any>{
     render() {
         return (
             <div className={"test"}>
@@ -298,7 +298,7 @@ ReactDOM.render(<Page / >, document.getElementById("root"));
         console.time('babel_import_swc_transfrom');
         process.env["rsdebug"] = "info";
         const napi_res = transform.transformBabelImport(code, {
-            reatRuntime: true,
+            reactRuntime: true,
             babelImport: [
                 {
                     fromSource: 'antd',
@@ -369,7 +369,7 @@ import ReactDOM from "react-dom";
 
 const Item = List.Item;
 
-class Page extends React.Component{
+class Page extends React.Component<InputProps,any>{
     render() {
         return (
             <div className={"test"}>
@@ -386,7 +386,7 @@ ReactDOM.render(<Page / >, document.getElementById("root"));
         console.time('babel_import_swc_transfrom');
         process.env["rsdebug"] = "info";
         const napi_res = transform.transformBabelImport(code, {
-            reatRuntime: true,
+            reactRuntime: true,
             babelImport: [
                 {
                     fromSource: 'antd',

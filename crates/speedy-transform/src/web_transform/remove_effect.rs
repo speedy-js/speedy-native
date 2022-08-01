@@ -1,13 +1,12 @@
 use std::collections::HashSet;
 
-use swc::Compiler;
 use swc_common::{util::take::Take, Mark};
 use swc_ecma_ast::{BlockStmt, Expr, Id, Module, ModuleDecl, ModuleExportName, ModuleItem};
 use swc_ecma_transforms::resolver;
 use swc_ecma_visit::{VisitMut, VisitMutWith};
 
-use crate::types::TransformConfig;
 use crate::web_transform::clear_mark::ClearMark;
+use crate::web_transform::proxy::{ExtraInfo, TransformConfig};
 
 struct RmUseEffect {
   use_effect_mark: Option<Id>, // used for remove useEffect()
@@ -69,12 +68,13 @@ impl VisitMut for RmUseEffect {
   }
 }
 
-pub fn remove_call(module: &mut Module, config: &TransformConfig, compiler: &Compiler) {
+pub fn remove_call(module: &mut Module, config: &TransformConfig, extra: &ExtraInfo) {
   if config.remove_use_effect.is_none() || !config.remove_use_effect.unwrap() {
     return;
   }
 
-  compiler.run(|| {
+  #[cfg(not(target_arch = "wasm32"))]
+  extra.compiler.run(|| {
     module.visit_mut_with(&mut resolver(Mark::new(), Mark::new(), false));
   });
 
@@ -120,5 +120,7 @@ pub fn remove_call(module: &mut Module, config: &TransformConfig, compiler: &Com
   }
 
   module.visit_mut_with(&mut visitor);
+
+  #[cfg(not(target_arch = "wasm32"))]
   module.visit_mut_with(&mut ClearMark);
 }

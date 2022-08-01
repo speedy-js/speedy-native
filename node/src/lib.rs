@@ -2,7 +2,7 @@
 extern crate napi_derive;
 
 use napi::{Env, Error, Result, Status};
-use speedy_transform::types::{TransformConfig, TransformOutput};
+use speedy_transform::napi_types::{TransformConfig, TransformOutput};
 use speedy_transform::web_transform::parser::*;
 
 mod test;

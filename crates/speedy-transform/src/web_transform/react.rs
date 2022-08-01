@@ -1,15 +1,11 @@
-use crate::types::TransformConfig;
+use crate::web_transform::proxy::TransformConfig;
 use swc_atoms::JsWord;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::{
   ImportDecl, ImportDefaultSpecifier, ImportSpecifier, ModuleDecl, ModuleItem, Str,
 };
 
-pub fn transform_perfixreact(
-  module: &mut swc_ecma_ast::Module,
-  project_config: &TransformConfig,
-  _origin_code: &str,
-) {
+pub fn transform_perfixreact(module: &mut swc_ecma_ast::Module, project_config: &TransformConfig) {
   let mut need_add = true;
   if project_config.react_runtime.unwrap_or(false) {
     for item in &module.body {
