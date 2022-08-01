@@ -3,6 +3,7 @@ import chalk from 'chalk'
 
 import { transformSync } from '@babel/core'
 import { transform } from '../node/lib'
+import { transformSync as swcTransformSync, parseSync } from '@swc/core'
 
 const code = `
 import React from "react";
@@ -32,6 +33,7 @@ ReactDOM.render(<Page/>, document.getElementById("root"));
 `
 
 const suite = new Suite('transform import')
+const wasmPlugin = require.resolve('@speedy-js/speedy-wasm');
 
 suite
   .add('Babel', () => {
@@ -83,6 +85,39 @@ suite
         },
       ],
     }).code;
+  })
+  .add('Wasm', () => {
+    swcTransformSync(code, {
+      jsc: {
+        parser: {
+          syntax: 'typescript',
+          tsx: true,
+        },
+        target: "es2020",
+        experimental: {
+          plugins: [
+            [wasmPlugin, {
+              reactRuntime: true,
+              babelImport: [
+                {
+                  fromSource: "antd",
+                  replaceCss: {
+                    replaceExpr: `antd/es/{}/style/index.css`,
+                    ignoreStyleComponent: undefined,
+                    camel2DashComponentName: true,
+                  },
+                  replaceJs: {
+                    replaceExpr: `antd/es/{}/index.js`,
+                    ignoreEsComponent: undefined,
+                    camel2DashComponentName: true,
+                  },
+                },
+              ],
+            }]
+          ],
+        },
+      },
+    });
   })
   .on('cycle', function (event: Event) {
     console.info(String(event.target))

@@ -57,6 +57,14 @@ jobs:
       - name: Build
         run: |
           pnpm build --dir node
+      
+      - name: Install wasm target
+        shell: bash
+        run: |
+          rustup target add wasm32-wasi
+      
+      - name: Build wasm plugin
+        run: pnpm build --dir wasm
 
       - name: Run benchmark
         run: |

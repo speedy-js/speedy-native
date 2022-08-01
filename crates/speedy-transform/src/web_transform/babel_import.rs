@@ -1,12 +1,9 @@
-use std::collections::HashSet;
-
-use crate::types::TransformConfig;
+use crate::web_transform::proxy::{ExtraInfo, TransformConfig};
 use crate::web_transform::visit::IdentComponent;
 use heck::ToKebabCase;
-use napi::Env;
-use swc::Compiler;
+use std::collections::HashSet;
 use swc_atoms::JsWord;
-use swc_common::{util::take::Take, Mark, DUMMY_SP};
+use swc_common::{util::take::Take, BytePos, Mark, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{
   Ident, ImportDecl, ImportDefaultSpecifier, ImportNamedSpecifier, ImportSpecifier, ModuleDecl,
   ModuleExportName, ModuleItem, Str,
@@ -21,17 +18,16 @@ struct EsSpec {
   default_spec: String,
   as_name: Option<String>,
   use_default_import: bool,
+  mark: u32,
 }
 
 pub fn transform_style(
-  env: Env,
   module: &mut swc_ecma_ast::Module,
   project_config: &TransformConfig,
-  compiler: &Compiler,
+  extra: &ExtraInfo,
 ) {
-  // let s = serde_json::to_string_pretty(&module).expect("failed to serialize");
-
-  compiler.run(|| {
+  #[cfg(not(target_arch = "wasm32"))]
+  extra.compiler.run(|| {
     module.visit_mut_with(&mut resolver(Mark::new(), Mark::new(), true));
   });
 
@@ -74,6 +70,7 @@ pub fn transform_style(
               let as_name: Option<String> = imported.is_some().then(|| s.local.sym.to_string());
               // 当 imported 不为 none 时, 实际引入的组件命名为 imported, 否则为 s.local.sym
               let ident: String = imported.unwrap_or_else(|| s.local.sym.to_string());
+              let mark = s.local.span.ctxt.as_u32();
               if ident_referenced(&s.local) {
                 // 替换对应的 css
                 if let Some(ref css) = child_config.replace_css {
@@ -92,9 +89,13 @@ pub fn transform_style(
                     need_replace = !block_list.iter().any(|x| x == &ident);
                   }
                   if need_replace {
+                    #[cfg(not(target_arch = "wasm32"))]
                     let import_css_source = css
                       .replace_expr
-                      .call(None, &[env.create_string(css_ident.as_str()).unwrap()])
+                      .call(
+                        None,
+                        &[extra.env.create_string(css_ident.as_str()).unwrap()],
+                      )
                       .unwrap()
                       .coerce_to_string()
                       .unwrap()
@@ -103,6 +104,9 @@ pub fn transform_style(
                       .as_str()
                       .unwrap()
                       .to_string();
+                    #[cfg(target_arch = "wasm32")]
+                    let import_css_source =
+                      css.replace_expr.clone().replace("{}", css_ident.as_str());
                     specifiers_css.push(import_css_source);
                   }
                 }
@@ -124,9 +128,10 @@ pub fn transform_style(
                     need_replace = !block_list.iter().any(|x| x == &ident);
                   }
                   if need_replace {
+                    #[cfg(not(target_arch = "wasm32"))]
                     let import_es_source = js_config
                       .replace_expr
-                      .call(None, &[env.create_string(js_ident.as_str()).unwrap()])
+                      .call(None, &[extra.env.create_string(js_ident.as_str()).unwrap()])
                       .unwrap()
                       .coerce_to_string()
                       .unwrap()
@@ -135,11 +140,17 @@ pub fn transform_style(
                       .as_str()
                       .unwrap()
                       .to_string();
+                    #[cfg(target_arch = "wasm32")]
+                    let import_es_source = js_config
+                      .replace_expr
+                      .clone()
+                      .replace("{}", js_ident.as_str());
                     specifiers_es.push(EsSpec {
                       source: import_es_source,
                       default_spec: ident,
                       as_name,
                       use_default_import,
+                      mark,
                     });
                     rm_specifier.insert(specifier_idx);
                   }
@@ -192,7 +203,11 @@ pub fn transform_style(
           ImportDefaultSpecifier {
             span: DUMMY_SP,
             local: swc_ecma_ast::Ident {
-              span: DUMMY_SP,
+              span: Span::new(
+                BytePos::DUMMY,
+                BytePos::DUMMY,
+                SyntaxContext::from_u32(js_source.mark),
+              ),
               sym: JsWord::from(js_source.as_name.unwrap_or(js_source.default_spec).as_str()),
               optional: false,
             },
@@ -211,7 +226,11 @@ pub fn transform_style(
             None
           },
           local: swc_ecma_ast::Ident {
-            span: DUMMY_SP,
+            span: Span::new(
+              BytePos::DUMMY,
+              BytePos::DUMMY,
+              SyntaxContext::from_u32(js_source.mark),
+            ),
             sym: JsWord::from(js_source.as_name.unwrap_or(js_source.default_spec).as_str()),
             optional: false,
           },
@@ -245,5 +264,6 @@ pub fn transform_style(
     body.insert(0, dec);
   }
 
+  #[cfg(not(target_arch = "wasm32"))]
   module.visit_mut_with(&mut ClearMark);
 }

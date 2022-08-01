@@ -5,6 +5,8 @@
   "version": "0.0.0",
   "devDependencies": {
     "@babel/core": "^7.18.9",
+    "@speedy-js/speedy-wasm": "workspace:^0.9.3",
+    "@swc/core": "^1.2.220",
     "@types/babel__core": "^7.1.19",
     "@types/benchmark": "^2.1.1",
     "babel-plugin-import": "^1.13.5",
