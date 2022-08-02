@@ -22,8 +22,6 @@ importers:
       suno: '*'
       ts-node: 10.4.0
       typescript: 4.4.4
-    dependencies:
-      '@swc/core': 1.2.220
     devDependencies:
       '@babel/generator': 7.16.0
       '@babel/parser': 7.16.3
@@ -31,6 +29,7 @@ importers:
       '@babel/types': 7.16.0
       '@napi-rs/cli': 2.6.2
       '@swc-node/register': 1.5.1_typescript@4.4.4
+      '@swc/core': 1.2.220
       '@types/babel__generator': 7.6.3
       '@types/babel__traverse': 7.14.2
       '@types/mocha': 9.0.0
@@ -46,6 +45,8 @@ importers:
   benchmark:
     specifiers:
       '@babel/core': ^7.18.9
+      '@speedy-js/speedy-wasm': workspace:^0.9.3
+      '@swc/core': ^1.2.220
       '@types/babel__core': ^7.1.19
       '@types/benchmark': ^2.1.1
       babel-plugin-import: ^1.13.5
@@ -53,6 +54,8 @@ importers:
       chalk: '4'
     devDependencies:
       '@babel/core': 7.18.9
+      '@speedy-js/speedy-wasm': link:../wasm
+      '@swc/core': 1.2.220
       '@types/babel__core': 7.1.19
       '@types/benchmark': 2.1.1
       babel-plugin-import: 1.13.5
@@ -392,6 +395,7 @@ packages:
     cpu: [arm]
     os: [android]
     requiresBuild: true
+    dev: true
     optional: true
 
   /@swc/core-android-arm64/1.2.220:
@@ -400,6 +404,7 @@ packages:
     cpu: [arm64]
     os: [android]
     requiresBuild: true
+    dev: true
     optional: true
 
   /@swc/core-darwin-arm64/1.2.220:
@@ -408,6 +413,7 @@ packages:
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
+    dev: true
     optional: true
 
   /@swc/core-darwin-x64/1.2.220:
@@ -416,6 +422,7 @@ packages:
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
+    dev: true
     optional: true
 
   /@swc/core-freebsd-x64/1.2.220:
@@ -424,6 +431,7 @@ packages:
     cpu: [x64]
     os: [freebsd]
     requiresBuild: true
+    dev: true
     optional: true
 
   /@swc/core-linux-arm-gnueabihf/1.2.220:
@@ -432,6 +440,7 @@ packages:
     cpu: [arm]
     os: [linux]
     requiresBuild: true
+    dev: true
     optional: true
 
   /@swc/core-linux-arm64-gnu/1.2.220:
@@ -440,6 +449,7 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
+    dev: true
     optional: true
 
   /@swc/core-linux-arm64-musl/1.2.220:
@@ -448,6 +458,7 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
+    dev: true
     optional: true
 
   /@swc/core-linux-x64-gnu/1.2.220:
@@ -456,6 +467,7 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
+    dev: true
     optional: true
 
   /@swc/core-linux-x64-musl/1.2.220:
@@ -464,6 +476,7 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
+    dev: true
     optional: true
 
   /@swc/core-win32-arm64-msvc/1.2.220:
@@ -472,6 +485,7 @@ packages:
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
+    dev: true
     optional: true
 
   /@swc/core-win32-ia32-msvc/1.2.220:
@@ -480,6 +494,7 @@ packages:
     cpu: [ia32]
     os: [win32]
     requiresBuild: true
+    dev: true
     optional: true
 
   /@swc/core-win32-x64-msvc/1.2.220:
@@ -488,6 +503,7 @@ packages:
     cpu: [x64]
     os: [win32]
     requiresBuild: true
+    dev: true
     optional: true
 
   /@swc/core/1.2.220:
@@ -509,6 +525,7 @@ packages:
       '@swc/core-win32-arm64-msvc': 1.2.220
       '@swc/core-win32-ia32-msvc': 1.2.220
       '@swc/core-win32-x64-msvc': 1.2.220
+    dev: true
 
   /@tsconfig/node10/1.0.9:
     resolution: {integrity: sha512-jNsYVVxU8v5g43Erja32laIDHXeoNvFEpX33OK4d6hljo3jDhCBDhx5dhCCTMWUojscpAagGiRkBKxpdl9fxqA==}
