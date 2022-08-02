@@ -12,7 +12,8 @@
     "format": "prettier . -w",
     "bench": "suno benchmark/bench.ts",
     "lint": "pnpm lint --dir node",
-    "test": "mocha -r @swc-node/register node/__tests__/**/*.spec.ts wasm/__tests__/**/*.spec.ts"
+    "test": "mocha -r @swc-node/register node/__tests__/**/*.spec.ts ",
+    "test-wasm": "mocha -r @swc-node/register wasm/__tests__/**/*.spec.ts"
   },
   "devDependencies": {
     "@babel/generator": "7.16.0",
