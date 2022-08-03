@@ -1404,7 +1404,6 @@ dependencies = [
  "regex",
  "serde",
  "serde_json",
- "speedy-macro",
  "swc",
  "swc_atoms 0.3.1",
  "swc_common 0.26.0",

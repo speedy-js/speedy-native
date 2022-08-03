@@ -26,6 +26,7 @@ jobs:
           profile: minimal
           override: true
           components: rustfmt, clippy
+          target: wasm32-wasi
 
       - name: Install pnpm
         run: npm install -g pnpm@6
@@ -45,5 +46,10 @@ jobs:
       - name: Cargo fmt
         run: cargo fmt -- --check
 
-      - name: Clippy
-        run: cargo clippy --verbose -- --deny warnings
+      - name: Clippy napi
+        run: cargo clippy --verbose --workspace --exclude speedy-wasm -- --deny warnings
+
+      # now skip, when use target wasm32-wasi, there are some problem using clippy
+      # error: couldn't find crate `swc_atoms` with expected target triple wasm32-wasi
+      # - name: Clippy wasm
+      #   run: cargo clippy --verbose --package speedy-wasm -- --target wasm32-wasi

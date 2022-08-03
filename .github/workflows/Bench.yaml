@@ -36,6 +36,7 @@ jobs:
         with:
           profile: minimal
           override: true
+          target: wasm32-wasi
 
       - name: Install pnpm
         run: npm install -g pnpm@6
@@ -57,11 +58,6 @@ jobs:
       - name: Build
         run: |
           pnpm build --dir node
-      
-      - name: Install wasm target
-        shell: bash
-        run: |
-          rustup target add wasm32-wasi
       
       - name: Build wasm plugin
         run: pnpm build --dir wasm
