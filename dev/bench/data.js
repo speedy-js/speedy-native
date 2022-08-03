@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1659520641782,
+  "lastUpdate": 1659522138259,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -3226,6 +3226,47 @@ window.BENCHMARK_DATA = {
             "range": "±0.44%",
             "unit": "ops/sec",
             "extra": "94 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "speedy-js",
+            "username": "speedy-js"
+          },
+          "committer": {
+            "name": "speedy-js",
+            "username": "speedy-js"
+          },
+          "id": "ab29b60b703a4f48a7d6c2e7ffbd8863886fcfb7",
+          "message": "feat: swc wasm plugin support (close #31)",
+          "timestamp": "2022-07-31T14:13:12Z",
+          "url": "https://github.com/speedy-js/speedy-native/pull/33/commits/ab29b60b703a4f48a7d6c2e7ffbd8863886fcfb7"
+        },
+        "date": 1659522137282,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 315,
+            "range": "±7.81%",
+            "unit": "ops/sec",
+            "extra": "67 samples"
+          },
+          {
+            "name": "Rust",
+            "value": 7771,
+            "range": "±0.50%",
+            "unit": "ops/sec",
+            "extra": "90 samples"
+          },
+          {
+            "name": "Wasm",
+            "value": 956,
+            "range": "±1.47%",
+            "unit": "ops/sec",
+            "extra": "89 samples"
           }
         ]
       }
