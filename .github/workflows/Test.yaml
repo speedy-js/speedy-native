@@ -28,6 +28,11 @@ jobs:
           toolchain: stable
           profile: minimal
           override: true
+      
+      - name: Install wasm target
+        shell: bash
+        run: |
+          rustup target add wasm32-wasi
 
       - name: Cargo test speedy-napi
         run: cargo test --workspace --exclude speedy-wasm
