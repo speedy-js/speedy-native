@@ -409,6 +409,12 @@ jobs:
       - name: Install pnpm
         run: npm install -g pnpm@6
       
+      - name: Cache NPM dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.pnpm-store
+          key: npm-cache-ubuntu-latest-${{ hashFiles('pnpm-lock.yaml') }}
+      
       - name: 'Install dependencies'
         run: pnpm install --no-frozen-lockfile
       

@@ -29,5 +29,8 @@ jobs:
           profile: minimal
           override: true
 
-      - name: Cargo test
-        run: cargo test
+      - name: Cargo test speedy-napi
+        run: cargo test --workspace --exclude speedy-wasm
+      
+      - name: Cargo test speedy-wasm
+        run: cargo test --package speedy-wasm --target wasm32-wasi --no-run
