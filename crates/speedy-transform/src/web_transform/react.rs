@@ -5,7 +5,7 @@ use swc_ecma_ast::{
   ImportDecl, ImportDefaultSpecifier, ImportSpecifier, ModuleDecl, ModuleItem, Str,
 };
 
-pub fn transform_perfixreact(module: &mut swc_ecma_ast::Module, project_config: &TransformConfig) {
+pub fn transform_prefix_react(module: &mut swc_ecma_ast::Module, project_config: &TransformConfig) {
   let mut need_add = true;
   if project_config.react_runtime.unwrap_or(false) {
     for item in &module.body {

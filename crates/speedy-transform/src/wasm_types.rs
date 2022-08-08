@@ -17,13 +17,13 @@ pub struct TransformConfig {
 #[serde(rename_all = "camelCase")]
 pub struct BabelImportConfig {
   pub from_source: String,
-  pub replace_css: Option<RepalceCssConfig>,
-  pub replace_js: Option<RepalceSpecConfig>,
+  pub replace_css: Option<ReplaceCssConfig>,
+  pub replace_js: Option<ReplaceJsConfig>,
 }
 
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct RepalceSpecConfig {
+pub struct ReplaceJsConfig {
   pub replace_expr: String,
   pub ignore_es_component: Option<Vec<String>>,
   pub lower: Option<bool>,
@@ -33,7 +33,7 @@ pub struct RepalceSpecConfig {
 
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct RepalceCssConfig {
+pub struct ReplaceCssConfig {
   pub ignore_style_component: Option<Vec<String>>,
   pub replace_expr: String,
   pub lower: Option<bool>,

@@ -20,13 +20,13 @@ pub struct TransformConfig {
 #[derive(Serialize)]
 pub struct BabelImportConfig {
   pub from_source: String,
-  pub replace_css: Option<RepalceCssConfig>,
-  pub replace_js: Option<RepalceSpecConfig>,
+  pub replace_css: Option<ReplaceCssConfig>,
+  pub replace_js: Option<ReplaceJsConfig>,
 }
 
 #[napi(object)]
 #[derive(Serialize)]
-pub struct RepalceSpecConfig {
+pub struct ReplaceJsConfig {
   #[serde(skip_serializing)]
   pub replace_expr: JsFunction,
   pub ignore_es_component: Option<Vec<String>>,
@@ -37,7 +37,7 @@ pub struct RepalceSpecConfig {
 
 #[napi(object)]
 #[derive(Serialize)]
-pub struct RepalceCssConfig {
+pub struct ReplaceCssConfig {
   pub ignore_style_component: Option<Vec<String>>,
   #[serde(skip_serializing)]
   pub replace_expr: JsFunction,

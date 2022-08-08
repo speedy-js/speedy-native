@@ -1,6 +1,6 @@
 use crate::web_transform::babel_import::transform_style;
 use crate::web_transform::proxy::{Env, ExtraInfo, TransformConfig};
-use crate::web_transform::react::transform_perfixreact;
+use crate::web_transform::react::transform_prefix_react;
 use crate::web_transform::remove_effect::remove_call;
 
 use swc::config::SourceMapsConfig;
@@ -14,7 +14,7 @@ use swc_ecma_parser::{Parser, Syntax, TsConfig};
 
 pub fn transform_module(module: &mut Module, config: &TransformConfig, extra: &ExtraInfo) {
   transform_style(module, config, extra);
-  transform_perfixreact(module, config);
+  transform_prefix_react(module, config);
   remove_call(module, config, extra);
 }
 
@@ -56,11 +56,11 @@ pub fn transform(
     return Err(err_msg);
   }
 
-  let module_reuslt = parser.parse_module();
-  if module_reuslt.is_err() {
-    return Err(module_reuslt.err().unwrap().into_kind().msg().to_string());
+  let module_result = parser.parse_module();
+  if module_result.is_err() {
+    return Err(module_result.err().unwrap().into_kind().msg().to_string());
   }
-  let mut module = module_reuslt.unwrap();
+  let mut module = module_result.unwrap();
 
   #[cfg(not(target_arch = "wasm32"))]
   transform_module(
