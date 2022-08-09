@@ -14,17 +14,17 @@ export interface TransformConfig {
 }
 export interface BabelImportConfig {
   fromSource: string
-  replaceCss?: RepalceCssConfig | undefined | null
-  replaceJs?: RepalceSpecConfig | undefined | null
+  replaceCss?: ReplaceCssConfig | undefined | null
+  replaceJs?: ReplaceJsConfig | undefined | null
 }
-export interface RepalceSpecConfig {
+export interface ReplaceJsConfig {
   replaceExpr: (...args: any[]) => any
   ignoreEsComponent?: Array<string> | undefined | null
   lower?: boolean | undefined | null
   camel2DashComponentName?: boolean | undefined | null
   transformToDefaultImport?: boolean | undefined | null
 }
-export interface RepalceCssConfig {
+export interface ReplaceCssConfig {
   ignoreStyleComponent?: Array<string> | undefined | null
   replaceExpr: (...args: any[]) => any
   lower?: boolean | undefined | null

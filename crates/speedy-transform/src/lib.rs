@@ -1,3 +1,4 @@
+#[cfg(not(target_arch = "wasm32"))]
 #[macro_use]
 extern crate napi_derive;
 
@@ -10,5 +11,10 @@ mod test;
  * 导出内容
  */
 pub mod str;
-pub mod types;
+
+#[cfg(not(target_arch = "wasm32"))]
+pub mod napi_types;
+#[cfg(target_arch = "wasm32")]
+pub mod wasm_types;
+
 pub mod web_transform;

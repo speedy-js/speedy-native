@@ -1,16 +1,22 @@
-use crate::types::TransformConfig;
 use crate::web_transform::babel_import::transform_style;
-use crate::web_transform::react::transform_perfixreact;
+use crate::web_transform::proxy::{Env, ExtraInfo, TransformConfig};
+use crate::web_transform::react::transform_prefix_react;
 use crate::web_transform::remove_effect::remove_call;
-use napi::Env;
+
 use swc::config::SourceMapsConfig;
 use swc::{Compiler, TransformOutput};
 use swc_common::input::StringInput;
 use swc_common::sync::Lrc;
 use swc_common::{FileName, SourceMap};
-use swc_ecma_ast::EsVersion;
+use swc_ecma_ast::{EsVersion, Module};
 use swc_ecma_parser::lexer::Lexer;
 use swc_ecma_parser::{Parser, Syntax, TsConfig};
+
+pub fn transform_module(module: &mut Module, config: &TransformConfig, extra: &ExtraInfo) {
+  transform_style(module, config, extra);
+  transform_prefix_react(module, config);
+  remove_call(module, config, extra);
+}
 
 pub fn transform(
   env: Env,
@@ -50,15 +56,21 @@ pub fn transform(
     return Err(err_msg);
   }
 
-  let module_reuslt = parser.parse_module();
-  if module_reuslt.is_err() {
-    return Err(module_reuslt.err().unwrap().into_kind().msg().to_string());
+  let module_result = parser.parse_module();
+  if module_result.is_err() {
+    return Err(module_result.err().unwrap().into_kind().msg().to_string());
   }
-  let mut module = module_reuslt.unwrap();
+  let mut module = module_result.unwrap();
 
-  transform_style(env, &mut module, &config, &compiler);
-  transform_perfixreact(&mut module, &config, code);
-  remove_call(&mut module, &config, &compiler);
+  #[cfg(not(target_arch = "wasm32"))]
+  transform_module(
+    &mut module,
+    &config,
+    &ExtraInfo {
+      env: &env,
+      compiler: &compiler,
+    },
+  );
 
   let target_ref = target.unwrap_or_else(|| "".to_string());
   let swc_target = match target_ref.as_str() {

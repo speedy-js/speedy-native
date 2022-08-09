@@ -1,1 +1,1 @@
-packages: ['node', 'benchmark']
+packages: ["node", "wasm", "benchmark"]
