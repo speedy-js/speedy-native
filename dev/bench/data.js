@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1659929584603,
+  "lastUpdate": 1660037080766,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -3349,6 +3349,51 @@ window.BENCHMARK_DATA = {
             "range": "±0.52%",
             "unit": "ops/sec",
             "extra": "93 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "44369998+konicyQWQ@users.noreply.github.com",
+            "name": "Shi Meng",
+            "username": "konicyQWQ"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "3175b0842026f572871195ab7505dd488a41e1ce",
+          "message": "feat: swc wasm plugin support (close #31) (#33)\n\n* feat: swc wasm plugin support\r\n\r\n* fix ci\r\n\r\n* fix ci test and benchmark\r\n\r\n* fix ci lint and remove unused speedy-macro dep\r\n\r\n* fix: fix spell error",
+          "timestamp": "2022-08-09T17:06:30+08:00",
+          "tree_id": "73fc073fa4161c3f092166e80b202908fa82751a",
+          "url": "https://github.com/speedy-js/speedy-native/commit/3175b0842026f572871195ab7505dd488a41e1ce"
+        },
+        "date": 1660037079720,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 497,
+            "range": "±5.65%",
+            "unit": "ops/sec",
+            "extra": "78 samples"
+          },
+          {
+            "name": "Rust",
+            "value": 9278,
+            "range": "±0.31%",
+            "unit": "ops/sec",
+            "extra": "99 samples"
+          },
+          {
+            "name": "Wasm",
+            "value": 1235,
+            "range": "±0.34%",
+            "unit": "ops/sec",
+            "extra": "96 samples"
           }
         ]
       }
