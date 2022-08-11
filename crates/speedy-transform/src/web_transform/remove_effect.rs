@@ -9,8 +9,8 @@ use crate::web_transform::clear_mark::ClearMark;
 use crate::web_transform::proxy::{ExtraInfo, TransformConfig};
 
 struct RmUseEffect {
-  use_effect_mark: Option<Id>, // used for remove useEffect()
-  react_mark: Option<Id>,      // used for remove React.useEffect()
+  use_effect_mark: HashSet<Id>, // used for remove useEffect()
+  react_mark: HashSet<Id>,      // used for remove React.useEffect()
 }
 
 const USE_EFFECT_STR: &str = "useEffect";
@@ -24,12 +24,12 @@ impl VisitMut for RmUseEffect {
           match &**callee {
             Expr::Member(member) => {
               // check React.useEffect call
-              if self.react_mark.is_none() {
+              if self.react_mark.is_empty() {
                 continue;
               }
 
               if let Some(obj_ident) = member.obj.as_ident() {
-                if self.react_mark == Some(obj_ident.to_id()) {
+                if self.react_mark.contains(&obj_ident.to_id()) {
                   if let Some(method_ident) = member.prop.as_ident() {
                     if &method_ident.sym == USE_EFFECT_STR {
                       rm_idx_set.insert(idx);
@@ -40,7 +40,7 @@ impl VisitMut for RmUseEffect {
             }
             Expr::Ident(ident) => {
               // check useEffect call
-              if self.use_effect_mark.eq(&Some(ident.to_id())) {
+              if self.use_effect_mark.contains(&ident.to_id()) {
                 rm_idx_set.insert(idx);
               }
             }
@@ -79,8 +79,8 @@ pub fn remove_call(module: &mut Module, config: &TransformConfig, extra: &ExtraI
   });
 
   let mut visitor = RmUseEffect {
-    react_mark: None,
-    use_effect_mark: None,
+    react_mark: HashSet::new(),
+    use_effect_mark: HashSet::new(),
   };
   for item in &module.body {
     if let ModuleItem::ModuleDecl(ModuleDecl::Import(var)) = item {
@@ -97,22 +97,25 @@ pub fn remove_call(module: &mut Module, config: &TransformConfig, extra: &ExtraI
                   };
                   if imported_name.as_ref() == USE_EFFECT_STR {
                     // import { useEffect as ??? } from 'react'
-                    visitor.use_effect_mark = Some(named.local.to_id())
+                    visitor.use_effect_mark.insert(named.local.to_id());
                   }
                 }
                 None => {
                   if named.local.sym.as_ref() == USE_EFFECT_STR {
                     // import { useEffect } from 'react'
-                    visitor.use_effect_mark = Some(named.local.to_id())
+                    visitor.use_effect_mark.insert(named.local.to_id());
                   }
                 }
               }
             }
             swc_ecma_ast::ImportSpecifier::Default(default) => {
               // import ??? from 'react'
-              visitor.react_mark = Some(default.local.to_id());
+              visitor.react_mark.insert(default.local.to_id());
             }
-            _ => {}
+            swc_ecma_ast::ImportSpecifier::Namespace(default) => {
+              // import * as ??? from 'react'
+              visitor.react_mark.insert(default.local.to_id());
+            }
           }
         }
       }
