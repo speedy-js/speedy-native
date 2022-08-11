@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1660196883497,
+  "lastUpdate": 1660197193583,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -3521,6 +3521,49 @@ window.BENCHMARK_DATA = {
             "range": "±0.28%",
             "unit": "ops/sec",
             "extra": "94 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "shimeng.konicy@bytedance.com",
+            "name": "石蒙"
+          },
+          "committer": {
+            "email": "shimeng.konicy@bytedance.com",
+            "name": "石蒙"
+          },
+          "distinct": true,
+          "id": "627c971e87d5240577b7406e2534d0e741a04b33",
+          "message": "chore(release): publish",
+          "timestamp": "2022-08-11T13:43:59+08:00",
+          "tree_id": "99a256b0a2c7ecbbee4e2286be6a9f8ebe7338ad",
+          "url": "https://github.com/speedy-js/speedy-native/commit/627c971e87d5240577b7406e2534d0e741a04b33"
+        },
+        "date": 1660197192733,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 455,
+            "range": "±4.87%",
+            "unit": "ops/sec",
+            "extra": "76 samples"
+          },
+          {
+            "name": "Rust",
+            "value": 9260,
+            "range": "±0.31%",
+            "unit": "ops/sec",
+            "extra": "90 samples"
+          },
+          {
+            "name": "Wasm",
+            "value": 1210,
+            "range": "±0.32%",
+            "unit": "ops/sec",
+            "extra": "95 samples"
           }
         ]
       }
