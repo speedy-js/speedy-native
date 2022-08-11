@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1660196194019,
+  "lastUpdate": 1660196883497,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -3476,6 +3476,51 @@ window.BENCHMARK_DATA = {
             "range": "±1.06%",
             "unit": "ops/sec",
             "extra": "92 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "44369998+konicyQWQ@users.noreply.github.com",
+            "name": "Shi Meng",
+            "username": "konicyQWQ"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b8ce396e48f76e115a3a7cc475cfd52fa4c4c122",
+          "message": "fix: import * as bug (#34)\n\n* fix: import * as bug\r\n\r\n* fix: multi import react\r\n\r\nCo-authored-by: 石蒙 <shimeng.konicy@bytedance.com>",
+          "timestamp": "2022-08-11T13:43:08+08:00",
+          "tree_id": "ace9bd7853e47b1f63ec3d97b27728fbaac10652",
+          "url": "https://github.com/speedy-js/speedy-native/commit/b8ce396e48f76e115a3a7cc475cfd52fa4c4c122"
+        },
+        "date": 1660196882970,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 493,
+            "range": "±4.83%",
+            "unit": "ops/sec",
+            "extra": "77 samples"
+          },
+          {
+            "name": "Rust",
+            "value": 9170,
+            "range": "±0.43%",
+            "unit": "ops/sec",
+            "extra": "93 samples"
+          },
+          {
+            "name": "Wasm",
+            "value": 1228,
+            "range": "±0.28%",
+            "unit": "ops/sec",
+            "extra": "94 samples"
           }
         ]
       }
