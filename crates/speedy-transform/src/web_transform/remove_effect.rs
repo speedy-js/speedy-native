@@ -112,7 +112,10 @@ pub fn remove_call(module: &mut Module, config: &TransformConfig, extra: &ExtraI
               // import ??? from 'react'
               visitor.react_mark = Some(default.local.to_id());
             }
-            _ => {}
+            swc_ecma_ast::ImportSpecifier::Namespace(default) => {
+              // import * as ??? from 'react'
+              visitor.react_mark = Some(default.local.to_id());
+            }
           }
         }
       }

@@ -511,6 +511,54 @@ ReactDOM.render(<Page/>, document.getElementById("root"));
     );
   });
 
+  it('remove_call_transform should work with import * as', async () => {
+    let code = `
+import * as React from "react";
+import ReactDOM from "react-dom";
+import { useEffect } from "react";
+
+function App() {
+const [num, setNum] = React.useState(1);
+React.useState(2);
+
+React.useEffect(() => {
+    setNum(2);
+}, []);
+
+useEffect(() => {
+    setNum(3);
+}, []);
+
+return <div>{num}</div>;
+}
+ReactDOM.render(<Page/>, document.getElementById("root"));
+`;
+
+    let target_code = `
+import * as React from "react";
+import ReactDOM from "react-dom";
+import { useEffect } from "react";
+
+function App() {
+const [num, setNum] = React.useState(1);
+React.useState(2);
+
+return <div>{num}</div>;
+}
+
+ReactDOM.render(<Page/>, document.getElementById("root"));
+`;
+
+    const res = transform(code, {
+      removeUseEffect: true,
+    });
+
+    assert.equal(
+        target_code.replace(/\ +/g, '').replace(/[\r\n]/g, ''),
+        res.code.replace(/\ +/g, '').replace(/[\r\n]/g, '')
+    );
+})
+
   it(`remove_call_transform should work correctly among scope`, async () => {
     // https://github.com/speedy-js/speedy-native/pull/27#issuecomment-1195278186
     let code = `
