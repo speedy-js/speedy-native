@@ -1,0 +1,219 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`speedy-wasm: babel import babel_import_transform should track type correctly 1`] = `
+"{
+    let InputProps = 1;
+    console.log(InputProps);
+}export function App(props) {}
+"
+`;
+
+exports[`speedy-wasm: babel import babel_import_transfrom should track components ref correctly 1`] = `
+"import \\"antd/es/list/style/index.css\\";
+import \\"antd/es/radio/style/index.css\\";
+import { List } from \\"antd/es/list/index.js\\";
+import { Radio } from \\"antd/es/radio/index.js\\";
+import React from \\"react\\";
+import ReactDOM from \\"react-dom\\";
+const Item = List.Item;
+class Page extends React.Component {
+    render() {
+        return <div className={\\"test\\"}>
+
+                {}
+
+                <Radio.RadioGroup.RadioItem />
+
+                <Item />
+
+            </div>;
+    }
+}
+ReactDOM.render(<Page />, document.getElementById(\\"root\\"));
+"
+`;
+
+exports[`speedy-wasm: babel import babel_import_transfrom should tree shaking (ts_type and unused components) 1`] = `
+"import \\"antd/es/radio/style/index.css\\";
+import \\"antd/es/input/style/index.css\\";
+import { Radio } from \\"antd/es/radio/index.js\\";
+import { Input } from \\"antd/es/input/index.js\\";
+import React from \\"react\\";
+import ReactDOM from \\"react-dom\\";
+class Page extends React.Component {
+    render() {
+        return <div className={\\"test\\"}>
+
+                <div >Page</div>
+
+                <Input />
+
+                <Radio.Group />
+
+            </div>;
+    }
+}
+ReactDOM.render(<Page />, document.getElementById(\\"root\\"));
+"
+`;
+
+exports[`speedy-wasm: babel import babel_import_transfrom with camel2DashComponentName true 1`] = `
+"import \\"antd/es/button/style/index.css\\";
+import \\"antd/es/auto-complete/style/index.css\\";
+import \\"antd/es/input/style/index.css\\";
+import AntButton from \\"antd/es/button/index.js\\";
+import AutoComplete from \\"antd/es/auto-complete/index.js\\";
+import Input from \\"antd/es/input/index.js\\";
+import React from \\"react\\";
+import ReactDOM from \\"react-dom\\";
+import Child from \\"./component/Child\\";
+class Page extends React.Component {
+    render() {
+        return <div className={\\"test\\"}>
+
+                <div >Page</div>
+
+                <Child />
+
+                <AntButton >click me</AntButton>
+
+                <Input />
+
+                <AutoComplete />
+
+            </div>;
+    }
+}
+ReactDOM.render(<Page />, document.getElementById(\\"root\\"));
+"
+`;
+
+exports[`speedy-wasm: babel import babel_import_transfrom with transformToDefaultImport set false 1`] = `
+"import \\"antd/es/button/style/index.css\\";
+import \\"antd/es/auto-complete/style/index.css\\";
+import \\"antd/es/input/style/index.css\\";
+import { Button as AntButton } from \\"antd/es/button/index.js\\";
+import { AutoComplete } from \\"antd/es/auto-complete/index.js\\";
+import { Input } from \\"antd/es/input/index.js\\";
+import React from \\"react\\";
+import ReactDOM from \\"react-dom\\";
+import Child from \\"./component/Child\\";
+class Page extends React.Component {
+    render() {
+        return <div className={\\"test\\"}>
+
+                <div >Page</div>
+
+                <Child />
+
+                <AntButton >click me</AntButton>
+
+                <Input />
+
+                <AutoComplete />
+
+            </div>;
+    }
+}
+ReactDOM.render(<Page />, document.getElementById(\\"root\\"));
+"
+`;
+
+exports[`speedy-wasm: remove call remove_call source map test 1`] = `
+"import React from \\"react\\";
+import ReactDOM from \\"react-dom\\";
+import { useEffect } from 'react';
+function App() {
+    const [num, setNum] = React.useState(1);
+    return <div >{num}</div>;
+}
+ReactDOM.render(<Page />, document.getElementById(\\"root\\"));
+"
+`;
+
+exports[`speedy-wasm: remove call remove_call source map test 2`] = `7`;
+
+exports[`speedy-wasm: remove call remove_call source map test 3`] = `4`;
+
+exports[`speedy-wasm: remove call remove_call source map test 4`] = `17`;
+
+exports[`speedy-wasm: remove call remove_call source map test 5`] = `4`;
+
+exports[`speedy-wasm: remove call remove_call source map test 6`] = `21`;
+
+exports[`speedy-wasm: remove call remove_call source map test 7`] = `0`;
+
+exports[`speedy-wasm: remove call remove_call_transform should work correctly among scope 1`] = `
+"import { useEffect } from 'react';
+{
+    const useEffect1 = ()=>{};
+    useEffect1();
+}function App() {}
+"
+`;
+
+exports[`speedy-wasm: remove call remove_call_transform should work with complex case 1`] = `
+"import Recta from 'react';
+import ReactDOM from \\"react-dom\\";
+import { useEffect as effectUse } from 'react';
+function useEffect() {
+    console.log(\\"not delete\\");
+}
+{
+    useEffect();
+}function App() {
+    const [num, setNum] = Recta.useState(1);
+    Recta.useState(1);
+    {}
+    {
+        const useEffect = ()=>2;
+        const effectUse = ()=>1;
+        useEffect();
+        effectUse();
+    }
+    return <div >{num}</div>;
+}
+ReactDOM.render(<Page />, document.getElementById(\\"root\\"));
+"
+`;
+
+exports[`speedy-wasm: remove call remove_call_transform should work with import * as 1`] = `
+"import * as React from \\"react\\";
+import ReactDOM from \\"react-dom\\";
+import { useEffect } from \\"react\\";
+function App() {
+    const [num, setNum] = React.useState(1);
+    React.useState(2);
+    return <div >{num}</div>;
+}
+ReactDOM.render(<Page />, document.getElementById(\\"root\\"));
+"
+`;
+
+exports[`speedy-wasm: remove call remove_call_transform should work with multi import 1`] = `
+"import * as React from \\"react\\";
+import ReactDOM from \\"react-dom\\";
+import ReactDefault, { useEffect } from \\"react\\";
+import { useEffect as useEffect2 } from \\"react\\";
+import * as AnotherReact from \\"react\\";
+function App() {
+    const [num, setNum] = React.useState(1);
+    React.useState(2);
+    return <div >{num}</div>;
+}
+ReactDOM.render(<Page />, document.getElementById(\\"root\\"));
+"
+`;
+
+exports[`speedy-wasm: remove call remove_call_transform should work with simple case 1`] = `
+"import React from 'react';
+import ReactDOM from \\"react-dom\\";
+import { useEffect } from 'react';
+function App() {
+    const [num, setNum] = React.useState(1);
+    React.useState(2);
+    return <div >{num}</div>;
+}
+ReactDOM.render(<Page />, document.getElementById(\\"root\\"));
+"
+`;
