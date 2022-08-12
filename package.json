@@ -12,8 +12,8 @@
     "format": "prettier . -w",
     "bench": "suno benchmark/bench.ts",
     "lint": "pnpm lint --dir node",
-    "test": "jest  node/__tests__/*.spec.ts ",
-    "test-wasm": "jest wasm/__tests__/*.spec.ts"
+    "test": "jest  node/__tests__/",
+    "test-wasm": "jest wasm/__tests__/"
   },
   "devDependencies": {
     "@babel/generator": "7.16.0",
