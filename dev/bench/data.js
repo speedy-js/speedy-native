@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1660197193583,
+  "lastUpdate": 1660290768233,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -3564,6 +3564,47 @@ window.BENCHMARK_DATA = {
             "range": "±0.32%",
             "unit": "ops/sec",
             "extra": "95 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "speedy-js",
+            "username": "speedy-js"
+          },
+          "committer": {
+            "name": "speedy-js",
+            "username": "speedy-js"
+          },
+          "id": "bc0a09d2310a3b89f4bd95247b253fc71056edfc",
+          "message": "feat: use snapshot to test",
+          "timestamp": "2022-08-09T09:06:34Z",
+          "url": "https://github.com/speedy-js/speedy-native/pull/35/commits/bc0a09d2310a3b89f4bd95247b253fc71056edfc"
+        },
+        "date": 1660290767550,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 273,
+            "range": "±7.90%",
+            "unit": "ops/sec",
+            "extra": "65 samples"
+          },
+          {
+            "name": "Rust",
+            "value": 5203,
+            "range": "±3.36%",
+            "unit": "ops/sec",
+            "extra": "79 samples"
+          },
+          {
+            "name": "Wasm",
+            "value": 817,
+            "range": "±3.85%",
+            "unit": "ops/sec",
+            "extra": "80 samples"
           }
         ]
       }
