@@ -1,9 +1,8 @@
-import assert from "assert";
 import { parseSync, transformSync } from "@swc/core";
 import { SourceMapConsumer } from "source-map";
 import path from "path";
 
-const transform = (code: string, wasmConfig) => {
+const transform = (code: string, wasmConfig: any) => {
   // use parseSync and transformSync can preserve tsx
   const module = parseSync(code, {
     syntax: "typescript",
@@ -29,7 +28,7 @@ const transform = (code: string, wasmConfig) => {
   return output;
 };
 
-describe("speedy_wasm_cases", function speedyTest() {
+describe("speedy-wasm: babel import", () => {
   it("babel_import_transform should track type correctly", async () => {
     // https://github.com/speedy-js/speedy-native/issues/28
     const code = `
@@ -43,14 +42,6 @@ import { InputProps, Button } from "antd";
 export function App(props: InputProps) {}
 `;
 
-    let target_code = `
-{
-    let InputProps = 1;
-    console.log(InputProps);
-}
-
-export function App(props) {}
-`;
     const res = transform(code, {
       babelImport: [
         {
@@ -71,10 +62,7 @@ export function App(props) {}
       ],
     });
 
-    assert.equal(
-      res.code.replace(/\ +/g, "").replace(/[\r\n]/g, ""),
-      target_code.replace(/\ +/g, "").replace(/[\r\n]/g, "")
-    );
+    expect(res.code).toMatchSnapshot();
   });
 
   it("babel_import_transfrom with camel2DashComponentName true", async () => {
@@ -102,32 +90,6 @@ class Page extends React.Component<any,any> {
 ReactDOM.render(<Page/>, document.getElementById("root"));
 `;
 
-    let target_code = `
-import "antd/es/button/style/index.css";
-import "antd/es/auto-complete/style/index.css";
-import "antd/es/input/style/index.css";
-import AntButton from "antd/es/button/index.js";
-import AutoComplete from "antd/es/auto-complete/index.js";
-import Input from "antd/es/input/index.js";
-import React from "react";
-import ReactDOM from "react-dom";
-import Child from "./component/Child";
-
-class Page extends React.Component{
-    render() {
-        return 
-            <div className={"test"}>
-                <div>Page</div>
-                <Child/>
-                <AntButton>click me</AntButton>
-                <Input/>
-                <AutoComplete />
-            </div>;
-    }
-}
-
-ReactDOM.render(<Page / >, document.getElementById("root"));
-        `;
     const res = transform(code, {
       babelImport: [
         {
@@ -148,10 +110,7 @@ ReactDOM.render(<Page / >, document.getElementById("root"));
       ],
     });
 
-    assert.equal(
-      res.code.replace(/\ +/g, "").replace(/[\r\n]/g, ""),
-      target_code.replace(/\ +/g, "").replace(/[\r\n]/g, "")
-    );
+    expect(res.code).toMatchSnapshot();
   });
 
   it("babel_import_transfrom with transformToDefaultImport set false", async () => {
@@ -179,32 +138,6 @@ class Page extends React.Component<any,any> {
 ReactDOM.render(<Page/>, document.getElementById("root"));
 `;
 
-    let target_code = `
-import "antd/es/button/style/index.css";
-import "antd/es/auto-complete/style/index.css";
-import "antd/es/input/style/index.css";
-import { Button as AntButton } from "antd/es/button/index.js";
-import { AutoComplete } from "antd/es/auto-complete/index.js";
-import { Input } from "antd/es/input/index.js";
-import React from "react";
-import ReactDOM from "react-dom";
-import Child from "./component/Child";
-
-class Page extends React.Component{
-    render() {
-        return 
-            <div className={"test"}>
-                <div>Page</div>
-                <Child/>
-                <AntButton>click me</AntButton>
-                <Input/>
-                <AutoComplete />
-            </div>;
-    }
-}
-
-ReactDOM.render(<Page / >, document.getElementById("root"));
-        `;
     const res = transform(code, {
       babelImport: [
         {
@@ -226,10 +159,7 @@ ReactDOM.render(<Page / >, document.getElementById("root"));
       ],
     });
 
-    assert.equal(
-      res.code.replace(/\ +/g, "").replace(/[\r\n]/g, ""),
-      target_code.replace(/\ +/g, "").replace(/[\r\n]/g, "")
-    );
+    expect(res.code).toMatchSnapshot();
   });
 
   it("babel_import_transfrom should tree shaking (ts_type and unused components)", async () => {
@@ -256,27 +186,6 @@ class Page extends React.Component<Props,any> {
 ReactDOM.render(<Page/>, document.getElementById("root"));
 `;
 
-    let target_code = `
-import "antd/es/radio/style/index.css";
-import "antd/es/input/style/index.css";
-import { Radio } from "antd/es/radio/index.js";
-import { Input } from "antd/es/input/index.js";
-import React from "react";
-import ReactDOM from "react-dom";
-
-class Page extends React.Component{
-    render() {
-        return 
-            <div className={"test"}>
-                <div>Page</div>
-                <Input/>
-                <Radio.Group />
-            </div>;
-    }
-}
-
-ReactDOM.render(<Page / >, document.getElementById("root"));
-        `;
     const res = transform(code, {
       babelImport: [
         {
@@ -298,10 +207,7 @@ ReactDOM.render(<Page / >, document.getElementById("root"));
       ],
     });
 
-    assert.equal(
-      res.code.replace(/\ +/g, "").replace(/[\r\n]/g, ""),
-      target_code.replace(/\ +/g, "").replace(/[\r\n]/g, "")
-    );
+    expect(res.code).toMatchSnapshot();
   });
 
   it("babel_import_transfrom should track components ref correctly", async () => {
@@ -327,29 +233,6 @@ class Page extends React.Component<InputProps,any> {
 ReactDOM.render(<Page/>, document.getElementById("root"));
 `;
 
-    let target_code = `
-import "antd/es/list/style/index.css";
-import "antd/es/radio/style/index.css";
-import { List } from "antd/es/list/index.js";
-import { Radio } from "antd/es/radio/index.js";
-import React from "react";
-import ReactDOM from "react-dom";
-
-const Item = List.Item;
-
-class Page extends React.Component {
-    render() {
-        return 
-            <div className={"test"}>
-                {}
-                <Radio.RadioGroup.RadioItem />
-                <Item />
-            </div>;
-    }
-}
-
-ReactDOM.render(<Page / >, document.getElementById("root"));
-        `;
     const res = transform(code, {
       babelImport: [
         {
@@ -371,12 +254,11 @@ ReactDOM.render(<Page / >, document.getElementById("root"));
       ],
     });
 
-    assert.equal(
-      res.code.replace(/\ +/g, "").replace(/[\r\n]/g, ""),
-      target_code.replace(/\ +/g, "").replace(/[\r\n]/g, "")
-    );
+    expect(res.code).toMatchSnapshot();
   });
+});
 
+describe("speedy-wasm: remove call", () => {
   it("remove_call_transform should work with simple case", async () => {
     let code = `
 import React from 'react';
@@ -400,29 +282,11 @@ function App() {
 ReactDOM.render(<Page/>, document.getElementById("root"));
 `;
 
-    let target_code = `
-import React from 'react';
-import ReactDOM from "react-dom";
-import { useEffect } from 'react';
-
-function App() {
-    const [num, setNum] = React.useState(1);
-    React.useState(2);
-
-    return <div >{num}</div>;
-}
-
-ReactDOM.render(<Page/>, document.getElementById("root"));
-`;
-
     const res = transform(code, {
       removeUseEffect: true,
     });
 
-    assert.equal(
-      res.code.replace(/\ +/g, "").replace(/[\r\n]/g, ""),
-      target_code.replace(/\ +/g, "").replace(/[\r\n]/g, "")
-    );
+    expect(res.code).toMatchSnapshot();
   });
 
   it("remove_call_transform should work with complex case", async () => {
@@ -469,49 +333,14 @@ function App() {
 ReactDOM.render(<Page/>, document.getElementById("root"));
 `;
 
-    let target_code = `
-import Recta from 'react';
-import ReactDOM from "react-dom";
-import { useEffect as effectUse } from 'react';
-
-function useEffect() {
-    console.log("not delete");
-}
-
-{
-    useEffect();
-}
-
-function App() {
-    const [num, setNum] = Recta.useState(1);
-    Recta.useState(1);
-
-    {}
-
-    {
-        const useEffect = () => 2;
-        const effectUse = () => 1;
-        useEffect();
-        effectUse();
-    }
-
-    return <div >{num}</div>;
-}
-
-ReactDOM.render(<Page/>, document.getElementById("root"));
-`;
-
     const res = transform(code, {
       removeUseEffect: true,
     });
 
-    assert.equal(
-      res.code.replace(/\ +/g, "").replace(/[\r\n]/g, ""),
-      target_code.replace(/\ +/g, "").replace(/[\r\n]/g, "")
-    );
+    expect(res.code).toMatchSnapshot();
   });
 
-  it('remove_call_transform should work with import * as', async () => {
+  it("remove_call_transform should work with import * as", async () => {
     let code = `
 import * as React from "react";
 import ReactDOM from "react-dom";
@@ -534,32 +363,14 @@ function App() {
 ReactDOM.render(<Page/>, document.getElementById("root"));
 `;
 
-    let target_code = `
-import * as React from "react";
-import ReactDOM from "react-dom";
-import { useEffect } from "react";
-
-function App() {
-  const [num, setNum] = React.useState(1);
-  React.useState(2);
-
-  return <div>{num}</div>;
-}
-
-ReactDOM.render(<Page/>, document.getElementById("root"));
-`;
-
     const res = transform(code, {
       removeUseEffect: true,
     });
 
-    assert.equal(
-        target_code.replace(/\ +/g, '').replace(/[\r\n]/g, ''),
-        res.code.replace(/\ +/g, '').replace(/[\r\n]/g, '')
-    );
-  })
+    expect(res.code).toMatchSnapshot();
+  });
 
-  it('remove_call_transform should work with multi import', async () => {
+  it("remove_call_transform should work with multi import", async () => {
     let code = `
 import * as React from "react";
 import ReactDOM from "react-dom";
@@ -596,32 +407,12 @@ function App() {
 ReactDOM.render(<Page/>, document.getElementById("root"));
 `;
 
-    let target_code = `
-import * as React from "react";
-import ReactDOM from "react-dom";
-import ReactDefault, { useEffect } from "react";
-import { useEffect as useEffect2 } from "react";
-import * as AnotherReact from "react";
-
-function App() {
-  const [num, setNum] = React.useState(1);
-  React.useState(2);
-
-  return <div>{num}</div>;
-}
-
-ReactDOM.render(<Page/>, document.getElementById("root"));
-`;
-
     const res = transform(code, {
       removeUseEffect: true,
     });
 
-    assert.equal(
-        target_code.replace(/\ +/g, '').replace(/[\r\n]/g, ''),
-        res.code.replace(/\ +/g, '').replace(/[\r\n]/g, '')
-    );
-  })
+    expect(res.code).toMatchSnapshot();
+  });
 
   it(`remove_call_transform should work correctly among scope`, async () => {
     // https://github.com/speedy-js/speedy-native/pull/27#issuecomment-1195278186
@@ -637,23 +428,11 @@ function App() {
     useEffect()
 }`;
 
-    let target_code = `
-import { useEffect } from 'react';
-{
-    const useEffect1 = ()=>{};
-    useEffect1();
-}
-function App() {}
-`;
-
     const res = transform(code, {
       removeUseEffect: true,
     });
 
-    assert.equal(
-      res.code.replace(/\ +/g, "").replace(/[\r\n]/g, ""),
-      target_code.replace(/\ +/g, "").replace(/[\r\n]/g, "")
-    );
+    expect(res.code).toMatchSnapshot();
   });
 
   it(`remove_call source map test`, async () => {
@@ -680,16 +459,6 @@ function App() {
 ReactDOM.render(<Page/>, document.getElementById("root"));
 `;
 
-    let target_code = `import React from "react";
-import ReactDOM from "react-dom";
-import { useEffect } from 'react';
-function App() {
-    const [num, setNum] = React.useState(1);
-    return <div >{num}</div>;
-}
-ReactDOM.render(<Page />, document.getElementById("root"));
-`;
-
     const res = transform(code, {
       removeUseEffect: true,
     });
@@ -709,12 +478,12 @@ ReactDOM.render(<Page />, document.getElementById("root"));
       column: 1,
     });
 
-    assert.equal(res.code, target_code);
-    assert.equal(position1.line, 7);
-    assert.equal(position1.column, 4);
-    assert.equal(position2.line, 17);
-    assert.equal(position2.column, 4);
-    assert.equal(position3.line, 21);
-    assert.equal(position3.column, 0);
+    expect(res.code).toMatchSnapshot();
+    expect(position1.line).toMatchSnapshot();
+    expect(position1.column).toMatchSnapshot();
+    expect(position2.line).toMatchSnapshot();
+    expect(position2.column).toMatchSnapshot();
+    expect(position3.line).toMatchSnapshot();
+    expect(position3.column).toMatchSnapshot();
   });
 });
