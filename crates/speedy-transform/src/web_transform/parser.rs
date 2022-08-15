@@ -30,10 +30,16 @@ pub fn transform(
   let fm = cm.new_source_file(FileName::Custom(source_filename.clone()), code.into());
   let compiler = Compiler::new(cm);
 
+  #[cfg(not(target_arch = "wasm32"))]
+  let tsx_parse = config.tsx.unwrap_or(true);
+  // wasm plugin parse option is in js side, not in rust side
+  #[cfg(target_arch = "wasm32")]
+  let tsx_parse = true;
+
   let lexer = Lexer::new(
     // We want to parse ecmascript
     Syntax::Typescript(TsConfig {
-      tsx: true,
+      tsx: tsx_parse,
       decorators: true,
       dts: false,
       no_early_errors: false,

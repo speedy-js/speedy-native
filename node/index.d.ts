@@ -11,6 +11,7 @@ export interface TransformConfig {
   removeUseEffect?: boolean | undefined | null
   reactRuntime?: boolean | undefined | null
   babelImport?: Array<BabelImportConfig> | undefined | null
+  tsx?: boolean | undefined | null
 }
 export interface BabelImportConfig {
   fromSource: string

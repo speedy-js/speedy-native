@@ -221,3 +221,16 @@ function App() {
 ReactDOM.render(<Page />, document.getElementById(\\"root\\"));
 "
 `;
+
+exports[`speedy-napi: ts parse config can parse ts only syntax 1`] = `
+"import { useEffect, useState } from \\"react\\";
+function useCount() {
+    const [count, setCount] = useState(0);
+    return [
+        count,
+        setCount
+    ];
+}
+const useName = <[]>useCount();
+"
+`;

@@ -482,3 +482,80 @@ ReactDOM.render(<Page/>, document.getElementById("root"));
     expect(position3.column).toMatchSnapshot();
   });
 });
+
+describe("speedy-napi: ts parse config", () => {
+  it("can parse ts only syntax", () => {
+    // https://github.com/speedy-js/speedy-native/issues/36
+    const code = `
+import { useEffect, useState } from "react";
+
+function useCount() {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    console.log(count);
+  }, [count]);
+
+  return [count, setCount];
+}
+
+const useName = <[]>useCount();
+`;
+
+    const res = transform.transformBabelImport(code, {
+      removeUseEffect: true,
+      tsx: false,
+    });
+
+    expect(res.code).toMatchSnapshot();
+  });
+
+  it("parse will error if wrongly set tsx", () => {
+    const code = `
+import { useEffect, useState } from "react";
+
+function useCount() {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    console.log(count);
+  }, [count]);
+
+  return [count, setCount];
+}
+
+const useName = <[]>useCount();
+`;
+
+    expect(() =>
+      transform.transformBabelImport(code, {
+        removeUseEffect: true,
+        tsx: true,
+      })
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Unexpected token \`[\`. Expected jsx identifier"`
+    );
+  });
+
+  it("default will parse tsx", () => {
+    const code = `
+import { useEffect, useState } from "react";
+
+function useCount() {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    console.log(count);
+  }, [count]);
+
+  return [count, setCount];
+}
+
+const useName = <[]>useCount();`;
+
+    expect(() =>
+      transform.transformBabelImport(code, {
+        removeUseEffect: true,
+      })
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Unexpected token \`[\`. Expected jsx identifier"`
+    );
+  });
+});
