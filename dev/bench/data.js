@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1660292100569,
+  "lastUpdate": 1660530670780,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -3646,6 +3646,51 @@ window.BENCHMARK_DATA = {
             "range": "±0.28%",
             "unit": "ops/sec",
             "extra": "95 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "44369998+konicyQWQ@users.noreply.github.com",
+            "name": "Shi Meng",
+            "username": "konicyQWQ"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "9554259eb3c9745f418eff5374c55e721d032c3d",
+          "message": "feat: use snapshot to test (#35)\n\n* feat: use snapshot to test\r\n\r\n* fix pnpm test",
+          "timestamp": "2022-08-15T10:25:57+08:00",
+          "tree_id": "1690802c523b58316229b78b23a8c46ec297a899",
+          "url": "https://github.com/speedy-js/speedy-native/commit/9554259eb3c9745f418eff5374c55e721d032c3d"
+        },
+        "date": 1660530669968,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 446,
+            "range": "±8.61%",
+            "unit": "ops/sec",
+            "extra": "75 samples"
+          },
+          {
+            "name": "Rust",
+            "value": 9149,
+            "range": "±0.60%",
+            "unit": "ops/sec",
+            "extra": "90 samples"
+          },
+          {
+            "name": "Wasm",
+            "value": 1189,
+            "range": "±0.40%",
+            "unit": "ops/sec",
+            "extra": "94 samples"
           }
         ]
       }
