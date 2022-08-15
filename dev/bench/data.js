@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1660530670780,
+  "lastUpdate": 1660534067461,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -3688,6 +3688,47 @@ window.BENCHMARK_DATA = {
           {
             "name": "Wasm",
             "value": 1189,
+            "range": "±0.40%",
+            "unit": "ops/sec",
+            "extra": "94 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "speedy-js",
+            "username": "speedy-js"
+          },
+          "committer": {
+            "name": "speedy-js",
+            "username": "speedy-js"
+          },
+          "id": "4d5a37eb8e08372557dafa9b01f591417a513cb5",
+          "message": "fix: make tsx parse a config (close #36)",
+          "timestamp": "2022-08-15T02:26:01Z",
+          "url": "https://github.com/speedy-js/speedy-native/pull/38/commits/4d5a37eb8e08372557dafa9b01f591417a513cb5"
+        },
+        "date": 1660534066635,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 423,
+            "range": "±7.56%",
+            "unit": "ops/sec",
+            "extra": "71 samples"
+          },
+          {
+            "name": "Rust",
+            "value": 9072,
+            "range": "±0.65%",
+            "unit": "ops/sec",
+            "extra": "96 samples"
+          },
+          {
+            "name": "Wasm",
+            "value": 1204,
             "range": "±0.40%",
             "unit": "ops/sec",
             "extra": "94 samples"
