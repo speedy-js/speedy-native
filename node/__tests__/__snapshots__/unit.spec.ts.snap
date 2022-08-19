@@ -123,6 +123,19 @@ ReactDOM.render(<Page />, document.getElementById(\\"root\\"));
 "
 `;
 
+exports[`speedy-napi: code type config can parse ts only syntax 1`] = `
+"import { useEffect, useState } from \\"react\\";
+function useCount() {
+    const [count, setCount] = useState(0);
+    return [
+        count,
+        setCount
+    ];
+}
+const useName = <[]>useCount();
+"
+`;
+
 exports[`speedy-napi: remove call remove_call source map test 1`] = `
 "import React from \\"react\\";
 import ReactDOM from \\"react-dom\\";
@@ -219,18 +232,5 @@ function App() {
     return <div >{num}</div>;
 }
 ReactDOM.render(<Page />, document.getElementById(\\"root\\"));
-"
-`;
-
-exports[`speedy-napi: ts parse config can parse ts only syntax 1`] = `
-"import { useEffect, useState } from \\"react\\";
-function useCount() {
-    const [count, setCount] = useState(0);
-    return [
-        count,
-        setCount
-    ];
-}
-const useName = <[]>useCount();
 "
 `;

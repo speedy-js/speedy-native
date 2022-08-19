@@ -483,7 +483,7 @@ ReactDOM.render(<Page/>, document.getElementById("root"));
   });
 });
 
-describe("speedy-napi: ts parse config", () => {
+describe("speedy-napi: code type config", () => {
   it("can parse ts only syntax", () => {
     // https://github.com/speedy-js/speedy-native/issues/36
     const code = `
@@ -503,7 +503,7 @@ const useName = <[]>useCount();
 
     const res = transform.transformBabelImport(code, {
       removeUseEffect: true,
-      tsx: false,
+      codeType: "ts",
     });
 
     expect(res.code).toMatchSnapshot();
@@ -528,7 +528,7 @@ const useName = <[]>useCount();
     expect(() =>
       transform.transformBabelImport(code, {
         removeUseEffect: true,
-        tsx: true,
+        codeType: "tsx",
       })
     ).toThrowErrorMatchingInlineSnapshot(
       `"Unexpected token \`[\`. Expected jsx identifier"`
@@ -556,6 +556,47 @@ const useName = <[]>useCount();`;
       })
     ).toThrowErrorMatchingInlineSnapshot(
       `"Unexpected token \`[\`. Expected jsx identifier"`
+    );
+  });
+
+  it("parse ts code will error if wrongly set js", () => {
+    const code = `
+import { useEffect } from "react";
+
+function useCount(): void {
+  useEffect(() => {
+  }, []);
+}
+
+const useName = useCount();
+`;
+
+    expect(() =>
+      transform.transformBabelImport(code, {
+        removeUseEffect: true,
+        codeType: "js",
+      })
+    ).toThrowErrorMatchingInlineSnapshot(`"Expected '{', got ':'"`);
+  });
+
+  it("parse jsx code will error if wrongly set js", () => {
+    const code = `
+import { useEffect } from "react";
+
+function useCount() {
+  return <div />
+}
+
+const useName = useCount();
+`;
+
+    expect(() =>
+      transform.transformBabelImport(code, {
+        removeUseEffect: true,
+        codeType: "js",
+      })
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Unexpected token \`>\`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, \` for template literal, (, or an identifier"`
     );
   });
 });
