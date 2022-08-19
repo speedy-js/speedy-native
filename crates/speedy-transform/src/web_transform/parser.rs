@@ -10,7 +10,7 @@ use swc_common::sync::Lrc;
 use swc_common::{FileName, SourceMap};
 use swc_ecma_ast::{EsVersion, Module};
 use swc_ecma_parser::lexer::Lexer;
-use swc_ecma_parser::{Parser, Syntax, TsConfig};
+use swc_ecma_parser::{EsConfig, Parser, Syntax, TsConfig};
 
 pub fn transform_module(module: &mut Module, config: &TransformConfig, extra: &ExtraInfo) {
   transform_style(module, config, extra);
@@ -30,14 +30,38 @@ pub fn transform(
   let fm = cm.new_source_file(FileName::Custom(source_filename.clone()), code.into());
   let compiler = Compiler::new(cm);
 
+  #[cfg(not(target_arch = "wasm32"))]
+  let code_type = config
+    .code_type
+    .as_ref()
+    .map_or("tsx".to_owned(), |code| code.to_lowercase());
+  // wasm plugin parse option is in js side, not in rust side
+  #[cfg(target_arch = "wasm32")]
+  let code_type = "tsx".to_owned();
+
   let lexer = Lexer::new(
-    // We want to parse ecmascript
-    Syntax::Typescript(TsConfig {
-      tsx: true,
-      decorators: true,
-      dts: false,
-      no_early_errors: false,
-    }),
+    match code_type.as_str() {
+      "js" => Syntax::Es(EsConfig {
+        jsx: false,
+        ..Default::default()
+      }),
+      "jsx" => Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+      }),
+      "ts" => Syntax::Typescript(TsConfig {
+        tsx: false,
+        decorators: true,
+        dts: false,
+        no_early_errors: false,
+      }),
+      _ => Syntax::Typescript(TsConfig {
+        tsx: true,
+        decorators: true,
+        dts: false,
+        no_early_errors: false,
+      }),
+    },
     // EsVersion defaults to es5
     EsVersion::Es2016,
     StringInput::from(&*fm),

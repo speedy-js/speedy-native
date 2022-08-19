@@ -482,3 +482,121 @@ ReactDOM.render(<Page/>, document.getElementById("root"));
     expect(position3.column).toMatchSnapshot();
   });
 });
+
+describe("speedy-napi: code type config", () => {
+  it("can parse ts only syntax", () => {
+    // https://github.com/speedy-js/speedy-native/issues/36
+    const code = `
+import { useEffect, useState } from "react";
+
+function useCount() {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    console.log(count);
+  }, [count]);
+
+  return [count, setCount];
+}
+
+const useName = <[]>useCount();
+`;
+
+    const res = transform.transformBabelImport(code, {
+      removeUseEffect: true,
+      codeType: "ts",
+    });
+
+    expect(res.code).toMatchSnapshot();
+  });
+
+  it("parse will error if wrongly set tsx", () => {
+    const code = `
+import { useEffect, useState } from "react";
+
+function useCount() {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    console.log(count);
+  }, [count]);
+
+  return [count, setCount];
+}
+
+const useName = <[]>useCount();
+`;
+
+    expect(() =>
+      transform.transformBabelImport(code, {
+        removeUseEffect: true,
+        codeType: "tsx",
+      })
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Unexpected token \`[\`. Expected jsx identifier"`
+    );
+  });
+
+  it("default will parse tsx", () => {
+    const code = `
+import { useEffect, useState } from "react";
+
+function useCount() {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    console.log(count);
+  }, [count]);
+
+  return [count, setCount];
+}
+
+const useName = <[]>useCount();`;
+
+    expect(() =>
+      transform.transformBabelImport(code, {
+        removeUseEffect: true,
+      })
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Unexpected token \`[\`. Expected jsx identifier"`
+    );
+  });
+
+  it("parse ts code will error if wrongly set js", () => {
+    const code = `
+import { useEffect } from "react";
+
+function useCount(): void {
+  useEffect(() => {
+  }, []);
+}
+
+const useName = useCount();
+`;
+
+    expect(() =>
+      transform.transformBabelImport(code, {
+        removeUseEffect: true,
+        codeType: "js",
+      })
+    ).toThrowErrorMatchingInlineSnapshot(`"Expected '{', got ':'"`);
+  });
+
+  it("parse jsx code will error if wrongly set js", () => {
+    const code = `
+import { useEffect } from "react";
+
+function useCount() {
+  return <div />
+}
+
+const useName = useCount();
+`;
+
+    expect(() =>
+      transform.transformBabelImport(code, {
+        removeUseEffect: true,
+        codeType: "js",
+      })
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Unexpected token \`>\`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, \` for template literal, (, or an identifier"`
+    );
+  });
+});
