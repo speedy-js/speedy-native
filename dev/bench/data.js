@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1660879300570,
+  "lastUpdate": 1660891858501,
   "repoUrl": "https://github.com/speedy-js/speedy-native",
   "entries": {
     "Benchmark": [
@@ -3773,6 +3773,51 @@ window.BENCHMARK_DATA = {
             "range": "±0.44%",
             "unit": "ops/sec",
             "extra": "94 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "44369998+konicyQWQ@users.noreply.github.com",
+            "name": "Shi Meng",
+            "username": "konicyQWQ"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "38e59fbac17cd43960c1490b05cac2f73fd80684",
+          "message": "fix: make tsx parse a config (close #36) (#38)",
+          "timestamp": "2022-08-19T14:45:27+08:00",
+          "tree_id": "1227e854b8f8a39465addeab8016b2f72e699faa",
+          "url": "https://github.com/speedy-js/speedy-native/commit/38e59fbac17cd43960c1490b05cac2f73fd80684"
+        },
+        "date": 1660891857899,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "Babel",
+            "value": 369,
+            "range": "±7.86%",
+            "unit": "ops/sec",
+            "extra": "72 samples"
+          },
+          {
+            "name": "Rust",
+            "value": 7548,
+            "range": "±0.59%",
+            "unit": "ops/sec",
+            "extra": "87 samples"
+          },
+          {
+            "name": "Wasm",
+            "value": 994,
+            "range": "±0.88%",
+            "unit": "ops/sec",
+            "extra": "91 samples"
           }
         ]
       }
