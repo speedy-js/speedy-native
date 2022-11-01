@@ -1,4 +1,4 @@
-lockfileVersion: 5.3
+lockfileVersion: 5.4
 
 importers:
 
@@ -36,12 +36,12 @@ importers:
       '@types/jest': 28.1.6
       '@types/node': 16.10.9
       esbuild: 0.14.49
-      jest: 28.1.3_b6d0d9871df59c4a6dff99d5e73cee23
+      jest: 28.1.3_w3intby56woeu3p7thk6ophoem
       prettier: 2.5.1
       source-map: 0.7.4
       suno: 0.0.1
-      ts-jest: 28.0.7_5b6f76f8c9fdb2e200405b9437448b24
-      ts-node: 10.4.0_ce1ecaf341f563fd72cafe0f9313b138
+      ts-jest: 28.0.7_lnxxn6gj7wzoeacalokdoreleq
+      ts-node: 10.4.0_zypmv42b6vr724wk7yhzge5rha
       typescript: 4.4.4
 
   benchmark:
@@ -65,6 +65,9 @@ importers:
       chalk: 4.1.2
 
   node:
+    specifiers: {}
+
+  wasm:
     specifiers: {}
 
 packages:
@@ -495,7 +498,7 @@ packages:
       exit: 0.1.2
       graceful-fs: 4.2.10
       jest-changed-files: 28.1.3
-      jest-config: 28.1.3_b6d0d9871df59c4a6dff99d5e73cee23
+      jest-config: 28.1.3_w3intby56woeu3p7thk6ophoem
       jest-haste-map: 28.1.3
       jest-message-util: 28.1.3
       jest-regex-util: 28.0.2
@@ -1902,7 +1905,7 @@ packages:
       - supports-color
     dev: true
 
-  /jest-cli/28.1.3_b6d0d9871df59c4a6dff99d5e73cee23:
+  /jest-cli/28.1.3_w3intby56woeu3p7thk6ophoem:
     resolution: {integrity: sha512-roY3kvrv57Azn1yPgdTebPAXvdR2xfezaKKYzVxZ6It/5NCxzJym6tUI5P1zkdWhfUYkxEI9uZWcQdaFLo8mJQ==}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     hasBin: true
@@ -1919,7 +1922,7 @@ packages:
       exit: 0.1.2
       graceful-fs: 4.2.10
       import-local: 3.1.0
-      jest-config: 28.1.3_b6d0d9871df59c4a6dff99d5e73cee23
+      jest-config: 28.1.3_w3intby56woeu3p7thk6ophoem
       jest-util: 28.1.3
       jest-validate: 28.1.3
       prompts: 2.4.2
@@ -1930,7 +1933,7 @@ packages:
       - ts-node
     dev: true
 
-  /jest-config/28.1.3_b6d0d9871df59c4a6dff99d5e73cee23:
+  /jest-config/28.1.3_w3intby56woeu3p7thk6ophoem:
     resolution: {integrity: sha512-MG3INjByJ0J4AsNBm7T3hsuxKQqFIiRo/AUqb1q9LRKI5UU6Aar9JHbr9Ivn1TVwfUD9KirRoM/T6u8XlcQPHQ==}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     peerDependencies:
@@ -1965,7 +1968,7 @@ packages:
       pretty-format: 28.1.3
       slash: 3.0.0
       strip-json-comments: 3.1.1
-      ts-node: 10.4.0_ce1ecaf341f563fd72cafe0f9313b138
+      ts-node: 10.4.0_zypmv42b6vr724wk7yhzge5rha
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -2254,7 +2257,7 @@ packages:
       supports-color: 8.1.1
     dev: true
 
-  /jest/28.1.3_b6d0d9871df59c4a6dff99d5e73cee23:
+  /jest/28.1.3_w3intby56woeu3p7thk6ophoem:
     resolution: {integrity: sha512-N4GT5on8UkZgH0O5LUavMRV1EDEhNTL0KEfRmDIeZHSV7p2XgLoY9t9VDUgL6o+yfdgYHVxuz81G8oB9VG5uyA==}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     hasBin: true
@@ -2267,7 +2270,7 @@ packages:
       '@jest/core': 28.1.3_ts-node@10.4.0
       '@jest/types': 28.1.3
       import-local: 3.1.0
-      jest-cli: 28.1.3_b6d0d9871df59c4a6dff99d5e73cee23
+      jest-cli: 28.1.3_w3intby56woeu3p7thk6ophoem
     transitivePeerDependencies:
       - '@types/node'
       - supports-color
@@ -2809,7 +2812,7 @@ packages:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
     dev: true
 
-  /ts-jest/28.0.7_5b6f76f8c9fdb2e200405b9437448b24:
+  /ts-jest/28.0.7_lnxxn6gj7wzoeacalokdoreleq:
     resolution: {integrity: sha512-wWXCSmTwBVmdvWrOpYhal79bDpioDy4rTT+0vyUnE3ZzM7LOAAGG9NXwzkEL/a516rQEgnMmS/WKP9jBPCVJyA==}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     hasBin: true
@@ -2833,7 +2836,7 @@ packages:
       bs-logger: 0.2.6
       esbuild: 0.14.49
       fast-json-stable-stringify: 2.1.0
-      jest: 28.1.3_b6d0d9871df59c4a6dff99d5e73cee23
+      jest: 28.1.3_w3intby56woeu3p7thk6ophoem
       jest-util: 28.1.3
       json5: 2.2.1
       lodash.memoize: 4.1.2
@@ -2843,7 +2846,7 @@ packages:
       yargs-parser: 21.1.1
     dev: true
 
-  /ts-node/10.4.0_ce1ecaf341f563fd72cafe0f9313b138:
+  /ts-node/10.4.0_zypmv42b6vr724wk7yhzge5rha:
     resolution: {integrity: sha512-g0FlPvvCXSIO1JDF6S232P5jPYqBkRL9qly81ZgAOSU7rwI0stphCgd2kLiCrU9DjQCrJMWEqcNSjQL02s6d8A==}
     hasBin: true
     peerDependencies:
