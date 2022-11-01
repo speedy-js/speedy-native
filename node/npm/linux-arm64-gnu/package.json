@@ -1,6 +1,6 @@
 {
   "name": "@speedy-js/speedy-napi-linux-arm64-gnu",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "os": [
     "linux"
   ],
