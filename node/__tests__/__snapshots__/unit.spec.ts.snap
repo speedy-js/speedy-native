@@ -136,30 +136,6 @@ const useName = <[]>useCount();
 "
 `;
 
-exports[`speedy-napi: remove call remove_call source map test 1`] = `
-"import React from \\"react\\";
-import ReactDOM from \\"react-dom\\";
-import { useEffect } from \\"react\\";
-function App() {
-    const [num, setNum] = React.useState(1);
-    return (<div >{num}</div>);
-}
-ReactDOM.render(<Page />, document.getElementById(\\"root\\"));
-"
-`;
-
-exports[`speedy-napi: remove call remove_call source map test 2`] = `7`;
-
-exports[`speedy-napi: remove call remove_call source map test 3`] = `4`;
-
-exports[`speedy-napi: remove call remove_call source map test 4`] = `17`;
-
-exports[`speedy-napi: remove call remove_call source map test 5`] = `4`;
-
-exports[`speedy-napi: remove call remove_call source map test 6`] = `21`;
-
-exports[`speedy-napi: remove call remove_call source map test 7`] = `0`;
-
 exports[`speedy-napi: remove call remove_call_transform should work correctly among scope 1`] = `
 "import { useEffect } from \\"react\\";
 {
