@@ -431,6 +431,9 @@ function App() {
   });
 
   it(`remove_call source map test`, async () => {
+
+    jest.setTimeout(50000);
+
     let code = `
 import React from "react";
 import ReactDOM from "react-dom";
