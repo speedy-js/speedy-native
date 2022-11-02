@@ -467,7 +467,7 @@ jobs:
           key: npm-cache-ubuntu-latest-${{ hashFiles('pnpm-lock.yaml') }}
 
       - name: 'Install dependencies'
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Download all artifacts
         uses: actions/download-artifact@v2
@@ -480,6 +480,10 @@ jobs:
       - name: List packages
         run: ls -R ./node/npm
         shell: bash
+
+      - name: Git
+        run: git status
+        shell: bash 
 
       - name: Publish
         if: "startsWith(github.event.head_commit.message, 'chore(release): publish')"
