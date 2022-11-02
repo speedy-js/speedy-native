@@ -390,51 +390,51 @@ jobs:
             pnpm test
             ls -la
   
-  test-wasm:
-    name: Test wasm on ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        node: ['12', '14', '16']
-    runs-on: ubuntu-latest
+  # test-wasm:
+  #   name: Test wasm on ubuntu-latest
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       node: ['12', '14', '16']
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v2
+  #   steps:
+  #     - uses: actions/checkout@v2
 
-      - name: Setup node
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node }}
+  #     - name: Setup node
+  #       uses: actions/setup-node@v2
+  #       with:
+  #         node-version: ${{ matrix.node }}
       
-      - name: Install pnpm
-        run: npm install -g pnpm@6
+  #     - name: Install pnpm
+  #       run: npm install -g pnpm@6
       
-      - name: Cache NPM dependencies
-        uses: actions/cache@v2
-        with:
-          path: ~/.pnpm-store
-          key: npm-cache-ubuntu-latest-${{ hashFiles('pnpm-lock.yaml') }}
+  #     - name: Cache NPM dependencies
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: ~/.pnpm-store
+  #         key: npm-cache-ubuntu-latest-${{ hashFiles('pnpm-lock.yaml') }}
       
-      - name: 'Install dependencies'
-        run: pnpm install --no-frozen-lockfile
+  #     - name: 'Install dependencies'
+  #       run: pnpm install --no-frozen-lockfile
       
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          override: true
-          target: wasm32-wasi
+  #     - name: Install Rust
+  #       uses: actions-rs/toolchain@v1
+  #       with:
+  #         profile: minimal
+  #         override: true
+  #         target: wasm32-wasi
       
-      - name: Build wasm plugin
-        run: pnpm build --dir wasm
+  #     - name: Build wasm plugin
+  #       run: pnpm build --dir wasm
       
-      - name: List wasm files
-        shell: bash
-        run: |
-          ls -al wasm/lib
+  #     - name: List wasm files
+  #       shell: bash
+  #       run: |
+  #         ls -al wasm/lib
       
-      - name: Run test
-        run: pnpm test-wasm
+  #     - name: Run test
+  #       run: pnpm test-wasm
 
 
   publish:
