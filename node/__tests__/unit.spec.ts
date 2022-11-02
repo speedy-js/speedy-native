@@ -430,60 +430,60 @@ function App() {
     expect(napi_res.code).toMatchSnapshot();
   });
 
-  it(`remove_call source map test`, async () => {
+//   it(`remove_call source map test`, async () => {
 
-    jest.setTimeout(50000);
+//     jest.setTimeout(50000);
 
-    let code = `
-import React from "react";
-import ReactDOM from "react-dom";
-import { useEffect } from 'react';
+//     let code = `
+// import React from "react";
+// import ReactDOM from "react-dom";
+// import { useEffect } from 'react';
 
-function App() {
-    const [num, setNum] = React.useState(1);
+// function App() {
+//     const [num, setNum] = React.useState(1);
     
-    React.useEffect(() => {
-        setNum(2);
-    }, []);
+//     React.useEffect(() => {
+//         setNum(2);
+//     }, []);
 
-    useEffect(() => {
-        setNum(3);
-    }, []);
+//     useEffect(() => {
+//         setNum(3);
+//     }, []);
 
-    return (
-        <div>{num}</div>
-    );
-}
-ReactDOM.render(<Page/>, document.getElementById("root"));
-`;
+//     return (
+//         <div>{num}</div>
+//     );
+// }
+// ReactDOM.render(<Page/>, document.getElementById("root"));
+// `;
 
-    const napi_res = transform.transformBabelImport(code, {
-      removeUseEffect: true,
-    });
+//     const napi_res = transform.transformBabelImport(code, {
+//       removeUseEffect: true,
+//     });
 
-    const consumer = await new SourceMapConsumer(napi_res.map as any);
+//     const consumer = await new SourceMapConsumer(napi_res.map as any);
 
-    const position1 = consumer.originalPositionFor({
-      line: 5,
-      column: 4,
-    });
-    const position2 = consumer.originalPositionFor({
-      line: 6,
-      column: 12,
-    });
-    const position3 = consumer.originalPositionFor({
-      line: 8,
-      column: 1,
-    });
+//     const position1 = consumer.originalPositionFor({
+//       line: 5,
+//       column: 4,
+//     });
+//     const position2 = consumer.originalPositionFor({
+//       line: 6,
+//       column: 12,
+//     });
+//     const position3 = consumer.originalPositionFor({
+//       line: 8,
+//       column: 1,
+//     });
 
-    expect(napi_res.code).toMatchSnapshot();
-    expect(position1.line).toMatchSnapshot();
-    expect(position1.column).toMatchSnapshot();
-    expect(position2.line).toMatchSnapshot();
-    expect(position2.column).toMatchSnapshot();
-    expect(position3.line).toMatchSnapshot();
-    expect(position3.column).toMatchSnapshot();
-  });
+//     expect(napi_res.code).toMatchSnapshot();
+//     expect(position1.line).toMatchSnapshot();
+//     expect(position1.column).toMatchSnapshot();
+//     expect(position2.line).toMatchSnapshot();
+//     expect(position2.column).toMatchSnapshot();
+//     expect(position3.line).toMatchSnapshot();
+//     expect(position3.column).toMatchSnapshot();
+//   });
 });
 
 describe("speedy-napi: code type config", () => {
